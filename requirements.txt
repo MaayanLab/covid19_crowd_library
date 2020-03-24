@@ -1,0 +1,7 @@
+# Python dependencies
+uwsgi
+Flask
+python-dotenv
+sqlalchemy
+pymysql
+requests

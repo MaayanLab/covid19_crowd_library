@@ -1,0 +1,9 @@
+body {
+  font-size: 12pt;
+  background-color: 'light-grey';
+}
+
+.thumb {
+  height: 20rem;
+  object-fit: contain;
+}
