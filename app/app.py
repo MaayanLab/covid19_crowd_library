@@ -1,7 +1,6 @@
-import os
 import flask
 from dotenv import load_dotenv
-from .enrichr import add_geneset, get_geneset
+from .enrichr import *
 
 load_dotenv(verbose=True)
 
@@ -10,7 +9,7 @@ ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
 #  environment variables--`../.env` can be used
 #  for sensitive information!
 
-app = flask.Flask(__name__, static_url_path=ROOT_PATH + 'static',)
+app = flask.Flask(__name__, static_url_path=ROOT_PATH + 'static')
 
 
 @app.route(ROOT_PATH + 'static')
@@ -26,6 +25,6 @@ def index():
 @app.route(ROOT_PATH + 'enrichr', methods=['GET', 'POST'])
 def enrichr():
     if flask.request.method == 'GET':
-        return get_geneset(3)
+        return get_genesets()
     elif flask.request.method == 'POST':
         return add_geneset(flask.request.form)

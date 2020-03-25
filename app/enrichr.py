@@ -78,15 +78,17 @@ def get_geneset(id):
 def get_genesets():
     q = list(engine.execute(select([enrichr_covid])))
     genesets = []
+    # for r in q:
+    #     genesets.append({'enrichrShortId': r[1],
+    #                      'enrichrUserListId': r[2],
+    #                      'descrShort': r[4],
+    #                      'descrFull': r[5],
+    #                      'authorName': r[6],
+    #                      'authorAffiliation': r[7],
+    #                      'authorEmail': r[8],
+    #                      'showContacts': r[9],
+    #                      'genes': ', '.join(r[3].split('\n'))
+    #                      })
     for r in q:
-        genesets.append({'enrichrShortId': r[1],
-                         'enrichrUserListId': r[2],
-                         'descrShort': r[4],
-                         'descrFull': r[5],
-                         'authorName': r[6],
-                         'authorAffiliation': r[7],
-                         'authorEmail': r[8],
-                         'showContacts': r[9],
-                         'genes': ', '.join(r[3].split('\n'))
-                         })
-    return genesets
+        genesets.append([r[4], r[1], ', '.join(r[3].split('\n'))])
+    return json.dumps(genesets)
