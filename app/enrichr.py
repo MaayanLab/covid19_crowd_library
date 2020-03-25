@@ -62,7 +62,17 @@ def add_geneset(form):
 
 
 def get_geneset(id):
-    return list(engine.execute(select([enrichr_covid]).where(enrichr_covid.c.id == id)))[0]
+    r = list(engine.execute(select([enrichr_covid]).where(enrichr_covid.c.id == id)))[0]
+    return {'enrichrShortId': r[1],
+     'enrichrUserListId': r[2],
+     'descrShort': r[4],
+     'descrFull': r[5],
+     'authorName': r[6],
+     'authorAffiliation': r[7],
+     'authorEmail': r[8],
+     'showContacts': r[9],
+     'genes': ', '.join(r[3].split('\n'))
+     }
 
 
 def get_genesets():

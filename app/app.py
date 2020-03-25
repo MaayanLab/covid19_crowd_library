@@ -1,7 +1,7 @@
 import os
 import flask
 from dotenv import load_dotenv
-from .enrichr import add_geneset
+from .enrichr import add_geneset, get_geneset
 
 load_dotenv(verbose=True)
 
@@ -26,6 +26,6 @@ def index():
 @app.route(ROOT_PATH + 'enrichr', methods=['GET', 'POST'])
 def enrichr():
     if flask.request.method == 'GET':
-        return flask.render_template('enrichr.html')
+        return get_geneset(3)
     elif flask.request.method == 'POST':
         return add_geneset(flask.request.form)
