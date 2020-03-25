@@ -3,7 +3,7 @@ import os
 import json
 import requests
 
-user = os.environ.get('DB_USER', 'enrichr')
+user = os.environ.get('DB_USER')
 password = os.environ.get('DB_PASSWORD')
 host = os.environ.get('HOST')
 db = os.environ.get('DB')
@@ -19,8 +19,7 @@ enrichr_covid = Table('genesets', metadata,
                       Column('authorName', String(255), nullable=False),
                       Column('authorAffiliation', String(255)),
                       Column('authorEmail', String(255)),
-                      Column('showContacts', Integer, nullable=False),
-                      )
+                      Column('showContacts', Integer, nullable=False))
 
 
 def enrichr_submit(genelist, short_description):
@@ -62,14 +61,8 @@ def add_geneset(form):
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 
-def get_geneset(user_list_id):
-    response = requests.get('http://amp.pharm.mssm.edu/Enrichr/view?userListId={}'.format(user_list_id))
-    if not response.ok:
-        raise Exception('Error getting gene list')
-
-    data = json.loads(response.text)
-    print(data)
-    return None
+def get_geneset(id):
+    return list(engine.execute(select([enrichr_covid]).where(enrichr_covid.c.id == id)))[0]
 
 
 def get_genesets():
