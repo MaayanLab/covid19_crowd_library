@@ -4,6 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -14,7 +15,10 @@
 <body>
 <div class="container">
     <div class="row justify-content-center my-5">
-        <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1>
+        <div class="d-flex align-items-start">
+            <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}">
+            <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1>
+        </div>
         <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
     </div>
     <div class="row justify-content-center my-5">
