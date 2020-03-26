@@ -13,14 +13,16 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="display-4">COVID-19 Crowd Enrichr Library</h1>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center my-5">
+        <h1 class="display-5">COVID-19 Crowd Enrichr Library</h1>
+    </div>
+    <div class="row justify-content-center my-5">
         <div class="col-10">
             <table id="enrichr_table" class="compact hover order-column row-border">
             </table>
         </div>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center my-5">
         <div class="col-10">
             <form action="{{ url_for('enrichr') }}" method="post">
                 <div class="form-group row">
@@ -72,6 +74,7 @@
 {#<link rel="stylesheet" type="text/css"#}
 {#      href="https://cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-html5-1.6.1/rg-1.1.1/sc-2.0.1/sp-1.0.1/datatables.min.css"/>#}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom_datatables.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}"/>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -82,6 +85,7 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript"
         src="https://cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-html5-1.6.1/rg-1.1.1/sc-2.0.1/sp-1.0.1/datatables.min.js"></script>
+<script type="text/javascript" src="https://kit.fontawesome.com/1295b553b3.js"></script>
 <script src="{{ url_for('static', filename='enrichr.js') }}"></script>
 </body>
 </html>

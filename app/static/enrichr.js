@@ -26,36 +26,32 @@ function sendToEnrichr(button) {
 
 function DTblify(json) {
     let dataArray = [];
-    for (var i = 0; i < json.length; i++) {
-
+    for (let i = 0; i < json.length; i++) {
         // Links to enriched genes
-        var enrichedLinks = [];
-        $.each(json[i][enriched], function (index, gene) {
+        let enrichedLinks = [];
+        $.each(json[i]['genes'].split('\n'), function (index, gene) {
             enrichedLinks.push('<a class="enriched-gene-link" href="http://amp.pharm.mssm.edu/Harmonizome/gene/' + gene + '" target="_blank">' + gene + '</a>');
         });
 
         // Data Array
-        dataArray[i] = [i + 1,
-            firstCol.prop('outerHTML'),
-            json[i]["pvalue"].toPrecision(4),
-            json[i]["zscore"].toFixed(2),
-            json[i]["combinedScore"].toFixed(2),
+        dataArray[i] = [
+            json[i]['descrShort'],
             $('<div>', {
                 'class': 'enrichment-popover-button',
                 'data-toggle': 'popover',
                 'data-placement': 'left',
                 'data-html': 'true',
                 'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
-                'title': enriched.replace('enriched', 'Overlapping <button class="float-right enrichr-button" onclick="sendToEnrichr(this, event);">En<span class="red">rich</span>r<i class="fas fa-external-link-alt ml-1"></i></button>'),
-                'data-content': '<b>' + json[i]["name"].split(/[-_]/)[0] + '</b> targets <span class="font-italic">' + json[i][enriched].length + ' genes</span> from the input gene list.<br>' + metaDiv.prop('outerHTML') + '<div class="my-1">The full list of ' + enriched.replace('enriched', '').toLowerCase() + ' is available below:</div>' + enrichedLinks.join(" ")
+                'title': 'Gene set',
+                'data-content': enrichedLinks.join(" ")
             })
-                .css('cursor', 'pointer')
-                .css('text-decoration', 'underline')
-                .css('text-decoration-style', 'dotted')
-                .append(json[i][enriched].length + ' ' + enriched.replace('enriched', '').toLowerCase())
+                .append(
+                    `<span style="cursor: pointer;text-decoration: underline dotted;">${json[i]['genes'].split('\n').length} genes </span><a href="https://amp.pharm.mssm.edu/Enrichr/enrich?dataset=${json[i]['enrichrShortId']}" target="_blank">En<span style="color: red">rich</span>r<i class="fas fa-external-link-alt ml-1"></i></a>`,
+                )
                 .prop('outerHTML')
         ];
     }
+    console.log(dataArray);
     return dataArray;
 }
 
@@ -72,7 +68,6 @@ $(document).ready(function () {
                 // {title: "Full description"}
                 // {title: "Affiliation"}
                 // {title: "E-mail"}
-                {title: "Enrichr link"},
                 {title: "Genes"}
             ],
             dom: 'B<"small"f>rt<"small row"ip>',
