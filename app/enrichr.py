@@ -19,7 +19,8 @@ enrichr_covid = Table('genesets', metadata,
                       Column('authorName', String(255), nullable=False),
                       Column('authorAffiliation', String(255)),
                       Column('authorEmail', String(255)),
-                      Column('showContacts', Integer, nullable=False))
+                      Column('showContacts', Integer, nullable=False, default=0),
+                      Column('reviewed', Integer, nullable=False, default=0))
 
 
 def enrichr_submit(genelist, short_description):
