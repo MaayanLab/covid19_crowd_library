@@ -8,11 +8,8 @@ function DTblify(json, reviewed) {
         });
         const showContacts = json[i]['showContacts'];
         const contacts = showContacts ? `<p><b>Author:</b> ${json[i]['authorName']}<\p><p><b>Affiliation:</b> ${json[i]['authorAffiliation']}<\p><p><b>E-mail:</b> ${json[i]['authorEmail']}<\p>` :
-            reviewed ? '<i class="far fa-eye-slash"></i> Author preferred not to share contact details' : `<p style="color: red"><i class="far fa-eye-slash"></i> As author preferred not to share contact details, following will not be shown</p><p style="color: red"><b>Author:</b> ${json[i]['authorName']}<\p><p style="color: red"><b>Affiliation:</b> ${json[i]['authorAffiliation']}<\p><p><b>E-mail:</b> ${json[i]['authorEmail']}<\p>`;
+            reviewed ? '<i class="far fa-eye-slash"></i> Author preferred not to share contact details' : `<p style="color: red"><i class="far fa-eye-slash"></i> As author preferred not to share contact details, following will not be shown:</p><p style="color: red"><b>Author:</b> ${json[i]['authorName']}<\p><p style="color: red"><b>Affiliation:</b> ${json[i]['authorAffiliation']}<\p><p style="color: red"><b>E-mail:</b> ${json[i]['authorEmail']}<\p>`;
         let desc = `<p>${json[i]['descrFull']}<\p>${contacts}`;
-        console.log(showContacts);
-        console.log(contacts);
-        console.log(desc);
 
         // Data Array
         dataArray[i] = [
@@ -47,7 +44,7 @@ function DTblify(json, reviewed) {
 }
 
 function drawTable(reviewed) {
-        $.get("enrichr", {reviewed: reviewed}, function (data) {
+    $.get("enrichr", {reviewed: reviewed}, function (data) {
         $('#enrichr_table').DataTable({
             width: '100%',
             data: DTblify(JSON.parse(data), reviewed),
