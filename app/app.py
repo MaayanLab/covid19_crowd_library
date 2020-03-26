@@ -25,6 +25,12 @@ def index():
 @app.route(ROOT_PATH + 'enrichr', methods=['GET', 'POST'])
 def enrichr():
     if flask.request.method == 'GET':
-        return get_genesets()
+        reviewed = flask.request.args.get('reviewed', 1)
+        return get_genesets(reviewed)
     elif flask.request.method == 'POST':
         return add_geneset(flask.request.form)
+
+
+@app.route(ROOT_PATH + 'review', methods=['GET'])
+def review():
+    return flask.render_template('review.html')

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>COVID-19 Crowd Enrichr Library Review</title>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center my-5">
+        <h1 class="display-5">Review</h1>
+    </div>
+    <div class="row justify-content-center my-5">
+        <div class="col-10">
+            <table id="enrichr_table" class="compact hover order-column row-border">
+            </table>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom_datatables.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}"/>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script type="text/javascript"
+        src="https://cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-html5-1.6.1/rg-1.1.1/sc-2.0.1/sp-1.0.1/datatables.min.js"></script>
+<script type="text/javascript" src="https://kit.fontawesome.com/1295b553b3.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='enrichr.js') }}"></script>
+<script>
+$(document).ready(function () {
+    drawTable(0);
+});
+</script>
+</body>
+</html>

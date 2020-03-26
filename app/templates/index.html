@@ -70,9 +70,6 @@
     </div>
 </div>
 
-
-{#<link rel="stylesheet" type="text/css"#}
-{#      href="https://cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-html5-1.6.1/rg-1.1.1/sc-2.0.1/sp-1.0.1/datatables.min.css"/>#}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom_datatables.css') }}"/>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}"/>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -87,5 +84,10 @@
         src="https://cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-html5-1.6.1/rg-1.1.1/sc-2.0.1/sp-1.0.1/datatables.min.js"></script>
 <script type="text/javascript" src="https://kit.fontawesome.com/1295b553b3.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='enrichr.js') }}"></script>
+<script>
+$(document).ready(function () {
+    drawTable(1);
+});
+</script>
 </body>
 </html>

@@ -76,8 +76,8 @@ def get_geneset(id):
             }
 
 
-def get_genesets():
-    q = list(engine.execute(select([enrichr_covid])))
+def get_genesets(reviewed=1):
+    q = list(engine.execute(select([enrichr_covid]).where(enrichr_covid.c.reviewed == reviewed)))
     genesets = []
     for r in q:
         genesets.append({'enrichrShortId': r[1],

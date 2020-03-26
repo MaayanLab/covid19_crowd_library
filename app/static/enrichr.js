@@ -1,29 +1,3 @@
-function sendToEnrichr(button) {
-    // Get genes
-    var genes = Object.values($(button).parents('.popover').find('.enriched-gene-link').map(function (index, elem) {
-        return $(elem).text()
-    }));
-
-    // Create Form
-    var $form = $('<form>', {
-        'method': 'post',
-        'action': 'https://amp.pharm.mssm.edu/Enrichr/enrich',
-        'target': '_blank',
-        'enctype': 'multipart/form-data'
-    })
-        .append($('<input>', {'type': 'hidden', 'name': 'list', 'value': genes.join('\n')}))
-        .append($('<input>', {
-            'type': 'hidden',
-            'name': 'description',
-            'value': 'Enriched ' + $(button).parents('.popover').find('b').first().text() + ' targets from X2K'
-        }));
-
-    // Submit
-    $(button).parents('.popover').append($form);
-    $form.submit();
-    $form.remove();
-}
-
 function DTblify(json) {
     let dataArray = [];
     for (let i = 0; i < json.length; i++) {
@@ -51,13 +25,11 @@ function DTblify(json) {
                 .prop('outerHTML')
         ];
     }
-    console.log(dataArray);
     return dataArray;
 }
 
-
-$(document).ready(function () {
-    $.get("enrichr", function (data) {
+function drawTable(reviewed) {
+        $.get("enrichr", {reviewed: reviewed}, function (data) {
         $('#enrichr_table').DataTable({
             width: '100%',
             data: DTblify(JSON.parse(data)),
@@ -95,4 +67,4 @@ $(document).ready(function () {
             }
         });
     });
-});
+}
