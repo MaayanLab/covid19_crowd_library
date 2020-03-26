@@ -38,7 +38,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="geneList">Gene list</label>
+                    <label for="geneList">
+                        Gene list
+                        <i class="far fa-question-circle"
+                           data-toggle="tooltip"
+                           title="HGNC-approved gene symbols. One gene symbol per line."
+                           data-placement="right"
+                           style="color: darkgrey; font-size: 0.9rem;" aria-hidden="true"></i>
+                    </label>
                     <textarea class="form-control" id="geneList" rows="7"></textarea>
                 </div>
 
@@ -85,9 +92,10 @@
 <script type="text/javascript" src="https://kit.fontawesome.com/1295b553b3.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='enrichr.js') }}"></script>
 <script>
-$(document).ready(function () {
-    drawTable(1);
-});
+    $(document).ready(function () {
+        drawTable(1);
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 </script>
 </body>
 </html>

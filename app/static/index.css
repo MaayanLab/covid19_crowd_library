@@ -8,3 +8,7 @@
     border: 1px solid #9b9be1;
     text-decoration: none !important;
 }
+
+.enrichment-popover {
+    max-width: 30rem;
+}
