@@ -83,13 +83,13 @@ function drawTable(reviewed) {
             columns: columns,
             dom: 'B<"small"f>rt<"small row"ip>',
             buttons: [
-                'copy',
-                {
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: [0, 1, 2]
-                    }
-                }
+                // 'copy',
+                // {
+                //     extend: 'excel',
+                //     exportOptions: {
+                //         columns: [0, 1, 2]
+                //     }
+                // }
             ],
             columnDefs: [
                 // {sortable: false, targets: 5},
