@@ -40,10 +40,31 @@ function DTblify(json, reviewed) {
                 .prop('outerHTML')
         ];
         if (reviewed === 0) {
-            dataArray[i].push(`<div class="btn-group" role="group" aria-label="Basic example"><button type="button" class="btn btn-outline-success btn-sm" onclick="$.post('review', {id: ${json[i]['id']}, reviewed: 1})"><i class="fas fa-check"></i></button><button type="button" class="btn btn-outline-danger btn-sm" onclick="$.post('review', {id: ${json[i]['id']}, reviewed: -1})"><i class="fas fa-times"></i></button></div>`);
+            dataArray[i].push(`<div class="btn-group" role="group" aria-label="Basic example"><button id="${json[i]['id']}-approved" type="button" class="btn btn-outline-success btn-sm" onclick="clickReviewButton(${json[i]['id']}, 1)"><i class="fas fa-check"></i></button><button id="${json[i]['id']}-rejected" type="button" class="btn btn-outline-danger btn-sm" onclick="clickReviewButton(${json[i]['id']},-1)"><i class="fas fa-times"></i></button></div>`);
         }
     }
     return dataArray;
+}
+
+function switchButtonRecolor(id, reviewed){
+        switch (reviewed) {
+        case -1:
+            $(`#${id}-approved`).removeClass('btn-success').addClass('btn-outline-success');
+            $(`#${id}-rejected`).removeClass('btn-outline-danger').addClass('btn-danger');
+            break;
+        case 1:
+            $(`#${id}-rejected`).removeClass('btn-danger').addClass('btn-outline-danger')
+            $(`#${id}-approved`).removeClass('btn-outline-success').addClass('btn-success')
+            break;
+        default:
+            $(`#${id}-approved`).removeClass('btn-success').addClass('btn-outline-success');
+            $(`#${id}-rejected`).removeClass('btn-danger').addClass('btn-outline-danger')
+    }
+}
+
+function clickReviewButton(id, reviewed) {
+    $.post('review', {id: id, reviewed: reviewed});
+    switchButtonRecolor(id, reviewed)
 }
 
 function drawTable(reviewed) {
