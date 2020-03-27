@@ -17,25 +17,26 @@ function DTblify(json, reviewed) {
                 'class': 'enrichment-popover-button',
                 'data-toggle': 'popover',
                 'data-placement': 'bottom',
+                'data-trigger': 'focus',
                 'data-html': 'true',
                 'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
                 'data-content': desc,
                 'title': json[i]['descrShort']
             })
-                .append(`<span style="cursor: pointer;text-decoration: underline dotted;">${json[i]['descrShort']}</span>`)
+                .append(`<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${json[i]['descrShort']}</span>`)
                 .prop('outerHTML'),
             $('<div>', {
                 'class': 'enrichment-popover-button',
                 'data-toggle': 'popover',
-                'data-placement': 'bottom',
-                // 'data-trigger': 'focus',
+                'data-placement': 'right',
+                'data-trigger': 'focus',
                 'data-html': 'true',
                 'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
                 'title': 'Gene set',
                 'data-content': enrichedLinks.join(" ")
             })
                 .append(
-                    `<span style="cursor: pointer;text-decoration: underline dotted;">${json[i]['genes'].split('\n').length} genes </span><a href="https://amp.pharm.mssm.edu/Enrichr/enrich?dataset=${json[i]['enrichrShortId']}" target="_blank">En<span style="color: red">rich</span>r<i class="fas fa-external-link-alt ml-1"></i></a>`,
+                    `<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${json[i]['genes'].split('\n').length} genes </span><a href="https://amp.pharm.mssm.edu/Enrichr/enrich?dataset=${json[i]['enrichrShortId']}" target="_blank">En<span style="color: red">rich</span>r<i class="fas fa-external-link-alt ml-1"></i></a>`,
                 )
                 .prop('outerHTML')
         ];
