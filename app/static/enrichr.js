@@ -39,24 +39,27 @@ function DTblify(json, reviewed) {
                 )
                 .prop('outerHTML')
         ];
+        if (reviewed === 0) {
+            dataArray[i].push(`<div class="btn-group" role="group" aria-label="Basic example"><button type="button" class="btn btn-outline-success btn-sm" onclick="$.post('review', {id: ${json[i]['id']}, reviewed: 1})"><i class="fas fa-check"></i></button><button type="button" class="btn btn-outline-danger btn-sm" onclick="$.post('review', {id: ${json[i]['id']}, reviewed: -1})"><i class="fas fa-times"></i></button></div>`);
+        }
     }
     return dataArray;
 }
 
 function drawTable(reviewed) {
+    let columns = [
+        {title: "Description"},
+        {title: "Genes"}];
+    if (reviewed === 0) {
+        columns.push({title: "Review"});
+    }
+
     $.get("enrichr", {reviewed: reviewed}, function (data) {
         $('#enrichr_table').DataTable({
             width: '100%',
             data: DTblify(JSON.parse(data), reviewed),
             responsive: true,
-            columns: [
-                {title: "Description"},
-                // {title: "Author"},
-                // {title: "Full description"}
-                // {title: "Affiliation"}
-                // {title: "E-mail"}
-                {title: "Genes"}
-            ],
+            columns: columns,
             dom: 'B<"small"f>rt<"small row"ip>',
             buttons: [
                 'copy',

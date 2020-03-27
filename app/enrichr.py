@@ -9,18 +9,18 @@ host = os.environ.get('HOST')
 db = os.environ.get('DB')
 engine = create_engine('mysql+pymysql://{0}:{1}@{2}/{3}'.format(user, password, host, db), pool_recycle=300)
 metadata = MetaData()
-enrichr_covid = Table('genesets', metadata,
-                      Column('id', Integer, primary_key=True),
-                      Column('enrichrShortId', String(255), nullable=False),
-                      Column('enrichrUserListId', Integer, nullable=False),
-                      Column('genes', Text, nullable=False),
-                      Column('descrShort', String(255), nullable=False),
-                      Column('descrFull', String(255), nullable=False),
-                      Column('authorName', String(255), nullable=False),
-                      Column('authorAffiliation', String(255)),
-                      Column('authorEmail', String(255)),
-                      Column('showContacts', Integer, nullable=False, default=0),
-                      Column('reviewed', Integer, nullable=False, default=0))
+genesets = Table('genesets', metadata,
+                 Column('id', Integer, primary_key=True),
+                 Column('enrichrShortId', String(255), nullable=False),
+                 Column('enrichrUserListId', Integer, nullable=False),
+                 Column('genes', Text, nullable=False),
+                 Column('descrShort', String(255), nullable=False),
+                 Column('descrFull', String(255), nullable=False),
+                 Column('authorName', String(255), nullable=False),
+                 Column('authorAffiliation', String(255)),
+                 Column('authorEmail', String(255)),
+                 Column('showContacts', Integer, nullable=False, default=0),
+                 Column('reviewed', Integer, nullable=False, default=0))
 
 
 def enrichr_submit(genelist, short_description):
@@ -38,16 +38,16 @@ def add_geneset(form):
     gene_list = form['geneList']
     descr_full = form['descrFull']
     desc_short = form['descrShort']
-    author_name = form['aurthorName']
+    author_name = form['authorName']
     author_email = form['authorEmail']
     author_aff = form['authorAff']
-    show_contacts = form['showContacts']
+    show_contacts = 1 if 'showContacts' in form else 0
     enrichr_ids = enrichr_submit(gene_list, desc_short)
     enrichr_shortid = enrichr_ids['shortId']
     enrichr_userlistid = enrichr_ids['userListId']
 
     engine.execute(
-        enrichr_covid.insert(),
+        genesets.insert(),
         {'enrichrShortId': enrichr_shortid,
          'enrichrUserListId': enrichr_userlistid,
          'descrShort': desc_short,
@@ -63,7 +63,7 @@ def add_geneset(form):
 
 
 def get_geneset(id):
-    r = list(engine.execute(select([enrichr_covid]).where(enrichr_covid.c.id == id)))[0]
+    r = list(engine.execute(select([genesets]).where(genesets.c.id == id)))[0]
     return {'enrichrShortId': r[1],
             'enrichrUserListId': r[2],
             'descrShort': r[4],
@@ -72,22 +72,31 @@ def get_geneset(id):
             'authorAffiliation': r[7],
             'authorEmail': r[8],
             'showContacts': r[9],
-            'genes': r[3]
+            'genes': r[3],
+            'id': r[0]
             }
 
 
 def get_genesets(reviewed=1):
-    q = list(engine.execute(select([enrichr_covid]).where(enrichr_covid.c.reviewed == reviewed)))
-    genesets = []
+    q = list(engine.execute(select([genesets]).where(genesets.c.reviewed == reviewed)))
+    genesets_json = []
     for r in q:
-        genesets.append({'enrichrShortId': r[1],
-                         'enrichrUserListId': r[2],
-                         'descrShort': r[4],
-                         'descrFull': r[5],
-                         'authorName': r[6],
-                         'authorAffiliation': r[7],
-                         'authorEmail': r[8],
-                         'showContacts': r[9],
-                         'genes': r[3]
-                         })
-    return json.dumps(genesets)
+        genesets_json.append({'enrichrShortId': r[1],
+                              'enrichrUserListId': r[2],
+                              'descrShort': r[4],
+                              'descrFull': r[5],
+                              'authorName': r[6],
+                              'authorAffiliation': r[7],
+                              'authorEmail': r[8],
+                              'showContacts': r[9],
+                              'genes': r[3],
+                              'id': r[0]
+                              })
+    return json.dumps(genesets_json)
+
+
+def approve_geneset(form):
+    geneset_id = form['id']
+    reviewed = form['reviewed']
+    engine.execute(update(genesets).where(genesets.c.id == geneset_id).values(reviewed=reviewed))
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}

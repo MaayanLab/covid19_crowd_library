@@ -31,6 +31,9 @@ def enrichr():
         return add_geneset(flask.request.form)
 
 
-@app.route(ROOT_PATH + 'review', methods=['GET'])
+@app.route(ROOT_PATH + 'review', methods=['GET', 'POST'])
 def review():
-    return flask.render_template('review.html')
+    if flask.request.method == 'GET':
+        return flask.render_template('review.html')
+    elif flask.request.method == 'POST':
+        return approve_geneset(flask.request.form)
