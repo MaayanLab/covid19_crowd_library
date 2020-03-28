@@ -19,8 +19,29 @@
     </div>
     <div class="row justify-content-center my-5">
         <div class="col-10">
-            <table id="enrichr_table" class="compact hover order-column row-border">
-            </table>
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-genes-table-tab" data-toggle="tab"
+                       href="#nav-genes-table"
+                       role="tab" aria-controls="nav-genes-table" aria-selected="true">Review gene sets</a>
+                    <a class="nav-item nav-link disabled" id="nav-drugs-table-tab" data-toggle="tab"
+                       href="#nav-drugs-table" role="tab"
+                       aria-controls="nav-drugs-table" aria-selected="false">Review drug sets</a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active border-left border-right border-bottom rounded-bottom p-3"
+                     id="nav-genes-table" role="tabpanel" aria-labelledby="nav-genes-table-tab">
+                    <table id="geneset_table" class="compact hover order-column row-border">
+                    </table>
+                </div>
+                <div class="tab-pane fade  border-left border-right border-bottom rounded-bottom p-3"
+                     id="nav-drugs-table"
+                     role="tabpanel" aria-labelledby="nav-drugs-table-tab">
+                    <table id="drugset_table" class="compact hover order-column row-border">
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -40,9 +61,9 @@
 <script type="text/javascript" src="https://kit.fontawesome.com/1295b553b3.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='enrichr.js') }}"></script>
 <script>
-$(document).ready(function () {
-    drawTable(0);
-});
+    $(document).ready(function () {
+        drawTable(0);
+    });
 </script>
 </body>
 </html>

@@ -77,13 +77,14 @@ function drawTable(reviewed) {
     }
 
     $.get("enrichr", {reviewed: reviewed}, function (data) {
-        $('#enrichr_table').DataTable({
+        $('#geneset_table').DataTable({
             width: '100%',
             data: DTblify(JSON.parse(data), reviewed),
             responsive: true,
             columns: columns,
             dom: 'B<"small"f>rt<"small row"ip>',
             buttons: [
+                // 'csvHtml5',
                 // 'copy',
                 // {
                 //     extend: 'excel',

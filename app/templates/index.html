@@ -23,106 +23,57 @@
     </div>
     <div class="row justify-content-center my-5">
         <div class="col-10">
-            <table id="enrichr_table" class="compact hover order-column row-border">
-            </table>
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-genes-table-tab" data-toggle="tab"
+                       href="#nav-genes-table"
+                       role="tab" aria-controls="nav-genes-table" aria-selected="true">Gene sets</a>
+                    <a class="nav-item nav-link disabled" id="nav-drugs-table-tab" data-toggle="tab"
+                       href="#nav-drugs-table" role="tab"
+                       aria-controls="nav-drugs-table" aria-selected="false">Drug sets</a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active border-left border-right border-bottom rounded-bottom p-3"
+                     id="nav-genes-table" role="tabpanel" aria-labelledby="nav-genes-table-tab">
+                    <table id="geneset_table" class="compact hover order-column row-border">
+                    </table>
+                </div>
+                <div class="tab-pane fade  border-left border-right border-bottom rounded-bottom p-3"
+                     id="nav-drugs-table"
+                     role="tabpanel" aria-labelledby="nav-drugs-table-tab">
+                    <table id="drugset_table" class="compact hover order-column row-border">
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="row justify-content-center my-5">
         <div class="col-10">
-            <form action="{{ url_for('enrichr') }}" method="post">
-                <div class="form-group row">
-                    <label class="col-2" for="descrShort">Gene set name</label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" name="descrShort">
-                    </div>
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-genes-form-tab" data-toggle="tab" href="#nav-genes-form"
+                       role="tab" aria-controls="nav-genes-form" aria-selected="true">Add gene set</a>
+                    <a class="nav-item nav-link disabled" id="nav-drugs-form-tab" data-toggle="tab" href="#nav-drugs-form" role="tab"
+                       aria-controls="nav-drugs-form" aria-selected="false">Add drug set</a>
                 </div>
-                <div class="form-group">
-                    <label for="descrFull">How this set is related to COVID-19 research?</label>
-                    <textarea class="form-control" name="descrFull" rows="3"></textarea>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active border-left border-right border-bottom rounded-bottom p-3"
+                     id="nav-genes-form" role="tabpanel" aria-labelledby="nav-genes-form-tab">
+                    {% include "form_geneset.html" %}
                 </div>
-                <div class="form-group">
-                    <label for="geneList">
-                        Gene list
-                        <i class="far fa-question-circle"
-                           data-toggle="tooltip"
-                           title="HGNC-approved gene symbols. One gene symbol per line."
-                           data-placement="right"
-                           style="color: darkgrey; font-size: 0.9rem;" aria-hidden="true"></i>
-                    </label>
-                    <textarea class="form-control" name="geneList" rows="7"></textarea>
+                <div class="tab-pane fade  border-left border-right border-bottom rounded-bottom p-3" id="nav-drugs-form"
+                     role="tabpanel" aria-labelledby="nav-drugs-form-tab">
+                    {% include "form_drugset.html" %}
                 </div>
-
-                <div class="form-group row">
-                    <label class="col-2" for="authorName">Name</label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" name="authorName">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-2" for="authorAff">Affiliation</label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" name="authorAff">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-2" for="authorEmail">E-mail</label>
-                    <div class="col-10">
-                        <input type="email" class="form-control" name="authorEmail" placeholder="name@example.com">
-                    </div>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" name="showContacts">
-                    <label class="form-check-label" for="showContacts">Share contact information</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <div class="row justify-content-center m-5">
-                        <div class="col-2 text-center">
-                <a href="https://icahn.mssm.edu/research/bioinformatics" target="_blank">
-                    <img class="rounded" src="{{ url_for('static', filename='icahn_cb.png') }}" style="height: 5rem;">
-                </a>
-            </div>
-            <div class="col-2 text-center">
-                <a href="http://lincs-dcic.org" target="_blank">
-                    <img class="rounded" src="{{ url_for('static', filename='dcic_light.png') }}" style="height: 5rem;">
-                </a>
-            </div>
-            <div class="col-2 text-center">
-                <a href="https://labs.icahn.mssm.edu/maayanlab/" target="_blank">
-                    <img class="rounded" src="{{ url_for('static', filename='maayanlab_logo.png') }}"
-                         style="height: 5rem;">
-                </a>
-            </div>
-            <div class="col-1">
-                <div class="row my-2">
-                    <a class="badge badge-secondary px-2" href="https://github.com/MaayanLab/covid19_crowd_library">
-                        <span class="badge badge-light">
-                            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                                 style="width: 1rem;">
-                </span>
-                        View source code
-                    </a>
-                </div>
-                <div class="row my-2">
-                    <a class="badge badge-secondary px-2" href="https://github.com/MaayanLab/covid19_crowd_library">
-                        <span class="badge badge-light">
-                        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                             style="width: 1rem;">
-                            </span>
-                        Report a bug
-                    </a>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
+{% include "footer.html" %}
 
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom_datatables.css') }}"/>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}"/>

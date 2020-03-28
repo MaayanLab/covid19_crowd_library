@@ -1,6 +1,7 @@
 import flask
 from dotenv import load_dotenv
-from .enrichr import *
+from .geneset import *
+from .drugset import *
 
 load_dotenv(verbose=True)
 
@@ -29,6 +30,15 @@ def enrichr():
         return get_genesets(reviewed)
     elif flask.request.method == 'POST':
         return add_geneset(flask.request.form)
+
+
+@app.route(ROOT_PATH + 'drugs', methods=['GET', 'POST'])
+def drugs():
+    if flask.request.method == 'GET':
+        reviewed = flask.request.args.get('reviewed', 1)
+        return get_drugsets(reviewed)
+    elif flask.request.method == 'POST':
+        return add_drugset(flask.request.form)
 
 
 @app.route(ROOT_PATH + 'review', methods=['GET', 'POST'])
