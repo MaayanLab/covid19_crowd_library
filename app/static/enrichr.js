@@ -36,8 +36,14 @@ function DTblify(json, reviewed) {
                 'data-content': enrichedLinks.join(" ")
             })
                 .append(
-                    `<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${json[i]['genes'].split('\n').length} genes </span><a href="https://amp.pharm.mssm.edu/Enrichr/enrich?dataset=${json[i]['enrichrShortId']}" target="_blank">En<span style="color: red">rich</span>r<i class="fas fa-external-link-alt ml-1"></i></a>`,
+                    `<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${json[i]['genes'].split('\n').length} genes </span>`,
                 )
+                .prop('outerHTML'),
+            $('<a>', {
+                'href': `https://amp.pharm.mssm.edu/Enrichr/enrich?dataset=${json[i]['enrichrShortId']}`,
+                'target': '_blank'
+            })
+                .append('<i class="fas fa-external-link-alt ml-1" style="font-size: 0.9rem; color: dodgerblue"></i>')
                 .prop('outerHTML')
         ];
         if (reviewed === 0) {
@@ -47,8 +53,8 @@ function DTblify(json, reviewed) {
     return dataArray;
 }
 
-function switchButtonRecolor(id, reviewed){
-        switch (reviewed) {
+function switchButtonRecolor(id, reviewed) {
+    switch (reviewed) {
         case -1:
             $(`#${id}-approved`).removeClass('btn-success').addClass('btn-outline-success');
             $(`#${id}-rejected`).removeClass('btn-outline-danger').addClass('btn-danger');
@@ -71,7 +77,9 @@ function clickReviewButton(id, reviewed) {
 function drawTable(reviewed) {
     let columns = [
         {title: "Description"},
-        {title: "Genes"}];
+        {title: "Genes"},
+        {title: "Enrichr link"}
+    ];
     if (reviewed === 0) {
         columns.push({title: "Review"});
     }
@@ -84,23 +92,12 @@ function drawTable(reviewed) {
             columns: columns,
             dom: 'B<"small"f>rt<"small row"ip>',
             buttons: [
-                // 'csvHtml5',
-                // 'copy',
-                // {
-                //     extend: 'excel',
-                //     exportOptions: {
-                //         columns: [0, 1, 2]
-                //     }
-                // }
             ],
             columnDefs: [
-                // {sortable: false, targets: 5},
-                // Sorting removed temporarily
-                // {
-                //     targets: [3, 4],
-                //     visible: false,
-                //     searchable: false,
-                // },
+                {
+                    targets: -1,
+                    className: 'dt-body-left'
+                }
             ],
             drawCallback: function () {
                 // Enriched gene popover
