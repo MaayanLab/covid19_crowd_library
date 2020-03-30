@@ -17,6 +17,7 @@ class Geneset(Base):
   authorEmail = Column('authorEmail', String(255))
   showContacts = Column('showContacts', Integer, nullable=False, default=0)
   reviewed = Column('reviewed', Integer, nullable=False, default=0)
+  source = Column('source', String(255), default=0)
   #
   def jsonify(self):
     return {
@@ -31,4 +32,5 @@ class Geneset(Base):
       'authorEmail': self.authorEmail,
       'showContacts': self.showContacts,
       'reviewed': self.reviewed,
+      'source': self.source,
     }

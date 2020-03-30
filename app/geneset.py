@@ -42,6 +42,7 @@ def add_geneset(form):
                 authorEmail=author_email,
                 showContacts=show_contacts,
                 genes=gene_list,
+                source=source
             )
         )
         sess.commit()

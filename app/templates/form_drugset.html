@@ -1,16 +1,18 @@
 <form action="{{ url_for('route_drugs') }}" method="post">
     <div class="form-group row">
         <label class="col-2" for="descrShort">Drug set name</label>
-        <div class="col-10">
-            <input type="text" class="form-control" name="descrShort">
-        </div>
+            <input type="text" class="form-control col-8" name="descrShort">
+    </div>
+        <div class="form-group row">
+        <label class="col-2" for="source">Drug set source</label>
+            <input type="text" class="form-control col-8" name="source">
     </div>
     <div class="form-group">
         <label for="descrFull">How this set is related to COVID-19 research?</label>
         <textarea class="form-control" name="descrFull" rows="3"></textarea>
     </div>
     <div class="form-group">
-        <label for="geneList">
+        <label for="drugList">
             Drug list
             <i class="far fa-question-circle"
                data-toggle="tooltip"
@@ -18,31 +20,25 @@
                data-placement="right"
                style="color: darkgrey; font-size: 0.9rem;" aria-hidden="true"></i>
         </label>
-        <textarea class="form-control" name="geneList" rows="7"></textarea>
+        <textarea class="form-control" name="drugList" rows="7"></textarea>
     </div>
 
     <div class="form-group row">
         <label class="col-2" for="authorName">Name</label>
-        <div class="col-10">
-            <input type="text" class="form-control" name="authorName">
-        </div>
+            <input type="text" class="form-control col-8" name="authorName">
     </div>
     <div class="form-group row">
         <label class="col-2" for="authorAff">Affiliation</label>
-        <div class="col-10">
-            <input type="text" class="form-control" name="authorAff">
-        </div>
+            <input type="text" class="form-control col-8" name="authorAff">
     </div>
     <div class="form-group row">
         <label class="col-2" for="authorEmail">E-mail</label>
-        <div class="col-10">
-            <input type="email" class="form-control" name="authorEmail"
+            <input type="email" class="form-control col-8" name="authorEmail"
                    placeholder="name@example.com">
-        </div>
     </div>
     <div class="form-check">
         <input type="checkbox" class="form-check-input" name="showContacts">
         <label class="form-check-label" for="showContacts">Share contact information</label>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
 </form>
