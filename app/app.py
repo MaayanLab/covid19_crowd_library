@@ -1,7 +1,7 @@
+import os
 import flask
 from dotenv import load_dotenv
-from .geneset import *
-from .drugset import *
+from app import database, geneset, drugset
 
 load_dotenv(verbose=True)
 
@@ -11,45 +11,45 @@ ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
 #  for sensitive information!
 
 app = flask.Flask(__name__, static_url_path=ROOT_PATH + 'static')
-
+app.before_first_request(database.init)
 
 @app.route(ROOT_PATH + 'static')
-def staticfiles(path):
+def route_staticfiles(path):
     return flask.send_from_directory('static', path)
 
 
 @app.route(ROOT_PATH, methods=['GET'])
-def index():
+def route_index():
     return flask.render_template('index.html')
 
 
 @app.route(ROOT_PATH + 'enrichr', methods=['GET', 'POST'])
-def enrichr():
+def route_enrichr():
     if flask.request.method == 'GET':
         reviewed = flask.request.args.get('reviewed', 1)
-        return get_genesets(reviewed)
+        return geneset.get_genesets(reviewed)
     elif flask.request.method == 'POST':
-        return add_geneset(flask.request.form)
+        return geneset.add_geneset(flask.request.form)
 
 
 @app.route(ROOT_PATH + 'drugs', methods=['GET', 'POST'])
-def drugs():
+def route_drugs():
     if flask.request.method == 'GET':
         reviewed = flask.request.args.get('reviewed', 1)
-        return get_drugsets(reviewed)
+        return drugset.get_drugsets(reviewed)
     elif flask.request.method == 'POST':
-        return add_drugset(flask.request.form)
+        return drugset.add_drugset(flask.request.form)
 
 
 @app.route(ROOT_PATH + 'review', methods=['GET', 'POST'])
-def review():
+def route_review():
     if flask.request.method == 'GET':
         return flask.render_template('review.html')
     elif flask.request.method == 'POST':
-        return approve_geneset(flask.request.form)
+        return geneset.approve_geneset(flask.request.form)
 
 
 @app.route(ROOT_PATH + 'geneset/<geneset_id>', methods=['GET'])
-def geneset(geneset_id):
+def route_geneset(geneset_id):
     print(geneset_id)
     return

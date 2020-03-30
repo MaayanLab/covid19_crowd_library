@@ -1,18 +1,8 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm.session import sessionmaker
-from app.models import Geneset
 import os
 import json
 import requests
-
-user = os.environ.get('DB_USER')
-password = os.environ.get('DB_PASSWORD')
-host = os.environ.get('HOST')
-db = os.environ.get('DB')
-db_uri = os.environ.get('DB_URI', 'mysql+pymysql://{0}:{1}@{2}/{3}'.format(user, password, host, db))
-
-engine = create_engine(db_uri, pool_recycle=300)
-Session = sessionmaker(bind=engine)
+from app.database import Session
+from app.models import Geneset
 
 def enrichr_submit(genelist, short_description):
     payload = {
