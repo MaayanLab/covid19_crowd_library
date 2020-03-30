@@ -85,6 +85,7 @@ def approve_geneset(form):
         geneset = sess.query(Geneset).get(geneset_id)
         geneset.reviewed = reviewed
         sess.commit()
+        sess.close()
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     except Exception as e:
         return json.dumps({'success': False, 'error': str(e)}), 200, {'ContentType': 'application/json'}
