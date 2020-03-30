@@ -1,9 +1,6 @@
 import os
 import flask
-from dotenv import load_dotenv
 from app import database, geneset, drugset
-
-load_dotenv(verbose=True)
 
 ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
 # Load any additional configuration parameters via
