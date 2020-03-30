@@ -18,6 +18,7 @@ def enrichr_submit(genelist, short_description):
 
 
 def add_geneset(form):
+    source = form['source']
     gene_list = form['geneList']
     descr_full = form['descrFull']
     desc_short = form['descrShort']

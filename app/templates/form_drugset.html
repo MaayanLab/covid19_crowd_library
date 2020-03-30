@@ -1,4 +1,4 @@
-<form action="{{ url_for('route_drugs') }}" method="post">
+<form action="{{ url_for('route_drugs') }}" method="post" id="drugset_form">
     <div class="form-group row">
         <label class="col-2" for="descrShort">Drug set name</label>
             <input type="text" class="form-control col-8" name="descrShort">
@@ -40,5 +40,29 @@
         <input type="checkbox" class="form-check-input" name="showContacts">
         <label class="form-check-label" for="showContacts">Share contact information</label>
     </div>
-    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        <div class="form-group row mt-3">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="">
+            Submit
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="color: #155724; background-color: #d4edda; border-color: #c3e6cb;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Yor drug set was submitted</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Thank you for your contribution!
+                            Your list will be evaluated by our staff and published soon.
+                            Please use this link to return back to the list submission page.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
