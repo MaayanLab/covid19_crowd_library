@@ -99,6 +99,10 @@ function drawTable(reviewed) {
                     className: 'dt-body-left'
                 }
             ],
+              language: {
+                search: "Search in description or genes:",
+                  searchPlaceholder: "e.g. ACE2"
+                },
             drawCallback: function () {
                 // Enriched gene popover
                 $('.enrichment-popover-button').popover();

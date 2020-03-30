@@ -47,3 +47,9 @@ def review():
         return flask.render_template('review.html')
     elif flask.request.method == 'POST':
         return approve_geneset(flask.request.form)
+
+
+@app.route(ROOT_PATH + 'geneset/<geneset_id>', methods=['GET'])
+def geneset(geneset_id):
+    print(geneset_id)
+    return
