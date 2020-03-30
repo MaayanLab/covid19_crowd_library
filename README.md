@@ -1,6 +1,6 @@
 # covid19
 
-Collection of COVID19 resources developed by Ma'ayan Lab
+An interface to submit, serve, and analyze COVID19 related gene and drug sets.
 
 ## Development
 
