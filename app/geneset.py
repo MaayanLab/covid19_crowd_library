@@ -1,8 +1,10 @@
-import os
 import json
+
 import requests
+
 from app.database import Session
 from app.models import Geneset
+
 
 def enrichr_submit(genelist, short_description):
     payload = {
@@ -58,6 +60,7 @@ def get_geneset(id):
     except Exception as e:
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 
+
 def get_genesets(reviewed=1):
     try:
         sess = Session()
@@ -66,6 +69,7 @@ def get_genesets(reviewed=1):
         return json.dumps(r), 200, {'ContentType': 'application/json'}
     except Exception as e:
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
+
 
 def approve_geneset(form):
     geneset_id = form['id']

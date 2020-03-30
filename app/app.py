@@ -1,4 +1,5 @@
 import os
+import json
 import flask
 from app import database, geneset, drugset
 
@@ -9,6 +10,7 @@ ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
 
 app = flask.Flask(__name__, static_url_path=ROOT_PATH + 'static')
 app.before_first_request(database.init)
+
 
 @app.route(ROOT_PATH + 'static')
 def route_staticfiles(path):
@@ -48,5 +50,5 @@ def route_review():
 
 @app.route(ROOT_PATH + 'geneset/<geneset_id>', methods=['GET'])
 def route_geneset(geneset_id):
-    print(geneset_id)
-    return
+    print(geneset.get_geneset(geneset_id))
+    return flask.render_template('geneset.html', geneset=json.loads(geneset.get_geneset(geneset_id)[0]))
