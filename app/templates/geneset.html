@@ -53,10 +53,10 @@
         </div>
         <div class="col-md-8 order-md-1">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="badge badge-secondary badge-pill">{{ geneset['genes'].split('\n')|length }} genes</span>
+                <span class="badge badge-secondary badge-pill">{{ geneset['genes']|length }} genes</span>
             </h4>
             <div class="mb-3">
-                {% for gene in geneset['genes'].split('\n')|sort %}
+                {% for gene in geneset['genes']|sort %}
                     <a class="enriched-gene-link" href="https://amp.pharm.mssm.edu/Harmonizome/gene/{{ gene }}"
                        target="_blank">{{ gene }}</a>
                 {% endfor %}

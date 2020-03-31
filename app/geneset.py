@@ -1,14 +1,13 @@
 import json
-
 import requests
 
 from app.database import Session
-from app.models import Geneset
+from app.models import Geneset, splitter
 
 
 def enrichr_submit(geneset, short_description):
     payload = {
-        'list': (None, geneset),
+        'list': (None, '\n'.join(geneset)),
         'description': (None, short_description)
     }
     response = requests.post('http://amp.pharm.mssm.edu/Enrichr/addList', files=payload)
@@ -19,14 +18,14 @@ def enrichr_submit(geneset, short_description):
 
 def add_geneset(form):
     source = form['source']
-    gene_list = form['geneSet']
+    gene_set = splitter.split(form['geneSet'])
     descr_full = form['descrFull']
     desc_short = form['descrShort']
     author_name = form['authorName']
     author_email = form['authorEmail']
     author_aff = form['authorAff']
     show_contacts = 1 if 'showContacts' in form else 0
-    enrichr_ids = enrichr_submit(gene_list, desc_short)
+    enrichr_ids = enrichr_submit(gene_set, desc_short)
     enrichr_shortid = enrichr_ids['shortId']
     enrichr_userlistid = enrichr_ids['userListId']
 
@@ -42,7 +41,7 @@ def add_geneset(form):
                 authorAffiliation=author_aff,
                 authorEmail=author_email,
                 showContacts=show_contacts,
-                genes=gene_list,
+                genes=gene_set,
                 source=source
             )
         )

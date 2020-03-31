@@ -1,7 +1,11 @@
+import re
 from sqlalchemy import Column, Integer, String, Text
 from sqlalchemy.ext.declarative import declarative_base
+from app.scalarlist import ScalarListType
 
 Base = declarative_base()
+
+splitter = re.compile(r'[ \t\r\n]+')
 
 class Geneset(Base):
   __tablename__ = 'genesets'
@@ -9,7 +13,7 @@ class Geneset(Base):
   id = Column('id', Integer, primary_key=True)
   enrichrShortId = Column('enrichrShortId', String(255), nullable=False)
   enrichrUserListId = Column('enrichrUserListId', Integer, nullable=False)
-  genes = Column('genes', Text, nullable=False)
+  genes = Column('genes', ScalarListType(str, separator='\t', splitter=splitter), nullable=False)
   descrShort = Column('descrShort', String(255), nullable=False)
   descrFull = Column('descrFull', String(255), nullable=False)
   authorName = Column('authorName', String(255), nullable=False)

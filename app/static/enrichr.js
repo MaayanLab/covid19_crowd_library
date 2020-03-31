@@ -3,7 +3,7 @@ function DTblify(json, reviewed) {
     for (let i = 0; i < json.length; i++) {
         // Links to enriched genes
         let enrichedLinks = [];
-        $.each(json[i]['genes'].split('\n').sort(), function (index, gene) {
+        $.each(json[i]['genes'].sort(), function (index, gene) {
             enrichedLinks.push('<a class="enriched-gene-link" href="http://amp.pharm.mssm.edu/Harmonizome/gene/' + gene + '" target="_blank">' + gene + '</a>');
         });
         const showContacts = json[i]['showContacts'];
@@ -36,7 +36,7 @@ function DTblify(json, reviewed) {
                 'data-content': `${enrichedLinks.slice(0, 20).join(" ")}<br/><a href="/covid19/geneset/${json[i]['id']}">${enrichedLinks.length > 20 ? '...<br/>' : ''}View gene set page</a>`
             })
                 .append(
-                    `<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${json[i]['genes'].split('\n').length} genes </span>`,
+                    `<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${json[i]['genes'].length} genes </span>`,
                 )
                 .prop('outerHTML'),
             $('<a>', {
