@@ -33,7 +33,7 @@ function DTblify(json, reviewed) {
                 'data-html': 'true',
                 'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
                 'title': 'Gene set',
-                'data-content': `${enrichedLinks.slice(0,20).join(" ")}<br/><a href="/covid19/geneset/${json[i]['id']}">${enrichedLinks.length > 20 ? '...<br/>' : ''}View gene set page</a>`
+                'data-content': `${enrichedLinks.slice(0, 20).join(" ")}<br/><a href="/covid19/geneset/${json[i]['id']}">${enrichedLinks.length > 20 ? '...<br/>' : ''}View gene set page</a>`
             })
                 .append(
                     `<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${json[i]['genes'].length} genes </span>`,
@@ -91,18 +91,17 @@ function drawTable(reviewed) {
             responsive: true,
             columns: columns,
             dom: 'B<"small"f>rt<"small row"ip>',
-            buttons: [
-            ],
+            buttons: [],
             columnDefs: [
                 {
                     targets: -1,
                     className: 'dt-body-left'
                 }
             ],
-              language: {
+            language: {
                 search: "Search in description or genes:",
-                  searchPlaceholder: "e.g. ACE2"
-                },
+                searchPlaceholder: "e.g. ACE2",
+            },
             drawCallback: function () {
                 // Enriched gene popover
                 $('.enrichment-popover-button').popover();
