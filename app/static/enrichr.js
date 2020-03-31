@@ -33,7 +33,7 @@ function DTblify(json, reviewed) {
                 'data-html': 'true',
                 'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
                 'title': 'Gene set',
-                'data-content': enrichedLinks.join(" ")
+                'data-content': `${enrichedLinks.slice(0,20).join(" ")}<br/><a href="/covid19/geneset/${json[i]['id']}">${enrichedLinks.length > 20 ? '...<br/>' : ''}View gene set page</a>`
             })
                 .append(
                     `<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${json[i]['genes'].split('\n').length} genes </span>`,

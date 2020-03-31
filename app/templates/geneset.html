@@ -24,34 +24,40 @@
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
                         <h6 class="my-0">{{ geneset['descrShort'] }}</h6>
-                        <small class="text-muted">{{ geneset['descrFull'] }}</small>
+                        <span class="text-muted">{{ geneset['descrFull'] }}</span>
                     </div>
                 </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                        <h6 class="my-0">Source</h6>
-                    </div>
-                    <span class="text-muted">{{ geneset['source'] }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                        <h6 class="my-0">Author</h6>
-                    </div>
-                    <span class="text-muted">{{ geneset['authorName'] }}</span>
-                </li>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                        <h6 class="my-0">Affiliation</h6>
-                    </div>
-                    <span class="text-muted">{{ geneset['authorAffiliation'] }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                        <h6 class="my-0">E-mail</h6>
-                    </div>
-                    <span class="text-muted">{{ geneset['authorEmail'] }}</span>
-                </li>
+
+                {% if geneset['source'] != None %}
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">Source</h6>
+                            <span class="text-muted">{{ geneset['source'] }}</span>
+                        </div>
+                    </li>
+                {% endif %}
+
+                {% if geneset['showContacts'] == 1 %}
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">Author</h6>
+                            <span class="text-muted">{{ geneset['authorName'] }}</span>
+                        </div>
+                    </li>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">Affiliation</h6>
+                            <span class="text-muted">{{ geneset['authorAffiliation'] }}</span>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">E-mail</h6>
+                            <span class="text-muted">{{ geneset['authorEmail'] }}</span>
+                        </div>
+                    </li>
+                {% endif %}
             </ul>
         </div>
         <div class="col-md-8 order-md-1">

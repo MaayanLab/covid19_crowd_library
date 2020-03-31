@@ -18,6 +18,7 @@ def enrichr_submit(genelist, short_description):
 
 
 def add_geneset(form):
+    source = form['source']
     gene_list = form['geneList']
     descr_full = form['descrFull']
     desc_short = form['descrShort']
@@ -42,6 +43,7 @@ def add_geneset(form):
                 authorEmail=author_email,
                 showContacts=show_contacts,
                 genes=gene_list,
+                source=source
             )
         )
         sess.commit()

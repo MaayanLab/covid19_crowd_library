@@ -29,6 +29,7 @@ def upgrade():
         sa.Column('authorEmail', sa.String(length=255), nullable=True),
         sa.Column('showContacts', sa.Integer(), nullable=False),
         sa.Column('reviewed', sa.Integer(), nullable=False),
+        sa.Column('source', mysql.VARCHAR(length=255), nullable=True),
         sa.PrimaryKeyConstraint('id')
     )
 
