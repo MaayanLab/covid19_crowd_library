@@ -63,7 +63,7 @@ http {
     }
 
     location ${ROOT_PATH}static/ {
-      alias /app/static/;
+      alias /app/app/static/;
     }
   }
 }
