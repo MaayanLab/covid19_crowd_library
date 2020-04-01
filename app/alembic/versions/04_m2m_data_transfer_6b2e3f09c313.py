@@ -9,7 +9,7 @@ NOTE if this one fails, you should probably revert 03 as well.
 from alembic import op
 import sqlalchemy as sa
 from app.database import Session
-from models import models_02_dc18a84a5406, models_03_899a089268fa
+from app.alembic.models import models_02_dc18a84a5406, models_03_899a089268fa
 
 # revision identifiers, used by Alembic.
 revision = '6b2e3f09c313'
