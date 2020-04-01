@@ -57,7 +57,8 @@ function gs_DTblify(json, reviewed) {
                 'target': '_blank'
             })
                 .append('<i class="fas fa-external-link-alt ml-1" style="font-size: 0.9rem; color: dodgerblue"></i>')
-                .prop('outerHTML')
+                .prop('outerHTML'),
+            json[i]['genes']
         ];
         if (reviewed === 0) {
             dataArray[i].push(`<div class="btn-group" role="group" aria-label="Basic example"><button id="${json[i]['id']}-geneset-approved" type="button" class="btn btn-outline-success btn-sm" onclick="clickReviewButton(${json[i]['id']}, 1, 'geneset')"><i class="fas fa-check"></i></button><button id="${json[i]['id']}-geneset-rejected" type="button" class="btn btn-outline-danger btn-sm" onclick="clickReviewButton(${json[i]['id']},-1,'geneset')"><i class="fas fa-times"></i></button></div>`);
@@ -70,7 +71,8 @@ function gs_drawTable(reviewed) {
     let columns = [
         {title: "Description"},
         {title: "Genes"},
-        {title: "Enrichr link"}
+        {title: "Enrichr link"},
+        {title: "Hidden genes"}
     ];
     if (reviewed === 0) {
         columns.push({title: "Review"});
@@ -88,6 +90,10 @@ function gs_drawTable(reviewed) {
                 {
                     targets: -1,
                     className: 'dt-body-left'
+                },
+                {
+                    targets: 3,
+                    visible: false
                 }
             ],
             language: {

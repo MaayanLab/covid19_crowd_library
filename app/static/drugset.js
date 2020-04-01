@@ -51,7 +51,8 @@ function ds_DTblify(json, reviewed) {
                 .append(
                     `<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${json[i]['drugs'].length} drugs </span>`,
                 )
-                .prop('outerHTML')
+                .prop('outerHTML'),
+            json[i]['drugs']
         ];
         if (reviewed === 0) {
             dataArray[i].push(`<div class="btn-group" role="group" aria-label="Basic example"><button id="${json[i]['id']}-drugset-approved" type="button" class="btn btn-outline-success btn-sm" onclick="clickReviewButton(${json[i]['id']}, 1, 'drugset')"><i class="fas fa-check"></i></button><button id="${json[i]['id']}-drugset-rejected" type="button" class="btn btn-outline-danger btn-sm" onclick="clickReviewButton(${json[i]['id']},-1, 'drugset')"><i class="fas fa-times"></i></button></div>`);
@@ -63,7 +64,8 @@ function ds_DTblify(json, reviewed) {
 function ds_drawTable(reviewed) {
     let columns = [
         {title: "Description"},
-        {title: "Drugs"}
+        {title: "Drugs"},
+        {title: "Hidden drugs"}
     ];
     if (reviewed === 0) {
         columns.push({title: "Review"});
@@ -81,6 +83,10 @@ function ds_drawTable(reviewed) {
                 {
                     targets: -1,
                     className: 'dt-body-left'
+                },
+                {
+                    targets: 2,
+                    visible: false
                 }
             ],
             language: {
