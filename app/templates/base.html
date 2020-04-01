@@ -39,6 +39,15 @@
 <script type="text/javascript" src="{{ url_for('static', filename='geneset.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='drugset.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='review.js') }}"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-6277639-45"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-6277639-45');
+</script>
 
 {% block script %}
 {% endblock %}
