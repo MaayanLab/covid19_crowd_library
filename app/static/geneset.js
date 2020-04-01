@@ -1,3 +1,6 @@
+// Even though this file is nearly identical to drugset.js, I deliberately keep them separated,
+// as I expect them to diverge further on.
+
 function gs_DTblify(json, reviewed) {
     let dataArray = [];
     for (let i = 0; i < json.length; i++) {

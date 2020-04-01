@@ -1,3 +1,6 @@
+// Even though this file is nearly identical to geneset.js, I deliberately keep them separated,
+// as I expect them to diverge further on.
+
 function ds_DTblify(json, reviewed) {
     let dataArray = [];
     for (let i = 0; i < json.length; i++) {
@@ -73,7 +76,7 @@ function ds_drawTable(reviewed) {
             ],
             language: {
                 search: "Search in description or drugs:",
-                searchPlaceholder: "e.g. Peramivir",
+                searchPlaceholder: "e.g. Remdesivir",
             },
             drawCallback: function () {
                 $('.enrichment-popover-button').popover();
