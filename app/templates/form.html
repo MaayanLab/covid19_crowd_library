@@ -1,64 +1,63 @@
-<form action="{{ url_for('route_drugs') }}" method="post" id="drugset_form">
+<form id="{{ c.set_type }}_form">
     <div class="form-group row">
-        <label class="col-2" for="descrShort">Drug set name</label>
-            <input type="text" class="form-control col-8" name="descrShort">
+        <label class="col-2" for="descrShort">{{ c.Type }} set name</label>
+        <input type="text" class="form-control col-8" name="descrShort">
     </div>
-        <div class="form-group row">
-        <label class="col-2" for="source">Drug set source</label>
-            <input type="text" class="form-control col-8" name="source">
+    <div class="form-group row">
+        <label class="col-2" for="source">{{ c.Type }} set source</label>
+        <input type="text" class="form-control col-8" name="source">
     </div>
     <div class="form-group">
         <label for="descrFull">How this set is related to COVID-19 research?</label>
         <textarea class="form-control" name="descrFull" rows="3"></textarea>
     </div>
     <div class="form-group">
-        <label for="drugList">
-            Drug list
+        <label for="{{ c.set_type }}">
+            {{ c.Type }} set
             <i class="far fa-question-circle"
                data-toggle="tooltip"
-               title="One drug name per line."
+               title="{{ c.title }}"
                data-placement="right"
                style="color: darkgrey; font-size: 0.9rem;" aria-hidden="true"></i>
         </label>
-        <textarea class="form-control" name="drugList" rows="7" placeholder="Paste druggi set here"></textarea>
+        <textarea class="form-control" name="{{ c.set_type }}" rows="7" placeholder="Paste a {{ c.type }} set here"></textarea>
     </div>
-
     <div class="form-group row">
         <label class="col-2" for="authorName">Name</label>
-            <input type="text" class="form-control col-8" name="authorName">
+        <input type="text" class="form-control col-8" name="authorName">
     </div>
     <div class="form-group row">
         <label class="col-2" for="authorAff">Affiliation</label>
-            <input type="text" class="form-control col-8" name="authorAff">
+        <input type="text" class="form-control col-8" name="authorAff">
     </div>
     <div class="form-group row">
         <label class="col-2" for="authorEmail">E-mail</label>
-            <input type="email" class="form-control col-8" name="authorEmail"
-                   placeholder="name@example.com">
+        <input type="email" class="form-control col-8" name="authorEmail"
+               placeholder="name@example.com">
     </div>
     <div class="form-check">
         <input type="checkbox" class="form-check-input" name="showContacts">
         <label class="form-check-label" for="showContacts">Share contact information</label>
     </div>
-        <div class="form-group row mt-3">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="">
+    <div class="form-group row mt-3">
+        <button id="submit_{{ c.set_type }}_button" type="button" class="btn btn-primary">
             Submit
         </button>
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="{{ c.set_type }}Modal" tabindex="-1" role="dialog" aria-labelledby="{{ c.set_type }}ModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content" style="color: #155724; background-color: #d4edda; border-color: #c3e6cb;">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Yor drug set was submitted</h5>
+                        <h5 class="modal-title" id="{{ c.set_type }}ModalLabel">Yor {{ c.type }} set was submitted</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <p>Thank you for your contribution!
-                            Your list will be evaluated by our staff and published soon.
+                            Your {{ c.type }} set will be evaluated by our staff and published soon.
                             Please use this link to return back to the list submission page.</p>
                     </div>
                 </div>

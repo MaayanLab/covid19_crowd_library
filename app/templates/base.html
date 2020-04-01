@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% block style %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom_datatables.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}"/>
+    {% endblock %}
+
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+{% endblock %}
+
+{% include "footer.html" %}
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script type="text/javascript"
+        src="https://cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-html5-1.6.1/rg-1.1.1/sc-2.0.1/sp-1.0.1/datatables.min.js"></script>
+<script type="text/javascript" src="https://kit.fontawesome.com/1295b553b3.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='geneset.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='drugset.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='review.js') }}"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-6277639-45"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-6277639-45');
+</script>
+
+{% block script %}
+{% endblock %}
+</body>
+</html>

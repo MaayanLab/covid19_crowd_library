@@ -6,6 +6,9 @@ user = os.environ.get('DB_USER')
 password = os.environ.get('DB_PASSWORD')
 host = os.environ.get('HOST')
 db = os.environ.get('DB')
+if user or password or host or db:
+  import logging
+  logging.warn('DB, DB_USER, DB_PASSWORD, and HOST are deprecated, please use DB_URI (mysql+pymysql://{USER}:{PASS}@{HOST}/{DB})')
 db_uri = os.environ.get('DB_URI', 'mysql+pymysql://{0}:{1}@{2}/{3}'.format(user, password, host, db))
 
 engine = create_engine(db_uri, pool_recycle=300)
