@@ -21,3 +21,11 @@
 .enrichment-popover {
     max-width: 30rem;
 }
+
+.wrapped-text {
+  word-wrap: break-word;
+}
+
+.wrapped-url {
+  word-wrap: anywhere;
+}
