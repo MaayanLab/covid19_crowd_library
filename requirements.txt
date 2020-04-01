@@ -6,3 +6,4 @@ sqlalchemy
 pymysql
 requests
 pytz
+cryptography
