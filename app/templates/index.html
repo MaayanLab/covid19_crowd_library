@@ -20,7 +20,7 @@
                         <a class="nav-item nav-link active" id="nav-genes-table-tab" data-toggle="tab"
                            href="#nav-genes-table"
                            role="tab" aria-controls="nav-genes-table" aria-selected="true">Gene sets</a>
-                        <a class="nav-item nav-link disabled" id="nav-drugs-table-tab" data-toggle="tab"
+                        <a class="nav-item nav-link" id="nav-drugs-table-tab" data-toggle="tab"
                            href="#nav-drugs-table" role="tab"
                            aria-controls="nav-drugs-table" aria-selected="false">Drug sets</a>
                     </div>
@@ -28,13 +28,13 @@
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active border-left border-right border-bottom rounded-bottom p-3"
                          id="nav-genes-table" role="tabpanel" aria-labelledby="nav-genes-table-tab">
-                        <table id="geneset_table" class=" table compact hover order-column row-border">
+                        <table id="geneset_table" class="table compact hover order-column row-border">
                         </table>
                     </div>
                     <div class="tab-pane fade border-left border-right border-bottom rounded-bottom p-3"
                          id="nav-drugs-table"
                          role="tabpanel" aria-labelledby="nav-drugs-table-tab">
-                        <table id="drugset_table" class="compact hover order-column row-border">
+                        <table id="drugset_table" class="table compact hover order-column row-border">
                         </table>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                         <a class="nav-item nav-link active" id="nav-genes-form-tab" data-toggle="tab"
                            href="#nav-genes-form"
                            role="tab" aria-controls="nav-genes-form" aria-selected="true">Submit a gene set</a>
-                        <a class="nav-item nav-link disabled" id="nav-drugs-form-tab" data-toggle="tab"
+                        <a class="nav-item nav-link" id="nav-drugs-form-tab" data-toggle="tab"
                            href="#nav-drugs-form" role="tab"
                            aria-controls="nav-drugs-form" aria-selected="false">Submit a drug set</a>
                     </div>
@@ -77,19 +77,9 @@
 {% block script %}
     <script>
         $(document).ready(function () {
-            drawTable(1);
+            ds_drawTable(1);
+            gs_drawTable(1);
             $('[data-toggle="tooltip"]').tooltip();
-
-            $("#submit_geneSet_button").click(function () {
-                $.ajax({
-                    url: '/covid19/enrichr',
-                    type: 'post',
-                    data: $('#geneSet_form').serialize(),
-                    success: function () {
-                        $('#geneSetModal').modal('show');
-                    }
-                });
-            });
         });
     </script>
 {% endblock %}

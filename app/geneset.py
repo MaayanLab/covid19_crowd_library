@@ -57,7 +57,7 @@ def get_geneset(id):
         sess = Session()
         r = sess.query(Geneset).filter(Geneset.id == id).first().jsonify()
         sess.close()
-        return json.dumps(r), 200, {'ContentType': 'application/json'}
+        return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
     except Exception as e:
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 
@@ -67,7 +67,7 @@ def get_genesets(reviewed=1):
         sess = Session()
         r = [g.jsonify() for g in sess.query(Geneset).filter(Geneset.reviewed == reviewed)]
         sess.close()
-        return json.dumps(r), 200, {'ContentType': 'application/json'}
+        return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
     except Exception as e:
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 

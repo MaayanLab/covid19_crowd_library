@@ -8,6 +8,16 @@
     text-decoration: none !important;
 }
 
+.drug-link {
+    background-color: #ff899c;
+    color: #3a0613;
+    padding: 1px 4px;
+    margin-top: 3px;
+    display: inline-block;
+    border-radius: 3px;
+    text-decoration: none !important;
+}
+
 .enrichment-popover {
     max-width: 30rem;
 }

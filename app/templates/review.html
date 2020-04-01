@@ -16,7 +16,7 @@
                     <a class="nav-item nav-link active" id="nav-genes-table-tab" data-toggle="tab"
                        href="#nav-genes-table"
                        role="tab" aria-controls="nav-genes-table" aria-selected="true">Review gene sets</a>
-                    <a class="nav-item nav-link disabled" id="nav-drugs-table-tab" data-toggle="tab"
+                    <a class="nav-item nav-link" id="nav-drugs-table-tab" data-toggle="tab"
                        href="#nav-drugs-table" role="tab"
                        aria-controls="nav-drugs-table" aria-selected="false">Review drug sets</a>
                 </div>
@@ -42,7 +42,8 @@
 {% block script %}
 <script>
     $(document).ready(function () {
-        drawTable(0);
+        ds_drawTable(0);
+        gs_drawTable(0);
     });
 </script>
 {% endblock %}
