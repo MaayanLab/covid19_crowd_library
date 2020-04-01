@@ -51,7 +51,7 @@ function gs_DTblify(json, reviewed) {
                 .prop('outerHTML')
         ];
         if (reviewed === 0) {
-            dataArray[i].push(`<div class="btn-group" role="group" aria-label="Basic example"><button id="${json[i]['id']}-approved" type="button" class="btn btn-outline-success btn-sm" onclick="clickReviewButton('genesets/review', ${json[i]['id']}, 1)"><i class="fas fa-check"></i></button><button id="${json[i]['id']}-rejected" type="button" class="btn btn-outline-danger btn-sm" onclick="clickReviewButton(${json[i]['id']},-1)"><i class="fas fa-times"></i></button></div>`);
+            dataArray[i].push(`<div class="btn-group" role="group" aria-label="Basic example"><button id="${json[i]['id']}-geneset-approved" type="button" class="btn btn-outline-success btn-sm" onclick="clickReviewButton(${json[i]['id']}, 1, 'geneset')"><i class="fas fa-check"></i></button><button id="${json[i]['id']}-geneset-rejected" type="button" class="btn btn-outline-danger btn-sm" onclick="clickReviewButton(${json[i]['id']},-1,'geneset')"><i class="fas fa-times"></i></button></div>`);
         }
     }
     return dataArray;
@@ -96,7 +96,7 @@ function gs_drawTable(reviewed) {
 $(document).ready(function () {
     $("#submit_geneSet_button").click(function () {
         $.ajax({
-            url: '/covid19/genesets',
+            url: 'genesets',
             type: 'post',
             data: $('#geneSet_form').serialize(),
             success: function () {

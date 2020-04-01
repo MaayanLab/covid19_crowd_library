@@ -40,7 +40,11 @@ def route_review():
     if flask.request.method == 'GET':
         return flask.render_template('review.html')
     elif flask.request.method == 'POST':
-        return geneset.approve_geneset(flask.request.form)
+        form = flask.request.form
+        if form['set_type'] == 'geneset':
+            return geneset.approve_geneset(form)
+        elif form['set_type'] == 'drugset':
+            return drugset.approve_drugset(form)
 
 
 @app.route(ROOT_PATH + 'genesets/<geneset_id>', methods=['GET'])

@@ -28,7 +28,7 @@ class Geneset(Base):
     showContacts = Column('showContacts', Integer, nullable=False, default=0)
     reviewed = Column('reviewed', Integer, nullable=False, default=0)
     source = Column('source', String(255), default=0)
-    date = Column('date', DateTime, default=datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
+    date = Column('date', DateTime, default=lambda: datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
 
     #
     def jsonify(self):
@@ -62,7 +62,7 @@ class Drugset(Base):
     showContacts = Column('showContacts', Integer, nullable=False, default=0)
     reviewed = Column('reviewed', Integer, nullable=False, default=0)
     source = Column('source', String(255), default=0)
-    date = Column('date', DateTime, default=datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
+    date = Column('date', DateTime, default=lambda: datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
 
     #
     def jsonify(self):

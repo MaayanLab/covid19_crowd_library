@@ -45,7 +45,7 @@ function ds_DTblify(json, reviewed) {
                 .prop('outerHTML')
         ];
         if (reviewed === 0) {
-            dataArray[i].push(`<div class="btn-group" role="group" aria-label="Basic example"><button id="${json[i]['id']}-approved" type="button" class="btn btn-outline-success btn-sm" onclick="clickReviewButton('drugsets/review' ,${json[i]['id']}, 1)"><i class="fas fa-check"></i></button><button id="${json[i]['id']}-rejected" type="button" class="btn btn-outline-danger btn-sm" onclick="clickReviewButton(${json[i]['id']},-1)"><i class="fas fa-times"></i></button></div>`);
+            dataArray[i].push(`<div class="btn-group" role="group" aria-label="Basic example"><button id="${json[i]['id']}-drugset-approved" type="button" class="btn btn-outline-success btn-sm" onclick="clickReviewButton(${json[i]['id']}, 1, 'drugset')"><i class="fas fa-check"></i></button><button id="${json[i]['id']}-drugset-rejected" type="button" class="btn btn-outline-danger btn-sm" onclick="clickReviewButton(${json[i]['id']},-1, 'drugset')"><i class="fas fa-times"></i></button></div>`);
         }
     }
     return dataArray;
@@ -88,7 +88,7 @@ function ds_drawTable(reviewed) {
 $(document).ready(function () {
     $("#submit_drugSet_button").click(function () {
         $.ajax({
-            url: '/covid19/drugsets',
+            url: 'drugsets',
             type: 'post',
             data: $('#drugSet_form').serialize(),
             success: function () {
