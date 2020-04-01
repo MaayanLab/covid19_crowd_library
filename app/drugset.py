@@ -1,12 +1,12 @@
 import json
 
 from app.database import Session
-from app.models import Drugset, splitter
+from app.models import Drugset, drug_splitter
 
 
 def add_drugset(form):
     source = form['source']
-    drug_set = splitter.split(form['drugSet'])
+    drug_set = drug_splitter.split(form['drugSet'])
     descr_full = form['descrFull']
     desc_short = form['descrShort']
     author_name = form['authorName']
