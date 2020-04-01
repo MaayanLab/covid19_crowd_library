@@ -1,8 +1,8 @@
-"""Create geneset
+"""01 create drugset
 
-Revision ID: 342a18cb2b70
-Revises: 
-Create Date: 2020-03-30 14:06:50.647209
+Revision ID: 4460cbfb9f68
+Revises: 342a18cb2b70
+Create Date: 2020-04-01 15:31:54.164388
 
 """
 from alembic import op
@@ -10,18 +10,16 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import mysql
 
 # revision identifiers, used by Alembic.
-revision = '342a18cb2b70'
-down_revision = None
+revision = '4460cbfb9f68'
+down_revision = '342a18cb2b70'
 branch_labels = None
 depends_on = None
 
 
 def upgrade():
-    op.create_table('genesets',
+    op.create_table('drugsets',
         sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('enrichrShortId', sa.String(length=255), nullable=False),
-        sa.Column('enrichrUserListId', sa.Integer(), nullable=False),
-        sa.Column('genes', sa.Text(), nullable=False),
+        sa.Column('drugs', sa.Text(), nullable=False),
         sa.Column('descrShort', sa.String(length=255), nullable=False),
         sa.Column('descrFull', sa.String(length=255), nullable=False),
         sa.Column('authorName', sa.String(length=255), nullable=False),
@@ -35,4 +33,4 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_table('genesets')
+    op.drop_table('drugsets')
