@@ -2,34 +2,18 @@ import re
 from datetime import datetime
 
 from pytz import timezone
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
 from app.scalarlist import ScalarListType
 
 Base = declarative_base()
 
+gene_separator = '\t'
 gene_splitter = re.compile(r'[ \t\r\n]+')
+drug_separator = '\t'
 drug_splitter = re.compile(r'[\t\r\n]+')
 
-
-class GenesetGene(Base):
-  __tablename__ = 'genesets_genes'
-  #
-  geneset = Column('geneset', Integer, ForeignKey('genesets.id'), primary_key=True)
-  gene = Column('gene', Integer, ForeignKey('genes.id'), primary_key=True)
-
-class Gene(Base):
-  __tablename__ = 'genes'
-  #
-  id = Column('id', Integer, primary_key=True)
-  symbol = Column('symbol', String(32), nullable=False)
-  #
-  genesets = relationship('Geneset', secondary='genesets_genes', back_populates='genes')
-  #
-  def jsonify(self):
-    return self.symbol
 
 class Geneset(Base):
     __tablename__ = 'genesets'
@@ -37,7 +21,7 @@ class Geneset(Base):
     id = Column('id', Integer, primary_key=True)
     enrichrShortId = Column('enrichrShortId', String(255), nullable=False)
     enrichrUserListId = Column('enrichrUserListId', Integer, nullable=False)
-    genes = relationship('Gene', secondary='genesets_genes', back_populates='genesets')
+    genes = Column('genes', ScalarListType(str, separator='\t', splitter=gene_splitter), nullable=False)
     descrShort = Column('descrShort', String(255), nullable=False)
     descrFull = Column('descrFull', String(255), nullable=False)
     authorName = Column('authorName', String(255), nullable=False)
@@ -49,11 +33,12 @@ class Geneset(Base):
     date = Column('date', DateTime, default=lambda: datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
 
     #
-    def jsonify(self, deep=True):
-        ret = {
+    def jsonify(self):
+        return {
             'id': self.id,
             'enrichrShortId': self.enrichrShortId,
             'enrichrUserListId': self.enrichrUserListId,
+            'genes': sorted(set(self.genes)),
             'descrShort': self.descrShort,
             'descrFull': self.descrFull,
             'authorName': self.authorName,
@@ -64,33 +49,13 @@ class Geneset(Base):
             'source': self.source,
             'date': self.date
         }
-        if deep:
-            ret['genes'] = sorted({gene.jsonify() for gene in self.genes})
-        return ret
 
-
-class DrugsetDrug(Base):
-    __tablename__ = 'drugsets_drugs'
-    #
-    drugset = Column('drugset', Integer, ForeignKey('drugsets.id'), primary_key=True)
-    drug = Column('drug', Integer, ForeignKey('drugs.id'), primary_key=True)
-
-class Drug(Base):
-    __tablename__ = 'drugs'
-
-    id = Column('id', Integer, primary_key=True)
-    symbol = Column('symbol', String(256), nullable=False)
-
-    drugsets = relationship('Drugset', secondary='drugsets_drugs', back_populates='drugs')
-
-    def jsonify(self):
-      return self.symbol
 
 class Drugset(Base):
     __tablename__ = 'drugsets'
     #
     id = Column('id', Integer, primary_key=True)
-    drugs = relationship('Drug', secondary='drugsets_drugs', back_populates='drugsets')
+    drugs = Column('drugs', ScalarListType(str, separator='\t', splitter=drug_splitter), nullable=False)
     descrShort = Column('descrShort', String(255), nullable=False)
     descrFull = Column('descrFull', String(255), nullable=False)
     authorName = Column('authorName', String(255), nullable=False)
@@ -102,9 +67,10 @@ class Drugset(Base):
     date = Column('date', DateTime, default=lambda: datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
 
     #
-    def jsonify(self, deep=True):
-        ret = {
+    def jsonify(self):
+        return {
             'id': self.id,
+            'drugs': sorted(set(self.drugs)),
             'descrShort': self.descrShort,
             'descrFull': self.descrFull,
             'authorName': self.authorName,
@@ -115,6 +81,3 @@ class Drugset(Base):
             'source': self.source,
             'date': self.date
         }
-        if deep:
-            ret['drugs'] = sorted({drug.jsonify() for drug in self.drugs})
-        return ret
