@@ -70,7 +70,7 @@ function ds_drawTable(reviewed) {
     }
 
     $.get("drugsets", {reviewed: reviewed}, function (data) {
-        let ds_table = $('#drugset_table').DataTable({
+        $('#drugset_table').DataTable({
             width: '100%',
             data: ds_DTblify(JSON.parse(data), reviewed),
             responsive: true,

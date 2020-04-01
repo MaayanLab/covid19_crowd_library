@@ -22,10 +22,6 @@
     max-width: 30rem;
 }
 
-.wrapped-text {
+.wrapped {
   word-wrap: break-word;
-}
-
-.wrapped-url {
-  word-wrap: anywhere;
 }
