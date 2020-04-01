@@ -36,7 +36,7 @@ class Geneset(Base):
             'id': self.id,
             'enrichrShortId': self.enrichrShortId,
             'enrichrUserListId': self.enrichrUserListId,
-            'genes': self.genes,
+            'genes': sorted(set(self.genes)),
             'descrShort': self.descrShort,
             'descrFull': self.descrFull,
             'authorName': self.authorName,
@@ -68,7 +68,7 @@ class Drugset(Base):
     def jsonify(self):
         return {
             'id': self.id,
-            'drugs': self.drugs,
+            'drugs': sorted(set(self.drugs)),
             'descrShort': self.descrShort,
             'descrFull': self.descrFull,
             'authorName': self.authorName,
