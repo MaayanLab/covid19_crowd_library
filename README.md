@@ -29,6 +29,15 @@ Ensure you update `requirements.txt` whenever installing a new dependency with `
 #### System dependencies
 In the case of extra (debian) system dependencies, add them to `deps.txt`.
 
+## Database
+
+The `.env.example` and `docker-compose.yml` can be used to establish a local database.
+
+- `docker-compose up -d database`: will start the database
+- `alembic current`: will show you the current migrations on the active database (defined in .env)
+- `alembic upgrade +1`: apply database migrations on the active database (defined in .env)
+- `alembic downgrade -1`: revert database migrations on the active database (defined in .env)
+
 ## Deployment
 
 ### Build for deployment
