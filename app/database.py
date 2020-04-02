@@ -14,9 +14,28 @@ db_uri = os.environ.get('DB_URI', 'mysql+pymysql://{0}:{1}@{2}/{3}'.format(user,
 engine = sa.create_engine(db_uri, pool_recycle=300)
 Session = sessionmaker(bind=engine)
 
+def _current_heads(alembic_cfg, connectable):
+  from alembic import script, migration
+  directory = script.ScriptDirectory.from_config(alembic_cfg)
+  with connectable.begin() as connection:
+    context = migration.MigrationContext.configure(connection)
+    return (
+      set(context.get_current_heads()),
+      set(directory.get_heads()),
+    )
+
 def init():
-  from app.models import Base
-  Base.metadata.create_all(engine)
+  from alembic.config import Config
+  from alembic import command
+  alembic_cfg = Config(os.path.join(os.path.dirname(__file__), '..', 'alembic.ini'))
+  cur, head = _current_heads(alembic_cfg, engine)
+  if cur == set():
+    print('INFO: Creating database...')
+    from app.models import Base
+    Base.metadata.create_all(engine)
+    command.stamp(alembic_cfg, 'head')
+  elif cur != head:
+    print('WARNING: There are pending migrations! Run them with `alembic upgrade head`')
 
 def object_as_dict(obj):
   return {
