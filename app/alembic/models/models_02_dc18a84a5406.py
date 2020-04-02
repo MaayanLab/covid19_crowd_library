@@ -9,9 +9,7 @@ from app.sa_types.scalarlist import ScalarListType
 
 Base = declarative_base()
 
-gene_separator = '\t'
 gene_splitter = re.compile(r'[ \t\r\n]+')
-drug_separator = '\t'
 drug_splitter = re.compile(r'[\t\r\n]+')
 
 
