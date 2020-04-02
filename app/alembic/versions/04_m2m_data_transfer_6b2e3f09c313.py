@@ -22,7 +22,7 @@ def upgrade():
     sess = Session(bind=op.get_bind())
 
     # Get all unique genes
-    genes = set.union(*[
+    genes = set.union(set(), *[
         set(genes)
         for (genes,) in sess.query(models_02_dc18a84a5406.Geneset.genes)
     ])
@@ -52,7 +52,7 @@ def upgrade():
         )
 
     # Get all unique drugs
-    drugs = set.union(*[
+    drugs = set.union(set(), *[
         set(drugs)
         for (drugs,) in sess.query(models_02_dc18a84a5406.Drugset.drugs)
     ])
