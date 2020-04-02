@@ -7,7 +7,6 @@ Create Date: 2020-03-30 14:06:50.647209
 """
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.dialects import mysql
 
 # revision identifiers, used by Alembic.
 revision = '342a18cb2b70'
@@ -29,7 +28,7 @@ def upgrade():
         sa.Column('authorEmail', sa.String(length=255), nullable=True),
         sa.Column('showContacts', sa.Integer(), nullable=False),
         sa.Column('reviewed', sa.Integer(), nullable=False),
-        sa.Column('source', mysql.VARCHAR(length=255), nullable=True),
+        sa.Column('source', sa.String(length=255), nullable=True),
         sa.PrimaryKeyConstraint('id')
     )
 
