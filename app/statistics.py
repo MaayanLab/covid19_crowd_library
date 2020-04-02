@@ -1,6 +1,7 @@
 import sqlalchemy as sa
 from app.database import Session
 from app.models import Geneset, GenesetGene, Gene, Drugset, DrugsetDrug, Drug
+from app.datatables import serve_datatable
 
 def stats():
   sess = Session()
@@ -13,30 +14,24 @@ def stats():
   sess.close()
   return ret
 
-def top_genes(offset=0, limit=100):
-  sess = Session()
-  gene_count = sa.func.count(Gene.id)
-  qs = sess.query(Gene.symbol, gene_count) \
+
+gene_count = sa.func.count(Gene.id)
+def top_genes_qs(sess):
+  return sess.query(Gene.symbol, gene_count) \
     .join(GenesetGene, GenesetGene.gene == Gene.id) \
     .join(Geneset, GenesetGene.geneset == Geneset.id) \
-    .group_by(Gene.id) \
-    .order_by(gene_count.desc()) \
-    .offset(offset) \
-    .limit(limit)
-  for gene, count in qs:
-    yield dict(symbol=gene, count=count)
-  sess.close()
+    .group_by(Gene.id)
+def top_genes_search(val):
+  return Gene.symbol.like(f'%{val}%')
+top_genes = serve_datatable(top_genes_qs, [(Gene.symbol, 'symbol'), (gene_count, 'count')], top_genes_search)
 
-def top_drugs(offset=0, limit=100):
-  sess = Session()
-  drug_count = sa.func.count(Drug.id)
-  qs = sess.query(Drug.symbol, drug_count) \
+
+drug_count = sa.func.count(Drug.id)
+def top_drugs_qs(sess):
+  return sess.query(Drug.symbol, drug_count) \
     .join(DrugsetDrug, DrugsetDrug.drug == Drug.id) \
     .join(Drugset, DrugsetDrug.drugset == Drugset.id) \
-    .group_by(Drug.id) \
-    .order_by(drug_count.desc()) \
-    .offset(offset) \
-    .limit(limit)
-  for drug, count in qs:
-    yield dict(symbol=drug, count=count)
-  sess.close()
+    .group_by(Drug.id)
+def top_drugs_search(val):
+  return Drug.symbol.like(f'%{val}%')
+top_drugs = serve_datatable(top_drugs_qs, [(Drug.symbol, 'symbol'), (drug_count, 'count')], top_drugs_search)

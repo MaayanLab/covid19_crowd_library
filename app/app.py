@@ -56,6 +56,22 @@ def route_geneset(geneset_id):
 def route_drugset(drugset_id):
     return flask.render_template('drugset.html', drugset=json.loads(drugset.get_drugset(drugset_id)[0]))
 
+@app.route(ROOT_PATH + 'stats')
+def route_stats():
+    from app.statistics import stats
+    return flask.render_template('stats.html', stats=stats())
+
+@app.route(ROOT_PATH + 'top_genes', methods=['POST'])
+def route_top_genes():
+    from app.statistics import top_genes
+    POST = json.loads(flask.request.values.get('body'))
+    return top_genes(**POST)
+
+@app.route(ROOT_PATH + 'top_drugs', methods=['POST'])
+def route_top_drugs():
+    from app.statistics import top_drugs
+    POST = json.loads(flask.request.values.get('body'))
+    return top_drugs(**POST)
 
 @app.route(ROOT_PATH + 'genesets.gmt')
 def download_genesets():
