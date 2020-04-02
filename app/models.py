@@ -73,6 +73,16 @@ class Geneset(Base):
             **kwargs,
             genes=Gene.resolve_set(sess, set(genes)),
         )
+    
+    def to_gmt(self):
+        return '\t'.join([
+            f'{self.id}_{self.descrFull}',
+            '',
+            *[
+                gene.symbol
+                for gene in self.genes
+            ],
+        ])
 
     def jsonify(self, deep=True):
         ret = {
@@ -151,6 +161,16 @@ class Drugset(Base):
             **kwargs,
             drugs=Drug.resolve_set(sess, set(drugs)),
         )
+
+    def to_gmt(self):
+        return '\t'.join([
+            f'{self.id}_{self.descrFull}',
+            '',
+            *[
+                drug.symbol
+                for drug in self.drugs
+            ],
+        ])
 
     def jsonify(self, deep=True):
         ret = {

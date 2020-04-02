@@ -1,7 +1,7 @@
 import os
 import json
 import flask
-from app import database, geneset, drugset
+from app import database, geneset, drugset, download
 
 ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
 # Load any additional configuration parameters via
@@ -55,3 +55,12 @@ def route_geneset(geneset_id):
 @app.route(ROOT_PATH + 'drugsets/<drugset_id>', methods=['GET'])
 def route_drugset(drugset_id):
     return flask.render_template('drugset.html', drugset=json.loads(drugset.get_drugset(drugset_id)[0]))
+
+
+@app.route(ROOT_PATH + 'genesets.gmt')
+def download_genesets():
+    return flask.Response(download.genesets(), mimetype='text/gmt')
+
+@app.route(ROOT_PATH + 'drugsets.gmt')
+def download_drugsets():
+    return flask.Response(download.drugsets(), mimetype='text/gmt')
