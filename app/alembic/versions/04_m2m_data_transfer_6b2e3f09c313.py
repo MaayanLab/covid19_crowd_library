@@ -8,6 +8,10 @@ NOTE if this one fails, you should probably revert 03 as well.
 """
 from alembic import op
 import sqlalchemy as sa
+
+import os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..'))
+
 from app.database import Session
 from app.alembic.models import models_02_dc18a84a5406, models_03_899a089268fa
 
