@@ -1,8 +1,10 @@
 # Python dependencies
-uwsgi
+alembic
+cryptography
 Flask
-python-dotenv
-sqlalchemy
 pymysql
-requests
+python-dotenv
 pytz
+requests
+sqlalchemy
+uwsgi

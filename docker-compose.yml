@@ -3,6 +3,22 @@ services:
   app:
     build: .
     image: maayanlab/covid19:latest
-    env_file: .env
+    environment:
+      - ROOT_PATH=/covid19/
+      - DB_URI=mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database/${MYSQL_DATABASE}
+      - DEBUG=true
     ports:
       - 8080:80
+  database:
+    image: mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+    ports:
+      - 3306:3306
+    volumes:
+      - database:/var/lib/mysql
+volumes:
+  database:

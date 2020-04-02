@@ -32,7 +32,8 @@ def add_geneset(form):
     try:
         sess = Session()
         sess.add(
-            Geneset(
+            Geneset.create(
+                sess,
                 enrichrShortId=enrichr_shortid,
                 enrichrUserListId=enrichr_userlistid,
                 descrShort=desc_short,

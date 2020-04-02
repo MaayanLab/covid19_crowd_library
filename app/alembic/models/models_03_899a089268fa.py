@@ -13,44 +13,25 @@ drug_splitter = re.compile(r'[\t\r\n]+')
 
 
 class GenesetGene(Base):
-    __tablename__ = 'genesets_genes'
-
-    geneset = Column('geneset', Integer, ForeignKey('genesets.id'), primary_key=True)
-    gene = Column('gene', Integer, ForeignKey('genes.id'), primary_key=True)
+  __tablename__ = 'genesets_genes'
+  #
+  geneset = Column('geneset', Integer, ForeignKey('genesets.id'), primary_key=True)
+  gene = Column('gene', Integer, ForeignKey('genes.id'), primary_key=True)
 
 class Gene(Base):
-    __tablename__ = 'genes'
-
-    id = Column('id', Integer, primary_key=True)
-    symbol = Column('symbol', String(32), nullable=False)
-
-    genesets = relationship('Geneset', secondary='genesets_genes', back_populates='genes')
-
-    @staticmethod
-    def create(sess, **kwargs):
-        instance = Gene(**kwargs)
-        sess.add(instance)
-        return instance
-
-    @staticmethod
-    def resolve_set(sess, genes):
-        instances = sess.query(Gene).filter(Gene.symbol.in_(tuple(set(genes)))).all()
-        found_genes = {instance.symbol for instance in instances}
-        remaining_genes = genes - found_genes
-        if remaining_genes:
-            instances += [
-                Gene.create(sess, symbol=gene)
-                for gene in remaining_genes
-            ]
-            sess.commit()
-        return instances
-
-    def jsonify(self):
-        return self.symbol
+  __tablename__ = 'genes'
+  #
+  id = Column('id', Integer, primary_key=True)
+  symbol = Column('symbol', String(32), nullable=False)
+  #
+  genesets = relationship('Geneset', secondary='genesets_genes', back_populates='genes')
+  #
+  def jsonify(self):
+    return self.symbol
 
 class Geneset(Base):
     __tablename__ = 'genesets'
-
+    #
     id = Column('id', Integer, primary_key=True)
     enrichrShortId = Column('enrichrShortId', String(255), nullable=False)
     enrichrUserListId = Column('enrichrUserListId', Integer, nullable=False)
@@ -65,23 +46,7 @@ class Geneset(Base):
     source = Column('source', String(255), default=0)
     date = Column('date', DateTime, default=lambda: datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
 
-    @staticmethod
-    def create(sess, genes=[], **kwargs):
-        return Geneset(
-            **kwargs,
-            genes=Gene.resolve_set(sess, set(genes)),
-        )
-    
-    def to_gmt(self):
-        return '\t'.join([
-            f'{self.id}_{self.descrFull}',
-            '',
-            *[
-                gene.symbol
-                for gene in self.genes
-            ],
-        ])
-
+    #
     def jsonify(self, deep=True):
         ret = {
             'id': self.id,
@@ -104,7 +69,7 @@ class Geneset(Base):
 
 class DrugsetDrug(Base):
     __tablename__ = 'drugsets_drugs'
-
+    #
     drugset = Column('drugset', Integer, ForeignKey('drugsets.id'), primary_key=True)
     drug = Column('drug', Integer, ForeignKey('drugs.id'), primary_key=True)
 
@@ -116,31 +81,12 @@ class Drug(Base):
 
     drugsets = relationship('Drugset', secondary='drugsets_drugs', back_populates='drugs')
 
-    @staticmethod
-    def create(sess, **kwargs):
-        instance = Drug(**kwargs)
-        sess.add(instance)
-        return instance
-
-    @staticmethod
-    def resolve_set(sess, drugs):
-        instances = sess.query(Drug).filter(Drug.symbol.in_(tuple(set(drugs)))).all()
-        found_drugs = {instance.symbol for instance in instances}
-        remaining_drugs = drugs - found_drugs
-        if remaining_drugs:
-            instances += [
-                Drug.create(sess, symbol=drug)
-                for drug in remaining_drugs
-            ]
-            sess.commit()
-        return instances
-
     def jsonify(self):
       return self.symbol
 
 class Drugset(Base):
     __tablename__ = 'drugsets'
-
+    #
     id = Column('id', Integer, primary_key=True)
     drugs = relationship('Drug', secondary='drugsets_drugs', back_populates='drugsets')
     descrShort = Column('descrShort', String(255), nullable=False)
@@ -153,23 +99,7 @@ class Drugset(Base):
     source = Column('source', String(255), default=0)
     date = Column('date', DateTime, default=lambda: datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
 
-    @staticmethod
-    def create(sess, drugs=[], **kwargs):
-        return Drugset(
-            **kwargs,
-            drugs=Drug.resolve_set(sess, set(drugs)),
-        )
-
-    def to_gmt(self):
-        return '\t'.join([
-            f'{self.id}_{self.descrFull}',
-            '',
-            *[
-                drug.symbol
-                for drug in self.drugs
-            ],
-        ])
-
+    #
     def jsonify(self, deep=True):
         ret = {
             'id': self.id,
