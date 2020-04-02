@@ -17,7 +17,8 @@ def add_drugset(form):
     try:
         sess = Session()
         sess.add(
-            Drugset(
+            Drugset.create(
+                sess,
                 descrShort=desc_short,
                 descrFull=descr_full,
                 authorName=author_name,
