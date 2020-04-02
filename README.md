@@ -35,8 +35,11 @@ The `.env.example` and `docker-compose.yml` can be used to establish a local dat
 
 - `docker-compose up -d database`: will start the database
 - `alembic current`: will show you the current migrations on the active database (defined in .env)
-- `alembic upgrade +1`: apply database migrations on the active database (defined in .env)
+- `alembic upgrade +1`: apply single database migration on the active database (defined in .env)
+- `alembic upgrade head`: apply all database migrations on the active database (defined in .env)
 - `alembic downgrade -1`: revert database migrations on the active database (defined in .env)
+- `python ./manage.py dump > your_data.dump`: Dump the contents of the database to a file
+- `python ./manage.py load < your_data.dump`: Load contents of the database from a file
 
 ## Deployment
 
