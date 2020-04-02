@@ -2,6 +2,17 @@ import sqlalchemy as sa
 from app.database import Session
 from app.models import Geneset, GenesetGene, Gene, Drugset, DrugsetDrug, Drug
 
+def stats():
+  sess = Session()
+  ret = {
+    'n_genesets': sess.query(Geneset).count(),
+    'n_drugsets': sess.query(Drugset).count(),
+    'n_unique_genes': sess.query(Gene).count(),
+    'n_unique_drugs': sess.query(Drug).count(),
+  }
+  sess.close()
+  return ret
+
 def top_genes(offset=0, limit=100):
   sess = Session()
   gene_count = sa.func.count(Gene.id)
