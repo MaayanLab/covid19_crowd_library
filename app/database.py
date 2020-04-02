@@ -14,6 +14,10 @@ db_uri = os.environ.get('DB_URI', 'mysql+pymysql://{0}:{1}@{2}/{3}'.format(user,
 engine = sa.create_engine(db_uri, pool_recycle=300)
 Session = sessionmaker(bind=engine)
 
+def init():
+  from app.models import Base
+  Base.metadata.create_all(engine)
+
 def object_as_dict(obj):
   return {
     c.key: getattr(obj, c.key)
