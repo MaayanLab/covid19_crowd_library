@@ -5,7 +5,7 @@ from pytz import timezone
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
-from app.scalarlist import ScalarListType
+from app.sa_types.scalarlist import ScalarListType
 
 Base = declarative_base()
 

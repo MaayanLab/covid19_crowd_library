@@ -6,8 +6,6 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
-from app.scalarlist import ScalarListType
-
 Base = declarative_base()
 
 gene_splitter = re.compile(r'[ \t\r\n]+')
