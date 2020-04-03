@@ -28,5 +28,9 @@ def upgrade():
 
 
 def downgrade():
-    op.add_column('genesets', sa.Column('genes', sa.Text(), server_default='', nullable=False))
-    op.add_column('drugsets', sa.Column('drugs', sa.Text(), server_default='', nullable=False))
+    if op.get_context().dialect.driver == 'pysqlite':
+        op.add_column('genesets', sa.Column('genes', sa.Text(), server_default='', nullable=False))
+        op.add_column('drugsets', sa.Column('drugs', sa.Text(), server_default='', nullable=False))
+    else:
+        op.add_column('genesets', sa.Column('genes', sa.Text(), nullable=False))
+        op.add_column('drugsets', sa.Column('drugs', sa.Text(), nullable=False))
