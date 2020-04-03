@@ -17,23 +17,23 @@
             <div class="col-10">
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item genes nav-link active" id="nav-genes-table-tab" data-toggle="tab"
-                           href="#nav-genes-table"
-                           role="tab" aria-controls="nav-genes-table" aria-selected="true">Gene sets</a>
-                        <a class="nav-item drugs nav-link" id="nav-drugs-table-tab" data-toggle="tab"
+                        <a class="nav-item drugs nav-link active" id="nav-drugs-table-tab" data-toggle="tab"
                            href="#nav-drugs-table" role="tab"
                            aria-controls="nav-drugs-table" aria-selected="false">Drug sets</a>
+                        <a class="nav-item genes nav-link" id="nav-genes-table-tab" data-toggle="tab"
+                           href="#nav-genes-table"
+                           role="tab" aria-controls="nav-genes-table" aria-selected="true">Gene sets</a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane genes fade show active border-left border-right border-bottom rounded-bottom p-3"
-                         id="nav-genes-table" role="tabpanel" aria-labelledby="nav-genes-table-tab">
-                        <table id="geneset_table" class="table compact hover order-column row-border" style="width:100%">
-                        </table>
-                    </div>
-                    <div class="tab-pane drugs fade border-left border-right border-bottom rounded-bottom p-3"
+                    <div class="tab-pane drugs fade show active border-left border-right border-bottom rounded-bottom p-3"
                          id="nav-drugs-table" role="tabpanel" aria-labelledby="nav-drugs-table-tab">
                         <table id="drugset_table" class="table compact hover order-column row-border" style="width:100%">
+                        </table>
+                    </div>
+                    <div class="tab-pane genes fade border-left border-right border-bottom rounded-bottom p-3"
+                         id="nav-genes-table" role="tabpanel" aria-labelledby="nav-genes-table-tab">
+                        <table id="geneset_table" class="table compact hover order-column row-border" style="width:100%">
                         </table>
                     </div>
                 </div>
@@ -44,25 +44,25 @@
             <div class="col-10">
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item genes nav-link active" id="nav-genes-form-tab" data-toggle="tab"
-                           href="#nav-genes-form"
-                           role="tab" aria-controls="nav-genes-form" aria-selected="true">Submit a gene set</a>
-                        <a class="nav-item drugs nav-link" id="nav-drugs-form-tab" data-toggle="tab"
+                        <a class="nav-item drugs nav-link active" id="nav-drugs-form-tab" data-toggle="tab"
                            href="#nav-drugs-form" role="tab"
                            aria-controls="nav-drugs-form" aria-selected="false">Submit a drug set</a>
+                        <a class="nav-item genes nav-link" id="nav-genes-form-tab" data-toggle="tab"
+                           href="#nav-genes-form"
+                           role="tab" aria-controls="nav-genes-form" aria-selected="true">Submit a gene set</a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane genes fade show active border-left border-right border-bottom rounded-bottom p-4"
-                         id="nav-genes-form" role="tabpanel" aria-labelledby="nav-genes-form-tab">
-                        {% with c = {'title': "HGNC-approved gene symbols. One gene symbol per line.", 'set_type': "geneSet", 'type': "gene", 'Type': "Gene"} %}
-                            {% include "form.html" %}
-                        {% endwith %}
-                    </div>
-                    <div class="tab-pane drugs fade border-left border-right border-bottom rounded-bottom p-4"
+                    <div class="tab-pane drugs fade show active border-left border-right border-bottom rounded-bottom p-4"
                          id="nav-drugs-form"
                          role="tabpanel" aria-labelledby="nav-drugs-form-tab">
                         {% with c = {'title': "One drug name per line.", 'set_type': "drugSet", 'type': "drug", 'Type': "Drug"} %}
+                            {% include "form.html" %}
+                        {% endwith %}
+                    </div>
+                    <div class="tab-pane genes fade border-left border-right border-bottom rounded-bottom p-4"
+                         id="nav-genes-form" role="tabpanel" aria-labelledby="nav-genes-form-tab">
+                        {% with c = {'title': "HGNC-approved gene symbols. One gene symbol per line.", 'set_type': "geneSet", 'type': "gene", 'Type': "Gene"} %}
                             {% include "form.html" %}
                         {% endwith %}
                     </div>
