@@ -56,8 +56,12 @@ def upgrade():
     for item in geneset_genes_to_add:
         sess.add(models_05_8f87d34cbe90.GenesetGene(**item))
     sess.commit()
+    # add any orphaned genes to remove
+    for gene in sess.query(models_05_8f87d34cbe90.Gene):
+        if len(gene.genesets) == 0:
+            gene_to_remove.append(gene.id)
     # update genes
-    for item in gene_to_remove:
+    for item in set(gene_to_remove):
         sess.delete(sess.query(models_05_8f87d34cbe90.Gene).get(item))
     sess.commit()
 

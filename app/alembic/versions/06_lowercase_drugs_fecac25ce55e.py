@@ -56,8 +56,12 @@ def upgrade():
     for item in drugset_drug_to_add:
         sess.add(models_05_8f87d34cbe90.DrugsetDrug(**item))
     sess.commit()
+    # add any orphaned drugs to remove
+    for drug in sess.query(models_05_8f87d34cbe90.Drug):
+        if len(drug.drugsets) == 0:
+            drug_to_remove.append(drug.id)
     # update drugs
-    for item in drug_to_remove:
+    for item in set(drug_to_remove):
         sess.delete(sess.query(models_05_8f87d34cbe90.Drug).get(item))
     sess.commit()
 
