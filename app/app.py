@@ -1,7 +1,7 @@
 import os
 import json
 import flask
-from app import database, geneset, drugset, download
+from app import database, geneset, drugset, download, statistics
 
 ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
 # Load any additional configuration parameters via
@@ -14,7 +14,7 @@ app.before_first_request(database.init)
 
 @app.route(ROOT_PATH, methods=['GET'])
 def route_index():
-    return flask.render_template('index.html')
+    return flask.render_template('index.html', stats=statistics.stats())
 
 
 @app.route(ROOT_PATH + 'genesets', methods=['GET', 'POST'])
@@ -58,20 +58,17 @@ def route_drugset(drugset_id):
 
 @app.route(ROOT_PATH + 'stats')
 def route_stats():
-    from app.statistics import stats
-    return flask.render_template('stats.html', stats=stats())
+    return flask.render_template('stats.html', stats=statistics.stats())
 
 @app.route(ROOT_PATH + 'top_genes', methods=['POST'])
 def route_top_genes():
-    from app.statistics import top_genes
     POST = json.loads(flask.request.values.get('body'))
-    return top_genes(**POST)
+    return statistics.top_genes(**POST)
 
 @app.route(ROOT_PATH + 'top_drugs', methods=['POST'])
 def route_top_drugs():
-    from app.statistics import top_drugs
     POST = json.loads(flask.request.values.get('body'))
-    return top_drugs(**POST)
+    return statistics.top_drugs(**POST)
 
 @app.route(ROOT_PATH + 'genesets.gmt')
 def download_genesets():

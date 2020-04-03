@@ -13,6 +13,16 @@
             </div>
             <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
         </div>
+        <div class="row">
+            <div class="col-6 text-center">
+                Gene Sets: {{ stats.n_genesets }}<br />
+                Unique Genes: {{ stats.n_unique_genes }}
+            </div>
+            <div class="col-6 text-center">
+                Drug Sets: {{ stats.n_drugsets }}<br />
+                Unique Drugs: {{ stats.n_unique_drugs }}
+            </div>
+        </div>
         <div class="row justify-content-center my-5">
             <div class="col-10">
                 <nav>
