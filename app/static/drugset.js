@@ -72,7 +72,7 @@ function ds_drawTable(reviewed) {
     }
 
     $.get("drugsets", {reviewed: reviewed}, function (data) {
-        $('#drugset_table').DataTable({
+        let table = $('#drugset_table').DataTable({
             width: '100%',
             data: ds_DTblify(JSON.parse(data), reviewed),
             responsive: true,
@@ -81,8 +81,12 @@ function ds_drawTable(reviewed) {
             buttons: [],
             columnDefs: [
                 {
-                    targets: -1,
-                    className: 'dt-body-left'
+                    targets: 0,
+                    width: '70%'
+                },
+                {
+                    targets: 1,
+                    width: '30%'
                 },
                 {
                     targets: 2,
@@ -97,6 +101,7 @@ function ds_drawTable(reviewed) {
                 $('.enrichment-popover-button').popover();
             }
         });
+        table.columns.adjust().draw()
     });
 }
 

@@ -79,7 +79,7 @@ function gs_drawTable(reviewed) {
     }
 
     $.get("genesets", {reviewed: reviewed}, function (data) {
-        $('#geneset_table').DataTable({
+        let table = $('#geneset_table').DataTable({
             width: '100%',
             data: gs_DTblify(JSON.parse(data), reviewed),
             responsive: true,
@@ -88,8 +88,17 @@ function gs_drawTable(reviewed) {
             buttons: [],
             columnDefs: [
                 {
+                    targets: 0,
+                    width: '50%'
+                },
+                {
+                    targets: 0,
+                    width: '20%'
+                },
+                {
                     targets: -1,
-                    className: 'dt-body-left'
+                    className: 'dt-body-left',
+                    width: '30%'
                 },
                 {
                     targets: 3,
@@ -105,6 +114,7 @@ function gs_drawTable(reviewed) {
                 $('.enrichment-popover-button').popover();
             }
         });
+        table.columns.adjust().draw();
     });
 }
 
