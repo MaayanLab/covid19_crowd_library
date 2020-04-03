@@ -20,7 +20,7 @@ def serve_datatable(qs, cols, search_filter):
     
     if type(order) == list:
       ordered_qs = filtered_qs.order_by(*[
-        cols[int(o['column'])][0] if o == 'asc' else cols[int(o['column'])][0].desc()
+        cols[int(o['column'])][0] if o['dir'] == 'asc' else cols[int(o['column'])][0].desc()
         for o in order
       ])
     else:
