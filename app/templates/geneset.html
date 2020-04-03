@@ -49,6 +49,22 @@
                             </div>
                         </li>
                     {% endif %}
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">En<span style="color:red">rich</span>r link</h6>
+                            <span><a
+                                    href="https://amp.pharm.mssm.edu/Enrichr/enrich?dataset={{ geneset['enrichrShortId'] }}">
+                                <i class="fas fa-external-link-alt ml-1" style="font-size: 0.9rem;"></i>
+                            </a>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">Date added</h6>
+                            <span class="text-muted wrapped">{{ geneset['date'].split(' ')[0] }}</span>
+                        </div>
+                    </li>
                 </ul>
             </div>
             <div class="col-md-8 order-md-1">
