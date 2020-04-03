@@ -39,7 +39,6 @@ def upgrade():
     for instance in lowercase_instances.values():
         instance.symbol = instance.symbol.lower()
     sess.commit()
-    print(instance.symbol)
     # find all drugs that must be transfered
     drug_to_remove = []
     drugset_drug_to_remove = []
