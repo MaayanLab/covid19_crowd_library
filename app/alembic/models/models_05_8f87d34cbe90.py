@@ -124,8 +124,7 @@ class Drug(Base):
 
     @staticmethod
     def resolve_set(sess, drugs):
-        drugs = {drug.lower() for drug in drugs}
-        instances = sess.query(Drug).filter(Drug.symbol.in_(tuple(drugs))).all()
+        instances = sess.query(Drug).filter(Drug.symbol.in_(tuple(set(drugs)))).all()
         found_drugs = {instance.symbol for instance in instances}
         remaining_drugs = drugs - found_drugs
         if remaining_drugs:
