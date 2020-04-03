@@ -18,10 +18,19 @@
     text-decoration: none !important;
 }
 
+.subtle-link {
+    text-decoration-line: underline;
+    text-decoration-color: #007aca70;
+}
+
 .enrichment-popover {
     max-width: 30rem;
 }
 
 .wrapped {
   word-wrap: break-word;
+}
+
+a {
+    color: #007aca;
 }

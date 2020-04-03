@@ -56,7 +56,7 @@ function gs_DTblify(json, reviewed) {
                 'href': `https://amp.pharm.mssm.edu/Enrichr/enrich?dataset=${json[i]['enrichrShortId']}`,
                 'target': '_blank'
             })
-                .append('<i class="fas fa-external-link-alt ml-1" style="font-size: 0.9rem; color: dodgerblue"></i>')
+                .append('<i class="fas fa-external-link-alt ml-1" style="font-size: 0.9rem;"></i>')
                 .prop('outerHTML'),
             json[i]['genes']
         ];
