@@ -17,6 +17,8 @@ RUN set -x \
   && pip3 install -Ivr /app/requirements.txt \
   && rm /app/requirements.txt
 
+ADD alembic.ini /app/alembic.ini
+
 EXPOSE 80
 ADD boot.sh /app/boot.sh
 RUN set -x && chmod +x /app/boot.sh
