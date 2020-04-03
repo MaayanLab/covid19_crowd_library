@@ -6,11 +6,14 @@ from app import models
 from app.database import Session, object_as_dict
 
 def _get_models():
-  return {
-    model
-    for model in models.__dict__.values()
-    if getattr(model, '__tablename__', None) is not None
-  }
+  return [
+    models.Gene,
+    models.Geneset,
+    models.GenesetGene,
+    models.Drug,
+    models.Drugset,
+    models.DrugsetDrug,
+  ]
 
 def _dump_value(value):
   if isinstance(value, datetime.datetime):
@@ -61,7 +64,11 @@ def dump():
 
 def load():
   sess = Session()
-  for item in map(_load_item, sys.stdin):
+  cur_type = None
+  for item in map(_load_item, filter(None, sys.stdin)):
+    if item.__class__ != cur_type and cur_type != None:
+      sess.commit()
+    cur_type = item.__class__
     sess.add(item)
   sess.commit()
   sess.close()
