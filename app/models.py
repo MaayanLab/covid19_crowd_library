@@ -34,7 +34,6 @@ class Gene(Base):
 
     @staticmethod
     def resolve_set(sess, genes):
-        instances = sess.query(Gene).filter(Gene.symbol.in_(tuple(set(genes)))).all()
         genes = {gene.upper() for gene in genes}
         instances = sess.query(Gene).filter(Gene.symbol.in_(tuple(genes))).all()
         found_genes = {instance.symbol for instance in instances}
