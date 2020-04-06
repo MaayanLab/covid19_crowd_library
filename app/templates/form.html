@@ -8,7 +8,7 @@
         <input type="text" class="form-control col-8" name="source">
     </div>
     <div class="form-group">
-        <label for="descrFull">How this set is related to COVID-19 research?</label>
+        <label for="descrFull">How is this set related to COVID-19 research?</label>
         <textarea class="form-control" name="descrFull" rows="3"></textarea>
     </div>
     <div class="form-group">
@@ -50,15 +50,14 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content" style="color: #155724; background-color: #d4edda; border-color: #c3e6cb;">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="{{ c.set_type }}ModalLabel">Yor {{ c.type }} set was submitted</h5>
+                        <h5 class="modal-title" id="{{ c.set_type }}ModalLabel">Your {{ c.type }} set was submitted</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <p>Thank you for your contribution!
-                            Your {{ c.type }} set will be evaluated by our staff and published soon.
-                            Please use this link to return back to the list submission page.</p>
+                            Your {{ c.type }} set will be evaluated by our staff and published soon.</p>
                     </div>
                 </div>
             </div>
