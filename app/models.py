@@ -34,7 +34,7 @@ class Gene(Base):
 
     @staticmethod
     def resolve_set(sess, genes):
-        genes = {gene.upper() for gene in genes}
+        genes = {gene.upper() for gene in genes if gene}
         instances = sess.query(Gene).filter(Gene.symbol.in_(tuple(genes))).all()
         found_genes = {instance.symbol for instance in instances}
         remaining_genes = genes - found_genes
@@ -125,7 +125,7 @@ class Drug(Base):
 
     @staticmethod
     def resolve_set(sess, drugs):
-        drugs = {drug.lower() for drug in drugs}
+        drugs = {drug.lower() for drug in drugs if drug}
         instances = sess.query(Drug).filter(Drug.symbol.in_(tuple(drugs))).all()
         found_drugs = {instance.symbol for instance in instances}
         remaining_drugs = drugs - found_drugs
