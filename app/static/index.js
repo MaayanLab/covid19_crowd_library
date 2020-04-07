@@ -1,8 +1,14 @@
+function switchTabs(from, to) {
+    $("."+from).removeClass("active").removeClass("show");
+    $("."+to).addClass("active").addClass("show");
+}
+
 function navTabsSync(def) {
     if (location.hash !== '') {
         $('a[href="' + location.hash + '"]').tab('show');
     } else {
         $('a[href="' + def + '"]').tab('show');
+
     }
 
     $("a[data-toggle='tab']").on("shown.bs.tab", function (e) {
