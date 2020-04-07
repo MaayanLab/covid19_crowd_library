@@ -2,6 +2,31 @@ import functools
 from app.database import Session
 
 def serve_datatable(qs, cols, search_filter):
+  ''' Create a server-side datatables route
+  Example:
+    myserved_datatable = serve_datatable(
+      lambda sess: sess.query(Gene),
+      [(Gene.symbol, 'symbol')],
+      lambda search: Gene.symbol.like(val)
+    )
+    @app.route('/my_path', methods=['POST'])
+    def my_path():
+      return myserved_datatable(**json.loads(flask.request.values.get('body')))
+
+  @param qs
+    A function which returns a SQLAlchemy Queryset (superset)
+     to base the response on given a SQLAlchemy session
+  @param cols
+    A list containing SQLAlchemy column to datatables name
+     mappings in the order they appear on the frontend
+  @param search_filter
+    A function that accepts a search query and should return
+     a SQLAlchemy filter clause
+
+  @returns
+    A function that prepares a response for the Datatables client-side table from the server.
+     it requires a json representation of the body passed to its arguments.
+  '''
   def route(qs, draw=0, start=0, length=100, order=[], search={}, **kwargs):
     sess = Session()
 
