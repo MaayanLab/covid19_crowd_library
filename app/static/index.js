@@ -19,6 +19,7 @@ function navTabsSync(def) {
         $(".drugs").removeClass("active").removeClass("show");
         $(".genes").addClass("active").addClass("show");
     });
+
     $(".drugs").on("click", function () {
         console.log('drugs click');
         $(".genes").removeClass("active").removeClass("show");
