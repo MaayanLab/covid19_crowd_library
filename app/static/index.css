@@ -1,3 +1,7 @@
+ html {
+  scroll-behavior: smooth;
+}
+
 .enriched-gene-link {
     background-color: #a2cdff;
     color: #24243a;

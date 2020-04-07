@@ -3,12 +3,14 @@
     <div class="container">
         <div class="row justify-content-center my-5">
             <div class="d-flex align-items-start">
-                <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}">
-                <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1>
+
+                <a href={{ url_for("route_index") }}>
+                    <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}"></a>
+                <a style="color: #212529" href={{ url_for("route_index") }}>
+                    <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
             </div>
             <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
         </div>
-
         <div class="row justify-content-center my-5">
             <div class="col-10">
                 <nav>
@@ -24,20 +26,22 @@
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane drugs fade show border-left border-right border-bottom rounded-bottom p-3"
                          id="nav-drugs-table" role="tabpanel" aria-labelledby="nav-drugs-table-tab">
-                         <p class="text-center">
-                            Drug Sets: {{ stats.n_drugsets }}<br />
+                        <p class="text-center">
+                            Drug Sets: {{ stats.n_drugsets }}<br/>
                             Unique Drugs: {{ stats.n_unique_drugs }}
-                         </p>
-                        <table id="top_drugs_table" class="table compact hover order-column row-border" style="width:100%">
+                        </p>
+                        <table id="top_drugs_table" class="table compact hover order-column row-border"
+                               style="width:100%">
                         </table>
                     </div>
                     <div class="tab-pane genes fade border-left border-right border-bottom rounded-bottom p-3"
                          id="nav-genes-table" role="tabpanel" aria-labelledby="nav-genes-table-tab">
                         <p class="text-center">
-                          Gene Sets: {{ stats.n_genesets }}<br />
-                          Unique Genes: {{ stats.n_unique_genes }}
+                            Gene Sets: {{ stats.n_genesets }}<br/>
+                            Unique Genes: {{ stats.n_unique_genes }}
                         </p>
-                        <table id="top_genes_table" class="table compact hover order-column row-border" style="width:100%">
+                        <table id="top_genes_table" class="table compact hover order-column row-border"
+                               style="width:100%">
                         </table>
                     </div>
                 </div>
@@ -48,45 +52,45 @@
 
 
 {% block script %}
-  <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
-  <script>
-    $(document).ready(function () {
-      navTabsSync('#nav-drugs-table')
+    <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            navTabsSync('#nav-drugs-table')
 
-      $('#top_genes_table').DataTable({
-        width: '100%',
-        columns: [
-          {title: 'Symbol', data: 'symbol', searchable: true, orderable: true},
-          {title: 'Count', data: 'count', searchable: false, orderable: true},
-        ],
-        order: [[1, 'desc']],
-        responsive: true,
-        serverSide: true,
-        ajax: {
-          url: '{{ url_for("route_top_genes") }}',
-          type: 'POST',
-          data: function ( args ) {
-            return { body: JSON.stringify( args ) };
-          }
-        },
-      })
-      $('#top_drugs_table').DataTable({
-        width: '100%',
-        columns: [
-          {title: 'Symbol', data: 'symbol', searchable: true, orderable: true},
-          {title: 'Count', data: 'count', searchable: false, orderable: true},
-        ],
-        order: [[1, 'desc']],
-        responsive: true,
-        serverSide: true,
-        ajax: {
-          url: '{{ url_for("route_top_drugs") }}',
-          type: 'POST',
-          data: function ( args ) {
-            return { body: JSON.stringify( args ) };
-          }
-        },
-      })
-    })
-  </script>
+            $('#top_genes_table').DataTable({
+                width: '100%',
+                columns: [
+                    {title: 'Symbol', data: 'symbol', searchable: true, orderable: true},
+                    {title: 'Count', data: 'count', searchable: false, orderable: true},
+                ],
+                order: [[1, 'desc']],
+                responsive: true,
+                serverSide: true,
+                ajax: {
+                    url: '{{ url_for("route_top_genes") }}',
+                    type: 'POST',
+                    data: function (args) {
+                        return {body: JSON.stringify(args)};
+                    }
+                },
+            })
+            $('#top_drugs_table').DataTable({
+                width: '100%',
+                columns: [
+                    {title: 'Symbol', data: 'symbol', searchable: true, orderable: true},
+                    {title: 'Count', data: 'count', searchable: false, orderable: true},
+                ],
+                order: [[1, 'desc']],
+                responsive: true,
+                serverSide: true,
+                ajax: {
+                    url: '{{ url_for("route_top_drugs") }}',
+                    type: 'POST',
+                    data: function (args) {
+                        return {body: JSON.stringify(args)};
+                    }
+                },
+            })
+        })
+    </script>
 {% endblock %}

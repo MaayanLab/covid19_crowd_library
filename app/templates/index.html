@@ -16,16 +16,16 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-2 text-center">
-                <a class="subtle-link" href="{{ url_for('route_stats') }}#nav-drugs-table">{{ stats.n_drugsets }} drug sets</a>
+                <a class="subtle-link drugs" href="{{ url_for('route_index') }}#nav-drugs-table">{{ stats.n_drugsets }} drug sets</a>
             </div>
             <div class="col-2 text-center">
-                <a class="subtle-link" href="{{ url_for('route_stats') }}#nav-drugs-table">{{ stats.n_unique_drugs }} unique drugs</a>
+                <a class="subtle-link drugs" href="{{ url_for('route_stats') }}#nav-drugs-table">{{ stats.n_unique_drugs }} unique drugs</a>
             </div>
             <div class="col-2 text-center">
-                <a class="subtle-link" href="{{ url_for('route_stats') }}#nav-genes-table">{{ stats.n_genesets }} gene sets</a>
+                <a class="subtle-link genes" href="{{ url_for('route_index') }}#nav-genes-table">{{ stats.n_genesets }} gene sets</a>
             </div>
             <div class="col-2 text-center">
-                <a class="subtle-link" href="{{ url_for('route_stats') }}#nav-genes-table">{{ stats.n_unique_genes }} unique genes</a>
+                <a class="subtle-link genes" href="{{ url_for('route_stats') }}#nav-genes-table">{{ stats.n_unique_genes }} unique genes</a>
             </div>
         </div>
         <div class="row justify-content-center my-5">
