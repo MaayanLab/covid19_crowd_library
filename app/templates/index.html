@@ -108,6 +108,8 @@
     <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
     <script>
         $(document).ready(function () {
+            window.drugSetMetaCounter = counter(0);
+            window.geneSetMetaCounter = counter(0);
             navTabsSync('#nav-drugs-table');
             ds_drawTable(1);
             gs_drawTable(1);

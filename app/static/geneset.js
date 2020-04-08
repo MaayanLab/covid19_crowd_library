@@ -119,14 +119,21 @@ function gs_drawTable(reviewed) {
 }
 
 $(document).ready(function () {
-    $("#submit_geneSet_button").click(function () {
-        $.ajax({
-            url: 'genesets',
-            type: 'post',
-            data: $('#geneSet_form').serialize(),
-            success: function () {
-                $('#geneSetModal').modal('show');
-            }
-        });
+    $("#submit_geneSet_button").click(function (e) {
+        let form = $('#geneSet_form');
+        form.addClass('was-validated');
+        if (!form[0].checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
+            $.ajax({
+                url: 'genesets',
+                type: 'post',
+                data: form.serialize(),
+                success: function () {
+                    $('#geneSetModal').modal('show');
+                }
+            });
+        }
     });
 });
