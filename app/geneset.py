@@ -3,6 +3,7 @@ import requests
 
 from app.database import Session
 from app.models import Geneset, gene_splitter
+from app.datatables import serve_datatable
 
 
 def enrichr_submit(geneset, short_description):
@@ -85,3 +86,37 @@ def approve_geneset(form):
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     except Exception as e:
         return json.dumps({'success': False, 'error': str(e)}), 200, {'ContentType': 'application/json'}
+
+serve_geneset_datatable = serve_datatable(
+    lambda sess: sess.query(Geneset).filter(Geneset.reviewed == 1),
+    [
+        (Geneset.id, 'id'),
+        (Geneset.descrShort, 'descrShort'),
+        (Geneset.descrFull, 'descrFull'),
+        (Geneset.genes, 'genes'),
+        (Geneset.enrichrShortId, 'enrichrShortId'),
+        (Geneset.authorName, 'authorName'),
+        (Geneset.authorAffiliation, 'authorAffiliation'),
+        (Geneset.authorEmail, 'authorEmail'),
+        (Geneset.source, 'source'),
+        (Geneset.date, 'date'),
+        (Geneset.showContacts, 'showContacts'),
+    ],
+    lambda s: Geneset.descrShort.like(f'%{s}%'),
+    lambda qs: [
+        {
+            'id': record.id,
+            'descrShort': record.descrShort,
+            'descrFull': record.descrFull,
+            'genes': [gene.symbol for gene in record.genes],
+            'enrichrShortId': record.enrichrShortId,
+            'authorName': record.authorName if record.showContacts else '',
+            'authorAffiliation': record.authorAffiliation if record.showContacts else '',
+            'authorEmail': record.authorEmail if record.showContacts else '',
+            'source': record.source,
+            'date': record.date,
+            'showContacts': record.showContacts,
+        }
+        for record in qs
+    ]
+)

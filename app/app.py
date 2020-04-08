@@ -16,6 +16,9 @@ app.before_first_request(database.init)
 def route_index():
     return flask.render_template('index.html', stats=statistics.stats())
 
+@app.route(ROOT_PATH + 'genesets_table', methods=['POST'])
+def route_genesets_table():
+    return geneset.serve_geneset_datatable(**json.loads(flask.request.values.get('body')))
 
 @app.route(ROOT_PATH + 'genesets', methods=['GET', 'POST'])
 def route_genesets():
