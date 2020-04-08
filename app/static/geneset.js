@@ -17,7 +17,7 @@ function gs_DTblify(json, reviewed) {
         } else if ((json[i]['source'].includes('http://')) || (json[i]['source'].includes('https://'))) {
             // let a = document.createElement('a');
             // a.href = json[i]['source'];
-            source = `<p><b>Source: </b><a href="${json[i]['source']}"  target="_blank">${json[i]['source']}</a></p>`
+            source = `<p><b>Source: </b><a class="wrapped" href="${json[i]['source']}"  target="_blank">${json[i]['source']}</a></p>`
         } else {
             source = `<p><b>Source: </b> ${json[i]['source']}</p>`;
         }

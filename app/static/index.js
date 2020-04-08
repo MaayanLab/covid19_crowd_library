@@ -1,6 +1,8 @@
 function switchTabs(from, to) {
-    $("."+from).removeClass("active").removeClass("show");
-    $("."+to).addClass("active").addClass("show");
+    $("." + from).removeClass("active").removeClass("show");
+    $("." + to).addClass("active").addClass("show");
+    // location.hash change triggers scrolling to the anchor, so it's disabled
+    // location.hash = 'nav-'+ to +'-table';
 }
 
 function navTabsSync(def) {
@@ -8,7 +10,6 @@ function navTabsSync(def) {
         $('a[href="' + location.hash + '"]').tab('show');
     } else {
         $('a[href="' + def + '"]').tab('show');
-
     }
 
     $("a[data-toggle='tab']").on("shown.bs.tab", function (e) {
@@ -21,14 +22,31 @@ function navTabsSync(def) {
     });
 
     $(".genes").on("click", function () {
-        console.log('genes click');
-        $(".drugs").removeClass("active").removeClass("show");
-        $(".genes").addClass("active").addClass("show");
+        switchTabs('drugs', 'genes');
     });
 
     $(".drugs").on("click", function () {
-        console.log('drugs click');
-        $(".genes").removeClass("active").removeClass("show");
-        $(".drugs").addClass("active").addClass("show");
+        switchTabs('genes', 'drugs');
+    });
+}
+
+function addMetaField(form) {
+    const meta_input =
+        '        <div class="input-group mb-3">\n' +
+        '            <div class="input-group-prepend">\n' +
+        '                <span class="input-group-text">Parameter</span>\n' +
+        '            </div>\n' +
+        '            <input type="text" class="form-control" aria-label="Matadata parameter name">\n' +
+        '            <div class="input-group-prepend">\n' +
+        '                <span class="input-group-text">Value</span>\n' +
+        '            </div>\n' +
+        '            <input type="text" class="form-control" aria-label="Matadata parameter value">\n' +
+        '        </div>';
+    $(form).prepend(meta_input);
+}
+
+function validateForm() {
+    $('.needs-validation').on('submit', function(e) {
+
     });
 }

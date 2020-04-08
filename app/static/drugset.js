@@ -17,7 +17,7 @@ function ds_DTblify(json, reviewed) {
         } else if ((json[i]['source'].includes('http://')) || (json[i]['source'].includes('https://'))) {
             // let a = document.createElement('a');
             // a.href = json[i]['source'];
-            source = `<p><b>Source: </b><a href="${json[i]['source']}"  target="_blank">${json[i]['source']}</a></p>`
+            source = `<p><b>Source: </b><a class="wrapped" href="${json[i]['source']}"  target="_blank">${json[i]['source']}</a></p>`
         } else {
             source = `<p><b>Source: </b> ${json[i]['source']}</p>`;
         }
@@ -106,14 +106,21 @@ function ds_drawTable(reviewed) {
 }
 
 $(document).ready(function () {
-    $("#submit_drugSet_button").click(function () {
-        $.ajax({
-            url: 'drugsets',
-            type: 'post',
-            data: $('#drugSet_form').serialize(),
-            success: function () {
-                $('#drugSetModal').modal('show');
-            }
-        });
+    $("#submit_drugSet_button").click(function (e) {
+        let form = $('#drugSet_form');
+        form.addClass('was-validated');
+        if (!form[0].checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
+            $.ajax({
+                url: 'drugsets',
+                type: 'post',
+                data: form.serialize(),
+                success: function () {
+                    $('#drugSetModal').modal('show');
+                }
+            });
+        }
     });
 });
