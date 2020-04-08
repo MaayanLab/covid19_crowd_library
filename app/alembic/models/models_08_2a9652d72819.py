@@ -18,6 +18,7 @@ class GenesetGene(Base):
     geneset = Column('geneset', Integer, ForeignKey('genesets.id'), primary_key=True)
     gene = Column('gene', Integer, ForeignKey('genes.id'), primary_key=True)
 
+
 class Gene(Base):
     __tablename__ = 'genes'
 
@@ -49,6 +50,7 @@ class Gene(Base):
     def jsonify(self):
         return self.symbol
 
+
 class Geneset(Base):
     __tablename__ = 'genesets'
 
@@ -73,7 +75,7 @@ class Geneset(Base):
             **kwargs,
             genes=Gene.resolve_set(sess, set(genes)),
         )
-    
+
     def to_gmt(self):
         return '\t'.join([
             f'{self.id}_{self.descrFull}',
@@ -111,6 +113,7 @@ class DrugsetDrug(Base):
     drugset = Column('drugset', Integer, ForeignKey('drugsets.id'), primary_key=True)
     drug = Column('drug', Integer, ForeignKey('drugs.id'), primary_key=True)
 
+
 class Drug(Base):
     __tablename__ = 'drugs'
 
@@ -140,7 +143,8 @@ class Drug(Base):
         return instances
 
     def jsonify(self):
-      return self.symbol
+        return self.symbol
+
 
 class Drugset(Base):
     __tablename__ = 'drugsets'
