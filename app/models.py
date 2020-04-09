@@ -5,7 +5,6 @@ from pytz import timezone
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, JSON
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-from app.sa_types.serialized_json import MutableSerializedJSON
 
 Base = declarative_base()
 
@@ -66,7 +65,7 @@ class Geneset(Base):
     reviewed = Column('reviewed', Integer, nullable=False, default=0)
     source = Column('source', String(255), default=0)
     date = Column('date', DateTime, default=lambda: datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
-    meta = Column('meta', MutableSerializedJSON, default=0)
+    meta = Column('meta', JSON, default=0)
 
     @staticmethod
     def create(sess, genes=[], **kwargs):
@@ -157,7 +156,7 @@ class Drugset(Base):
     reviewed = Column('reviewed', Integer, nullable=False, default=0)
     source = Column('source', String(255), default=0)
     date = Column('date', DateTime, default=lambda: datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
-    meta = Column('meta', MutableSerializedJSON, default=0)
+    meta = Column('meta', JSON, default=0)
 
     @staticmethod
     def create(sess, drugs=[], **kwargs):
