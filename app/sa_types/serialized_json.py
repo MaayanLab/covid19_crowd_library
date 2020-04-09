@@ -25,7 +25,10 @@ class ImmutableSerializedJSON(types.TypeDecorator):
     def process_result_value(self, value, dialect):
         # Example: '{"blah": "bleh"}' -> {'blah': 'bleh'}
         if value is not None:
-            value = json.loads(value)
+            if value == '':
+                value = None
+            else:
+                value = json.loads(value)
         return value
 
 MutableSerializedJSON = MutableDict.as_mutable(ImmutableSerializedJSON)
