@@ -22,7 +22,8 @@ function ds_DTblify(json, reviewed) {
             source = `<p><b>Source: </b> ${json[i]['source']}</p>`;
         }
         const date = `<p><b>Date added:</b> ${json[i]['date'].split(' ')[0]}</p>`;
-        const desc = `<p>${json[i]['descrFull']}<\p>${source}${date}${contacts}`;
+        const meta = json[i]['meta'] ? renderMeta(JSON.parse(json[i]['meta'])): '';
+        const desc = `<p>${json[i]['descrFull']}<\p>${source}${meta}${date}${contacts}`;
 
         // Data Array
         dataArray[i] = [
@@ -59,6 +60,15 @@ function ds_DTblify(json, reviewed) {
         }
     }
     return dataArray;
+}
+
+function renderMeta(meta) {
+    let tmp = [];
+    for (let m in meta) {
+        tmp.push(`<p><b>${m}</b>: ${meta[m]}<\p>`);
+    }
+
+    return tmp.join('\n');
 }
 
 function ds_drawTable(reviewed) {
