@@ -51,8 +51,8 @@
         $(document).ready(function () {
             navTabsSync('#nav-drugs-table')
 
-            ds_drawTable(0);
-            gs_drawTable(0);
+            ds_drawTable('{{ url_for("route_drugsets_table") }}', 0);
+            gs_drawTable('{{ url_for("route_genesets_table") }}', 0);
         });
     </script>
 {% endblock %}

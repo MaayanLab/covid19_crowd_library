@@ -3,6 +3,7 @@ import requests
 
 from app.database import Session
 from app.models import Geneset, gene_splitter
+from app.datatables import serve_datatable
 from app.utils import match_meta
 
 
@@ -92,3 +93,39 @@ def approve_geneset(form):
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     except Exception as e:
         return json.dumps({'success': False, 'error': str(e)}), 200, {'ContentType': 'application/json'}
+
+serve_geneset_datatable = lambda reviewed: serve_datatable(
+    lambda sess, reviewed=reviewed: sess.query(Geneset).filter(Geneset.reviewed == reviewed),
+    [
+        (Geneset.id, 'id'),
+        (Geneset.descrShort, 'descrShort'),
+        (Geneset.descrFull, 'descrFull'),
+        (Geneset.genes, 'genes'),
+        (Geneset.enrichrShortId, 'enrichrShortId'),
+        (Geneset.authorName, 'authorName'),
+        (Geneset.authorAffiliation, 'authorAffiliation'),
+        (Geneset.authorEmail, 'authorEmail'),
+        (Geneset.source, 'source'),
+        (Geneset.date, 'date'),
+        (Geneset.showContacts, 'showContacts'),
+        (Geneset.meta, 'meta'),
+    ],
+    lambda s: Geneset.descrShort.like(f'%{s}%'),
+    lambda qs, reviewed=reviewed: [
+        {
+            'id': record.id,
+            'descrShort': record.descrShort,
+            'descrFull': record.descrFull,
+            'genes': [gene.symbol for gene in record.genes],
+            'enrichrShortId': record.enrichrShortId,
+            'authorName': record.authorName if record.showContacts or reviewed == 0 else '',
+            'authorAffiliation': record.authorAffiliation if record.showContacts or reviewed == 0 else '',
+            'authorEmail': record.authorEmail if record.showContacts or reviewed == 0 else '',
+            'source': record.source,
+            'date': record.date,
+            'showContacts': record.showContacts,
+            'meta': record.meta,
+        }
+        for record in qs
+    ]
+)

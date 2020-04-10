@@ -16,6 +16,9 @@ app.before_first_request(database.init)
 def route_index():
     return flask.render_template('index.html', stats=statistics.stats())
 
+@app.route(ROOT_PATH + 'genesets_table', methods=['POST'])
+def route_genesets_table():
+    return geneset.serve_geneset_datatable(int(flask.request.values.get('reviewed')))(**json.loads(flask.request.values.get('body')))
 
 @app.route(ROOT_PATH + 'genesets', methods=['GET', 'POST'])
 def route_genesets():
@@ -25,6 +28,11 @@ def route_genesets():
     elif flask.request.method == 'POST':
         return geneset.add_geneset(flask.request.form)
 
+@app.route(ROOT_PATH + 'drugsets_table', methods=['POST'])
+def route_drugsets_table():
+    return drugset.serve_drugset_datatable(int(flask.request.values.get('reviewed')))(
+        **json.loads(flask.request.values.get('body'))
+    )
 
 @app.route(ROOT_PATH + 'drugsets', methods=['GET', 'POST'])
 def route_drugs():

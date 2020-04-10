@@ -119,8 +119,8 @@
             window.drugSetMetaCounter = counter(0);
             window.geneSetMetaCounter = counter(0);
             navTabsSync('#nav-drugs-table');
-            ds_drawTable(1);
-            gs_drawTable(1);
+            ds_drawTable('{{ url_for("route_drugsets_table") }}', 1);
+            gs_drawTable('{{ url_for("route_genesets_table") }}', 1);
         });
     </script>
 {% endblock %}

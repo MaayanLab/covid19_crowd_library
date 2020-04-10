@@ -1,7 +1,7 @@
 import functools
 from app.database import Session
 
-def serve_datatable(qs, cols, search_filter):
+def serve_datatable(qs, cols, search_filter, aggregator=None):
   ''' Create a server-side datatables route
   Example:
     myserved_datatable = serve_datatable(
@@ -66,7 +66,7 @@ def serve_datatable(qs, cols, search_filter):
           for ind, cell in enumerate(record)
         }
         for record in limited_qs
-      ],
+      ] if aggregator is None else aggregator(limited_qs),
     }
     sess.close()
     return result
