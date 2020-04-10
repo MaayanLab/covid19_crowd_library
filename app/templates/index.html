@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block og %}
+    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19"/>
+    <meta property="og:title" content="COVID-19 Crowd Generated Gene and Drug Set Library"/>
+{% endblock %}
 {% block head %}
     <title>COVID-19 Crowd Generated Gene and Drug Set Library</title>
 {% endblock %}
@@ -108,12 +112,35 @@
     </div>
 {% endblock %}
 
+{% block socialbuttons %}
+    <div class="col-2">
+        <div class="row my-2">
+            <!-- Twitted share button -->
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+               data-text="A collection of drugs and gene sets related to COVID-19 research contributed by the community"
+               data-url="https://amp.pharm.mssm.edu/covid19" data-via="MaayanLab" data-hashtags="COVID, COVID19"
+               data-show-count="false">Tweet</a>
+        </div>
+        <div class="row my-2">
+            <!-- LinkedIn share button -->
+            <script type="IN/Share" data-url="https://amp.pharm.mssm.edu/covid19"></script>
+        </div>
+        <!-- Facebook share button -->
+        <div class="row my-2">
+            <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19"
+                 data-layout="button" data-size="small">
+                <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19" data-layout="button"
+                     data-size="small">
+                    <a target="_blank"
+                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Famp.pharm.mssm.edu%2Fcovid19&amp;src=sdkpreparse"
+                       class="fb-xfbml-parse-ignore">Share</a></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block script %}
     <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
     <script>
         $(document).ready(function () {
             window.drugSetMetaCounter = counter(0);

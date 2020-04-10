@@ -16,14 +16,12 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom_datatables.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}"/>
     {% endblock %}
-
-    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19"/>
+    {% block og %}
     <meta property="og:type" content="website"/>
-    <meta property="og:title" content="COVID-19 Crowd Generated Gene and Drug Set Library"/>
     <meta property="og:description"
           content="A collection of drugs and gene sets related to COVID-19 research contributed by the community"/>
     <meta property="og:image" content="{{ url_for('static', filename='thumbnail.png') }}"/>
-
+    {% endblock %}
     {% block head %}
     {% endblock %}
 </head>
@@ -31,7 +29,51 @@
 {% block body %}
 {% endblock %}
 
-{% include "footer.html" %}
+<footer class="footer">
+    <div class="container">
+        <div class="row justify-content-center m-5">
+            <div class="col-2 text-center">
+                <a href="https://icahn.mssm.edu/research/bioinformatics" target="_blank">
+                    <img class="rounded" src="{{ url_for('static', filename='icahn_cb.png') }}" style="height: 5rem;">
+                </a>
+            </div>
+            <div class="col-2 text-center">
+                <a href="http://lincs-dcic.org" target="_blank">
+                    <img class="rounded" src="{{ url_for('static', filename='dcic_light.png') }}" style="height: 5rem;">
+                </a>
+            </div>
+            <div class="col-2 text-center">
+                <a href="https://labs.icahn.mssm.edu/maayanlab/" target="_blank">
+                    <img class="rounded" src="{{ url_for('static', filename='maayanlab_logo.png') }}"
+                         style="height: 5rem;">
+                </a>
+            </div>
+            <div class="col-2">
+                <div class="row my-2">
+                    <a class="badge badge-secondary px-2" href="https://github.com/MaayanLab/covid19_crowd_library">
+                        <span class="badge badge-light">
+                            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                                 style="width: 1rem;">
+                </span>
+                        View source code
+                    </a>
+                </div>
+                <div class="row my-2">
+                    <a class="badge badge-secondary px-2"
+                       href="https://github.com/MaayanLab/covid19_crowd_library/issues/new">
+                        <span class="badge badge-light">
+                        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                             style="width: 1rem;">
+                            </span>
+                        Submit an issue
+                    </a>
+
+                </div>
+            </div>
+            {% block socialbuttons %}
+            {% endblock %}
+        </div>
+</footer>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
         crossorigin="anonymous"></script>
@@ -56,9 +98,13 @@
     }
 
     gtag('js', new Date());
-
     gtag('config', 'UA-6277639-45');
 </script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
 
 {% block script %}
 {% endblock %}
