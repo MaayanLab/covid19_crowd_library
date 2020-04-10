@@ -2,7 +2,6 @@ import json
 import sqlalchemy as sa
 from sqlalchemy import types
 from sqlalchemy.sql import operators
-from sqlalchemy.ext.mutable import MutableDict
 
 
 class ImmutableSerializedJSON(types.TypeDecorator):
@@ -30,5 +29,3 @@ class ImmutableSerializedJSON(types.TypeDecorator):
             else:
                 value = json.loads(value)
         return value
-
-MutableSerializedJSON = MutableDict.as_mutable(ImmutableSerializedJSON)
