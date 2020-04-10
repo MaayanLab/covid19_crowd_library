@@ -6,6 +6,7 @@ Create Date: 2020-04-10 14:33:10.362088
 
 """
 from alembic import op
+import json
 import sqlalchemy as sa
 
 import os, sys
@@ -24,11 +25,13 @@ depends_on = None
 def upgrade():
     sess = Session(bind=op.get_bind())
     for geneset in sess.query(models_08_2a9652d72819.Geneset):
-        if geneset.meta == "{}":
-            geneset.meta = None
+        if type(geneset.meta) == str:
+            geneset.meta = json.loads(geneset.meta)
+    #
     for drugset in sess.query(models_08_2a9652d72819.Drugset):
-        if drugset.meta == "{}":
-            drugset.meta = None
+        if type(drugset.meta) == str:
+            drugset.meta = json.loads(drugset.meta)
+    #
     sess.commit()
 
 def downgrade():
