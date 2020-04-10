@@ -37,7 +37,9 @@ function ds_drawTable(url, reviewed) {
                 } else {
                     source = `<p><b>Source: </b> ${row['source']}</p>`;
                 }
-                const date = `<p><b>Date added:</b> ${row['date'].split(' ')[0]}</p>`;
+                const dateObj = new Date(row['date'])
+                const dateStr = `${dateObj.getFullYear()}-${dateObj.getMonth()+1}-${dateObj.getDate()}`
+                const date = `<p><b>Date added:</b> ${dateStr}</p>`;
                 const meta = row['meta'] ? renderMeta(row['meta']) : '';
                 const desc = `<p>${row['descrFull']}<\p>${source}${meta}${date}${contacts}`;
 
