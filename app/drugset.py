@@ -3,6 +3,7 @@ import json
 from app.database import Session
 from app.models import Drugset, drug_splitter
 from app.datatables import serve_datatable
+from app.utils import match_meta
 
 
 def add_drugset(form):
@@ -14,6 +15,11 @@ def add_drugset(form):
     author_email = form['authorEmail']
     author_aff = form['authorAff']
     show_contacts = 1 if 'showContacts' in form else 0
+    meta = {}
+
+    # '-show_contacts' is correction for, well, show_contacts presence
+    if len(form) - show_contacts > 7:
+        meta = match_meta(form, 7)
 
     try:
         sess = Session()

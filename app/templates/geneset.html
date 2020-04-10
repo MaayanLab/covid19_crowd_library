@@ -19,6 +19,17 @@
                         </div>
                     </li>
 
+                    {% if geneset['meta'] != None %}
+                        {% for meta in geneset['meta'] %}
+                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <div>
+                                    <h6 class="my-0">{{ meta }}</h6>
+                                    <span class="text-muted wrapped">{{ geneset['meta'][meta] }}</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+
                     {% if geneset['source'] != None %}
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
                             <div>

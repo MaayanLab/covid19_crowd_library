@@ -1,6 +1,15 @@
 // Even though this file is nearly identical to geneset.js, I deliberately keep them separated,
 // as I expect them to diverge further on.
 
+function renderMeta(meta) {
+    let tmp = [];
+    for (let m in meta) {
+        tmp.push(`<p><b>${m}</b>: ${meta[m]}<\p>`);
+    }
+
+    return tmp.join('\n');
+}
+
 function ds_drawTable(url, reviewed) {
     let columns = [
         {title: "Description", data: 'descrShort'},
@@ -29,20 +38,21 @@ function ds_drawTable(url, reviewed) {
                     source = `<p><b>Source: </b> ${row['source']}</p>`;
                 }
                 const date = `<p><b>Date added:</b> ${row['date'].split(' ')[0]}</p>`;
-                const desc = `<p>${row['descrFull']}<\p>${source}${date}${contacts}`;
+                const meta = row['meta'] ? renderMeta(row['meta']) : '';
+                const desc = `<p>${row['descrFull']}<\p>${source}${meta}${date}${contacts}`;
 
                 return $('<div>', {
-                    'class': 'enrichment-popover-button',
-                    'data-toggle': 'popover',
-                    'data-placement': 'bottom',
-                    'data-trigger': 'focus',
-                    'data-html': 'true',
-                    'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
-                    'data-content': desc,
-                    'title': row['descrShort']
-                })
-                    .append(`<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${row['descrShort']}</span>`)
-                    .prop('outerHTML')
+                        'class': 'enrichment-popover-button',
+                        'data-toggle': 'popover',
+                        'data-placement': 'bottom',
+                        'data-trigger': 'focus',
+                        'data-html': 'true',
+                        'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+                        'data-content': desc,
+                        'title': row['descrShort']
+                    })
+                        .append(`<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${row['descrShort']}</span>`)
+                        .prop('outerHTML')
             },
         },
         {

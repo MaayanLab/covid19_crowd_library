@@ -4,6 +4,7 @@ import requests
 from app.database import Session
 from app.models import Geneset, gene_splitter
 from app.datatables import serve_datatable
+from app.utils import match_meta
 
 
 def enrichr_submit(geneset, short_description):
@@ -29,6 +30,11 @@ def add_geneset(form):
     enrichr_ids = enrichr_submit(gene_set, desc_short)
     enrichr_shortid = enrichr_ids['shortId']
     enrichr_userlistid = enrichr_ids['userListId']
+    meta = {}
+
+    # '-show_contacts' is correction for, well, show_contacts presence
+    if len(form) - show_contacts > 9:
+        meta = match_meta(form, 9)
 
     try:
         sess = Session()

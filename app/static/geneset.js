@@ -1,6 +1,15 @@
 // Even though this file is nearly identical to drugset.js, I deliberately keep them separated,
 // as I expect them to diverge further on.
 
+function renderMeta(meta) {
+    let tmp = [];
+    for (let m in meta) {
+        tmp.push(`<p><b>${m}</b>: ${meta[m]}<\p>`);
+    }
+
+    return tmp.join('\n');
+}
+
 function gs_drawTable(url, reviewed) {
     let columns = [
         {title: "Description", data: 'description'},
@@ -19,8 +28,6 @@ function gs_drawTable(url, reviewed) {
                 const showContacts = row['showContacts'];
                 const contacts = showContacts ? `<p><b>Author:</b> ${row['authorName']}<\p><p><b>Affiliation:</b> ${row['authorAffiliation']}<\p><p><b>E-mail:</b> ${row['authorEmail']}<\p>` :
                     reviewed ? '<i class="far fa-eye-slash"></i> Author preferred not to share contact details' : `<p style="color: red"><i class="far fa-eye-slash"></i> As author preferred not to share contact details, following will not be displayed:</p><p style="color: red"><b>Author:</b> ${row['authorName']}<\p><p style="color: red"><b>Affiliation:</b> ${row['authorAffiliation']}<\p><p style="color: red"><b>E-mail:</b> ${row['authorEmail']}<\p>`;
-
-                const date = `<p><b>Date added:</b> ${row['date'].split(' ')[0]}</p>`;
                 let source;
                 if (row['source'] === null) {
                     source = ''
@@ -31,7 +38,10 @@ function gs_drawTable(url, reviewed) {
                 } else {
                     source = `<p><b>Source: </b> ${row['source']}</p>`;
                 }
-                const desc = `<p>${row['descrFull']}<\p>${source}${date}${contacts}`;
+                const date = `<p><b>Date added:</b> ${row['date'].split(' ')[0]}</p>`;
+                const meta = row['meta'] ? renderMeta(row['meta']) : '';
+                const desc = `<p>${row['descrFull']}<\p>${source}${meta}${date}${contacts}`;
+
                 return $('<div>', {
                     'class': 'enrichment-popover-button',
                     'data-toggle': 'popover',
@@ -121,14 +131,21 @@ function gs_drawTable(url, reviewed) {
 }
 
 $(document).ready(function () {
-    $("#submit_geneSet_button").click(function () {
-        $.ajax({
-            url: 'genesets',
-            type: 'post',
-            data: $('#geneSet_form').serialize(),
-            success: function () {
-                $('#geneSetModal').modal('show');
-            }
-        });
+    $("#submit_geneSet_button").click(function (e) {
+        let form = $('#geneSet_form');
+        form.addClass('was-validated');
+        if (!form[0].checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
+            $.ajax({
+                url: 'genesets',
+                type: 'post',
+                data: form.serialize(),
+                success: function () {
+                    $('#geneSetModal').modal('show');
+                }
+            });
+        }
     });
 });

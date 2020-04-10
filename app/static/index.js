@@ -30,23 +30,31 @@ function navTabsSync(def) {
     });
 }
 
-function addMetaField(form) {
-    const meta_input =
-        '        <div class="input-group mb-3">\n' +
-        '            <div class="input-group-prepend">\n' +
-        '                <span class="input-group-text">Parameter</span>\n' +
-        '            </div>\n' +
-        '            <input type="text" class="form-control" aria-label="Matadata parameter name">\n' +
-        '            <div class="input-group-prepend">\n' +
-        '                <span class="input-group-text">Value</span>\n' +
-        '            </div>\n' +
-        '            <input type="text" class="form-control" aria-label="Matadata parameter value">\n' +
-        '        </div>';
-    $(form).prepend(meta_input);
+function* counter(index) {
+  while (index >= 0) {
+    yield index++;
+  }
 }
 
-function validateForm() {
-    $('.needs-validation').on('submit', function(e) {
-
-    });
+function addMetaField(setType) {
+    let form = $(`#meta-${setType}-form`);
+    let count;
+    if (setType === 'drug') {
+        count = window.drugSetMetaCounter.next().value;
+    }
+    else if (setType === 'gene') {
+        count = window.geneSetMetaCounter.next().value;
+    }
+    const meta_input =
+        `        <div class="input-group mb-3">\n` +
+        `            <div class="input-group-prepend">\n` +
+        `                <span class="input-group-text">Parameter</span>\n` +
+        `            </div>\n` +
+        `            <input type="text" class="form-control" aria-label="Matadata parameter name ${count}" name="name_${count}">\n` +
+        `            <div class="input-group-prepend">\n` +
+        `                <span class="input-group-text">Value</span>\n` +
+        `            </div>\n` +
+        `            <input type="text" class="form-control" aria-label="Matadata parameter value ${count}" name="val_${count}">\n` +
+        `        </div>`;
+    form.prepend(meta_input);
 }

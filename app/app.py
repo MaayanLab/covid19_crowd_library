@@ -57,12 +57,14 @@ def route_review():
 
 @app.route(ROOT_PATH + 'genesets/<geneset_id>', methods=['GET'])
 def route_geneset(geneset_id):
-    return flask.render_template('geneset.html', geneset=json.loads(geneset.get_geneset(geneset_id)[0]))
+    json_geneset = json.loads(geneset.get_geneset(geneset_id)[0])
+    return flask.render_template('geneset.html', geneset=json_geneset)
 
 
 @app.route(ROOT_PATH + 'drugsets/<drugset_id>', methods=['GET'])
 def route_drugset(drugset_id):
-    return flask.render_template('drugset.html', drugset=json.loads(drugset.get_drugset(drugset_id)[0]))
+    json_drugset = json.loads(drugset.get_drugset(drugset_id)[0])
+    return flask.render_template('drugset.html', drugset=json_drugset)
 
 @app.route(ROOT_PATH + 'stats')
 def route_stats():

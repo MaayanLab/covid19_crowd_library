@@ -5,7 +5,7 @@
                 <span id="labelDescrShort" class="input-group-text">{{ c.Type }} set name</span>
             </div>
             <input type="text" class="form-control" name="descrShort" aria-describedby="labelDescrShort" required>
-            <div class="invalid-feedback">Please provide a description.</div>
+            <div class="invalid-feedback">Please describe you set in a one sentence.</div>
         </div>
     </div>
     <div class="form-group">
@@ -19,7 +19,7 @@
     <div class="form-group">
         <label for="descrFull">How is this set related to COVID-19 research?</label>
         <textarea class="form-control" name="descrFull" rows="3" required></textarea>
-        <div class="invalid-feedback">Please describe, how is this set related to COVID-19 research.</div>
+        <div class="invalid-feedback">Please explain, how was this set produced and how is it related to COVID-19 research.</div>
     </div>
     <div class="form-group">
         <label for="{{ c.set_type }}">
@@ -27,10 +27,10 @@
         </label>
         <textarea class="form-control" name="{{ c.set_type }}" rows="7"
                   placeholder="Paste a {{ c.type }} set here" required></textarea>
-        <div class="invalid-feedback">Please input a {{ c.type }}.</div>
+        <div class="invalid-feedback">Please input a {{ c.type }} set. {{ c.title }}</div>
     </div>
     <div class="form-group" id="meta-{{ c.type }}-form">
-        <button type="button" class="btn btn-outline-primary" onclick="addMetaField('#meta-{{ c.type }}-form');"
+        <button type="button" class="btn btn-outline-primary" onclick="addMetaField('{{ c.type }}');"
                 aria-describedby="metaHelpInline">Add metadata
         </button>
         <small id="metaHelpInline" class="text-muted ml-2">i.e. organism, tissue type, perturbation...</small>
@@ -41,7 +41,7 @@
                 <span class="input-group-text" id="labelAuthorName">Name</span>
             </div>
             <input type="text" class="form-control" name="authorName" aria-describedby="labelAuthorName" required>
-            <div class="invalid-feedback">Please provide an author name.</div>
+            <div class="invalid-feedback">Please provide your name.</div>
         </div>
     </div>
     <div class="form-group">
@@ -59,7 +59,7 @@
             </div>
             <input type="email" class="form-control" name="authorEmail"  aria-describedby="labelAuthorEmail"
                    placeholder="name@example.com" required>
-            <div class="invalid-feedback">Please provide an e-mail.</div>
+            <div class="invalid-feedback">Please provide your e-mail.</div>
         </div>
     </div>
     <div class="form-check mb-3">

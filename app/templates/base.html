@@ -2,19 +2,27 @@
 <html lang="en">
 <head>
     {% block style %}
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='logo.png') }}" type="image/x-icon">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom_datatables.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}"/>
+        <!-- Custom CSS -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom_datatables.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}"/>
     {% endblock %}
+
+    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="COVID-19 Crowd Generated Gene and Drug Set Library"/>
+    <meta property="og:description"
+          content="A collection of drugs and gene sets related to COVID-19 research contributed by the community"/>
+    <meta property="og:image" content="{{ url_for('static', filename='thumbnail.png') }}"/>
 
     {% block head %}
     {% endblock %}
@@ -41,11 +49,15 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-6277639-45"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'UA-6277639-45');
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-6277639-45');
 </script>
 
 {% block script %}
