@@ -50,7 +50,7 @@ def add_geneset(form):
                 showContacts=show_contacts,
                 genes=gene_set,
                 source=source,
-                meta=json.dumps(meta)
+                meta=meta,
             )
         )
         sess.commit()

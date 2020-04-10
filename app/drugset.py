@@ -33,7 +33,7 @@ def add_drugset(form):
                 showContacts=show_contacts,
                 drugs=drug_set,
                 source=source,
-                meta=json.dumps(meta)
+                meta=meta,
             )
         )
         sess.commit()

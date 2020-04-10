@@ -1,8 +1,8 @@
 import json
+import logging
 import sqlalchemy as sa
 from sqlalchemy import types
 from sqlalchemy.sql import operators
-from sqlalchemy.ext.mutable import MutableDict
 
 
 class ImmutableSerializedJSON(types.TypeDecorator):
@@ -29,6 +29,10 @@ class ImmutableSerializedJSON(types.TypeDecorator):
                 value = None
             else:
                 value = json.loads(value)
+                if type(value) == str:
+                    logging.warn('You stored a string in a json field... maybe its actually json')
+                    try:
+                        value = json.loads(value)
+                    except:
+                        pass
         return value
-
-MutableSerializedJSON = MutableDict.as_mutable(ImmutableSerializedJSON)
