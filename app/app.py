@@ -18,7 +18,7 @@ def route_index():
 
 @app.route(ROOT_PATH + 'genesets_table', methods=['POST'])
 def route_genesets_table():
-    return geneset.serve_geneset_datatable(**json.loads(flask.request.values.get('body')))
+    return geneset.serve_geneset_datatable(int(flask.request.values.get('reviewed')))(**json.loads(flask.request.values.get('body')))
 
 @app.route(ROOT_PATH + 'genesets', methods=['GET', 'POST'])
 def route_genesets():

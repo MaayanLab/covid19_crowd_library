@@ -87,8 +87,8 @@ def approve_geneset(form):
     except Exception as e:
         return json.dumps({'success': False, 'error': str(e)}), 200, {'ContentType': 'application/json'}
 
-serve_geneset_datatable = serve_datatable(
-    lambda sess: sess.query(Geneset).filter(Geneset.reviewed == 1),
+serve_geneset_datatable = lambda reviewed: serve_datatable(
+    lambda sess, reviewed=reviewed: sess.query(Geneset).filter(Geneset.reviewed == reviewed),
     [
         (Geneset.id, 'id'),
         (Geneset.descrShort, 'descrShort'),
@@ -103,16 +103,16 @@ serve_geneset_datatable = serve_datatable(
         (Geneset.showContacts, 'showContacts'),
     ],
     lambda s: Geneset.descrShort.like(f'%{s}%'),
-    lambda qs: [
+    lambda qs, reviewed=reviewed: [
         {
             'id': record.id,
             'descrShort': record.descrShort,
             'descrFull': record.descrFull,
             'genes': [gene.symbol for gene in record.genes],
             'enrichrShortId': record.enrichrShortId,
-            'authorName': record.authorName if record.showContacts else '',
-            'authorAffiliation': record.authorAffiliation if record.showContacts else '',
-            'authorEmail': record.authorEmail if record.showContacts else '',
+            'authorName': record.authorName if record.showContacts or reviewed == 0 else '',
+            'authorAffiliation': record.authorAffiliation if record.showContacts or reviewed == 0 else '',
+            'authorEmail': record.authorEmail if record.showContacts or reviewed == 0 else '',
             'source': record.source,
             'date': record.date,
             'showContacts': record.showContacts,

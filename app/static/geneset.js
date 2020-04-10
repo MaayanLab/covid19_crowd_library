@@ -4,11 +4,11 @@
 function gs_drawTable(url, reviewed) {
     let columns = [
         {title: "Description", data: 'description'},
-        { title: "Genes", data: 'genes'},
-        {title: "Enrichr link", data: 'enrichrShortId'},
+        {title: "Genes", data: 'genes', orderable: false},
+        {title: "Enrichr link", data: 'enrichrShortId', orderable: false},
     ];
     if (reviewed === 0) {
-        columns.push({title: "Review"});
+        columns.push({title: "Review", data: 'id', orderable: false});
     }
 
     let columnDefs = [
@@ -69,7 +69,7 @@ function gs_drawTable(url, reviewed) {
             },
         },
         {
-            targets: -1,
+            targets: 2,
             className: 'dt-body-left',
             width: '30%',
             render: function (data, type, row) {
@@ -84,7 +84,7 @@ function gs_drawTable(url, reviewed) {
     ]
     if (reviewed === 0) {
         columnDefs.push({
-            targets: 0,
+            targets: -1,
             render: function(data, type, row) {
                 return `<div class="btn-group" role="group" aria-label="Basic example"><button id="${row['id']}-geneset-approved" type="button" class="btn btn-outline-success btn-sm" onclick="clickReviewButton(${row['id']}, 1, 'geneset')"><i class="fas fa-check"></i></button><button id="${row['id']}-geneset-rejected" type="button" class="btn btn-outline-danger btn-sm" onclick="clickReviewButton(${row['id']},-1,'geneset')"><i class="fas fa-times"></i></button></div>`
             }
@@ -113,7 +113,7 @@ function gs_drawTable(url, reviewed) {
             url: url,
             type: 'POST',
             data: function (args) {
-                return { body: JSON.stringify(args) };
+                return { body: JSON.stringify(args), reviewed: reviewed };
             }
         },
     });
