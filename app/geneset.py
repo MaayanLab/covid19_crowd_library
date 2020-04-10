@@ -50,7 +50,8 @@ def add_geneset(form):
                 authorEmail=author_email,
                 showContacts=show_contacts,
                 genes=gene_set,
-                source=source
+                source=source,
+                meta=meta,
             )
         )
         sess.commit()
@@ -107,6 +108,7 @@ serve_geneset_datatable = lambda reviewed: serve_datatable(
         (Geneset.source, 'source'),
         (Geneset.date, 'date'),
         (Geneset.showContacts, 'showContacts'),
+        (Geneset.meta, 'meta'),
     ],
     lambda s: Geneset.descrShort.like(f'%{s}%'),
     lambda qs, reviewed=reviewed: [
@@ -122,6 +124,7 @@ serve_geneset_datatable = lambda reviewed: serve_datatable(
             'source': record.source,
             'date': record.date,
             'showContacts': record.showContacts,
+            'meta': record.meta,
         }
         for record in qs
     ]

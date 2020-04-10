@@ -33,7 +33,8 @@ def add_drugset(form):
                 authorEmail=author_email,
                 showContacts=show_contacts,
                 drugs=drug_set,
-                source=source
+                source=source,
+                meta=meta,
             )
         )
         sess.commit()
@@ -89,6 +90,7 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
         (Drugset.source, 'source'),
         (Drugset.date, 'date'),
         (Drugset.showContacts, 'showContacts'),
+        (Drugset.meta, 'meta'),
     ],
     lambda s: Drugset.descrShort.like(f'%{s}%'),
     lambda qs, reviewed=reviewed: [
@@ -103,6 +105,7 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
             'source': record.source,
             'date': record.date,
             'showContacts': record.showContacts,
+            'meta': record.meta,
         }
         for record in qs
     ]
