@@ -22,10 +22,7 @@ function gs_DTblify(json, reviewed) {
             source = `<p><b>Source: </b> ${json[i]['source']}</p>`;
         }
         const date = `<p><b>Date added:</b> ${json[i]['date'].split(' ')[0]}</p>`;
-        if (typeof json[i]['meta'] === 'string') {
-            json[i]['meta'] = JSON.parse(json[i]['meta'])
-        }
-        const meta = json[i]['meta'] ? renderMeta(json[i]['meta']): '';
+        const meta = json[i]['meta'] && json[i]['meta'] !== "{}" ? renderMeta(json[i]['meta']): '';
         const desc = `<p>${json[i]['descrFull']}<\p>${source}${meta}${date}${contacts}`;
 
         // Data Array
