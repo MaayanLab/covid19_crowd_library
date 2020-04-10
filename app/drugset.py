@@ -2,6 +2,7 @@ import json
 
 from app.database import Session
 from app.models import Drugset, drug_splitter
+from app.datatables import serve_datatable
 
 
 def add_drugset(form):
@@ -68,3 +69,35 @@ def approve_drugset(form):
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     except Exception as e:
         return json.dumps({'success': False, 'error': str(e)}), 200, {'ContentType': 'application/json'}
+
+serve_drugset_datatable = lambda reviewed: serve_datatable(
+    lambda sess, reviewed=reviewed: sess.query(Drugset).filter(Drugset.reviewed == reviewed),
+    [
+        (Drugset.id, 'id'),
+        (Drugset.descrShort, 'descrShort'),
+        (Drugset.descrFull, 'descrFull'),
+        (Drugset.drugs, 'drugs'),
+        (Drugset.authorName, 'authorName'),
+        (Drugset.authorAffiliation, 'authorAffiliation'),
+        (Drugset.authorEmail, 'authorEmail'),
+        (Drugset.source, 'source'),
+        (Drugset.date, 'date'),
+        (Drugset.showContacts, 'showContacts'),
+    ],
+    lambda s: Drugset.descrShort.like(f'%{s}%'),
+    lambda qs, reviewed=reviewed: [
+        {
+            'id': record.id,
+            'descrShort': record.descrShort,
+            'descrFull': record.descrFull,
+            'drugs': [gene.symbol for gene in record.drugs],
+            'authorName': record.authorName if record.showContacts or reviewed == 0 else '',
+            'authorAffiliation': record.authorAffiliation if record.showContacts or reviewed == 0 else '',
+            'authorEmail': record.authorEmail if record.showContacts or reviewed == 0 else '',
+            'source': record.source,
+            'date': record.date,
+            'showContacts': record.showContacts,
+        }
+        for record in qs
+    ]
+)
