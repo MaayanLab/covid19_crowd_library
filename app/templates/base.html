@@ -16,11 +16,9 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom_datatables.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}"/>
     {% endblock %}
-    {% block og %}
     <meta property="og:type" content="website"/>
-    <meta property="og:description"
-          content="A collection of drugs and gene sets related to COVID-19 research contributed by the community"/>
     <meta property="og:image" content="{{ url_for('static', filename='thumbnail.png') }}"/>
+    {% block og %}
     {% endblock %}
     {% block head %}
     {% endblock %}

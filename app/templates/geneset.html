@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block og %}
-    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/geneset/{{ geneset['id'] }}"/>
+    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/genesets/{{ geneset['id'] }}"/>
     <meta property="og:title"
           content="{{ geneset['descrShort'] }} - COVID-19 Crowd Generated Gene and Drug Set Library"/>
+    <meta property="og:description" content="{{ geneset['descrFull'] }}"/>
 {% endblock %}
 
 {% block head %}
@@ -106,19 +107,19 @@
             <!-- Twitted share button -->
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
                data-text="{{ geneset['descrShort'] }} from COVID-19 Crowd Generated Gene and Drug Set Library"
-               data-url="https://amp.pharm.mssm.edu/covid19/geneset/{{ geneset['id'] }}" data-via="MaayanLab"
+               data-url="https://amp.pharm.mssm.edu/covid19/genesets/{{ geneset['id'] }}" data-via="MaayanLab"
                data-hashtags="COVID, COVID19"
                data-show-count="false">Tweet</a>
         </div>
         <div class="row my-2">
             <!-- LinkedIn share button -->
-            <script type="IN/Share" data-url="https://amp.pharm.mssm.edu/covid19/geneset/{{ geneset['id'] }}"></script>
+            <script type="IN/Share" data-url="https://amp.pharm.mssm.edu/covid19/genesets/{{ geneset['id'] }}"></script>
         </div>
         <!-- Facebook share button -->
         <div class="row my-2">
-            <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/geneset/{{ geneset['id'] }}"
+            <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/genesets/{{ geneset['id'] }}"
                  data-layout="button" data-size="small">
-                <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/geneset/{{ geneset['id'] }}"
+                <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/genesets/{{ geneset['id'] }}"
                      data-layout="button"
                      data-size="small">
                     <a target="_blank"
