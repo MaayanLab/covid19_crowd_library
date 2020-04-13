@@ -121,6 +121,7 @@ serve_geneset_datatable = lambda reviewed: serve_datatable(
         Geneset.descrFull.like(f'%{s}%'),
         Geneset.source.like(f'%{s}%'),
         Geneset.meta.like(f'%{s}%'),
+        Geneset.date.like(f'%{s}%'),
         sa.and_(
             Geneset.showContacts == 1,
             sa.or_(

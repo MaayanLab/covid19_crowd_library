@@ -103,6 +103,7 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
         Drugset.descrFull.like(f'%{s}%'),
         Drugset.source.like(f'%{s}%'),
         Drugset.meta.like(f'%{s}%'),
+        Drugset.date.like(f'%{s}%'),
         sa.and_(
             Drugset.showContacts == 1,
             sa.or_(
