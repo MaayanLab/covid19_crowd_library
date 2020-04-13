@@ -1,8 +1,9 @@
 import json
 import requests
 
+import sqlalchemy as sa
 from app.database import Session
-from app.models import Geneset, gene_splitter
+from app.models import Geneset, GenesetGene, Gene, gene_splitter
 from app.datatables import serve_datatable
 from app.utils import match_meta
 
@@ -110,7 +111,23 @@ serve_geneset_datatable = lambda reviewed: serve_datatable(
         (Geneset.showContacts, 'showContacts'),
         (Geneset.meta, 'meta'),
     ],
-    lambda s: Geneset.descrShort.like(f'%{s}%'),
+    lambda sess, s: sa.or_(
+        Geneset.id.in_(
+            sess.query(GenesetGene.geneset) \
+                .join(Gene, Gene.id == GenesetGene.gene) \
+                .filter(Gene.symbol.like(f'%{s}%'))
+        ),
+        Geneset.descrShort.like(f'%{s}%'),
+        Geneset.descrFull.like(f'%{s}%'),
+        Geneset.source.like(f'%{s}%'),
+        Geneset.meta.like(f'%{s}%'),
+        sa.and_(
+            Geneset.showContacts == 1,
+            Geneset.authorName.like(f'%{s}%'),
+            Geneset.authorAffiliation.like(f'%{s}%'),
+            Geneset.authorEmail.like(f'%{s}%'),
+        ),
+    ),
     lambda qs, reviewed=reviewed: [
         {
             'id': record.id,

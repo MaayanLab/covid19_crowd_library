@@ -7,7 +7,7 @@ def serve_datatable(qs, cols, search_filter, aggregator=None):
     myserved_datatable = serve_datatable(
       lambda sess: sess.query(Gene),
       [(Gene.symbol, 'symbol')],
-      lambda search: Gene.symbol.like(val)
+      lambda sess, search: Gene.symbol.like(val)
     )
     @app.route('/my_path', methods=['POST'])
     def my_path():
@@ -38,7 +38,7 @@ def serve_datatable(qs, cols, search_filter, aggregator=None):
 
     if type(search) == dict and 'value' in search:
       filtered_qs = qs.filter(
-        search_filter(search['value'])
+        search_filter(sess, search['value'])
       )
     else:
       filtered_qs = qs

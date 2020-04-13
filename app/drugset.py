@@ -1,7 +1,8 @@
 import json
 
+import sqlalchemy as sa
 from app.database import Session
-from app.models import Drugset, drug_splitter
+from app.models import Drugset, DrugsetDrug, Drug, drug_splitter
 from app.datatables import serve_datatable
 from app.utils import match_meta
 
@@ -92,7 +93,23 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
         (Drugset.showContacts, 'showContacts'),
         (Drugset.meta, 'meta'),
     ],
-    lambda s: Drugset.descrShort.like(f'%{s}%'),
+    lambda sess, s: sa.or_(
+        Drugset.id.in_(
+            sess.query(DrugsetDrug.drugset) \
+                .join(Drug, Drug.id == DrugsetDrug.drug) \
+                .filter(Drug.symbol.like(f'%{s}%'))
+        ),
+        Drugset.descrShort.like(f'%{s}%'),
+        Drugset.descrFull.like(f'%{s}%'),
+        Drugset.source.like(f'%{s}%'),
+        Drugset.meta.like(f'%{s}%'),
+        sa.and_(
+            Drugset.showContacts == 1,
+            Drugset.authorName.like(f'%{s}%'),
+            Drugset.authorAffiliation.like(f'%{s}%'),
+            Drugset.authorEmail.like(f'%{s}%'),
+        ),
+    ),
     lambda qs, reviewed=reviewed: [
         {
             'id': record.id,
