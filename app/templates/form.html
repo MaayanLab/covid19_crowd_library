@@ -14,7 +14,7 @@
                 <span id="sourceLabel" class="input-group-text">{{ c.Type }} set URL</span>
             </div>
             <input type="url" class="form-control" name="source" aria-describedby="sourceLabel">
-            <div class="invalid-feedback">Please input the URL where this data set is published. If the data set is not
+            <div class="invalid-feedback">Please input the URL of the published {{ c.type}} set from which this drug set was derived. If the data set is not
                 published yet, you can provide method details, such as cell line, drug, dose, or treatment in the
                 'Metadata' field below.
             </div>
@@ -36,6 +36,8 @@
         <div class="invalid-feedback">Please input a {{ c.type }} set. {{ c.title }}</div>
     </div>
     <div class="form-group" id="meta-{{ c.type }}-form">
+    </div>
+    <div class="form-group">
         <button type="button" class="btn btn-outline-primary" onclick="addMetaField('{{ c.type }}');"
                 aria-describedby="metaHelpInline">Add metadata
         </button>

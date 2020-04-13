@@ -46,7 +46,7 @@ function addMetaField(setType) {
         count = window.geneSetMetaCounter.next().value;
     }
     const meta_input =
-        `        <div class="input-group mb-3">\n` +
+        `        <div class="input-group mt-3">\n` +
         `            <div class="input-group-prepend">\n` +
         `                <span class="input-group-text">Parameter</span>\n` +
         `            </div>\n` +
@@ -56,5 +56,5 @@ function addMetaField(setType) {
         `            </div>\n` +
         `            <input type="text" class="form-control" aria-label="Matadata parameter value ${count}" name="val_${count}">\n` +
         `        </div>`;
-    form.prepend(meta_input);
+    form.append(meta_input);
 }
