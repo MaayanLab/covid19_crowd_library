@@ -10,6 +10,11 @@ function renderMeta(meta) {
     return tmp.join('\n');
 }
 
+function urlfy(source) {
+    let r = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+    return source.replace(r, '<a href="$1">$1</a>')
+}
+
 function gs_drawTable(url, reviewed) {
     let columns = [
         {title: "Description", data: 'description'},
@@ -31,10 +36,8 @@ function gs_drawTable(url, reviewed) {
                 let source;
                 if (row['source'] === null) {
                     source = ''
-                } else if ((row['source'].includes('http://')) || (row['source'].includes('https://'))) {
-                    // let a = document.createElement('a');
-                    // a.href = row['source'];
-                    source = `<p><b>Source: </b><a class="wrapped" href="${row['source']}"  target="_blank">${row['source']}</a></p>`
+                } else if (row['source'].includes('http')) {
+                    source = `<p><b>Source: </b><p class="wrapped">${urlfy(row['source'])}</p></p>`
                 } else {
                     source = `<p><b>Source: </b> ${row['source']}</p>`;
                 }
