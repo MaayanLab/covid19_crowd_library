@@ -27,7 +27,7 @@ def add_geneset(form):
     author_name = form['authorName']
     author_email = form['authorEmail']
     author_aff = form['authorAff']
-    show_contacts = 1 if 'showContacts' in form else 0
+    show_contacts = 1 if form.get('showContacts') else 0
     enrichr_ids = enrichr_submit(gene_set, desc_short)
     enrichr_shortid = enrichr_ids['shortId']
     enrichr_userlistid = enrichr_ids['userListId']
