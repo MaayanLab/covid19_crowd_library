@@ -97,7 +97,7 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
         Drugset.id.in_(
             sess.query(DrugsetDrug.drugset) \
                 .join(Drug, Drug.id == DrugsetDrug.drug) \
-                .filter(Drug.symbol.like(f'%{s}%'))
+                .filter(Drug.symbol.like(f'{s}%'))
         ),
         Drugset.descrShort.like(f'%{s}%'),
         Drugset.descrFull.like(f'%{s}%'),

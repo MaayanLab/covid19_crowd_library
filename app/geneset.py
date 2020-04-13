@@ -115,7 +115,7 @@ serve_geneset_datatable = lambda reviewed: serve_datatable(
         Geneset.id.in_(
             sess.query(GenesetGene.geneset) \
                 .join(Gene, Gene.id == GenesetGene.gene) \
-                .filter(Gene.symbol.like(f'%{s}%'))
+                .filter(Gene.symbol.like(f'{s}%'))
         ),
         Geneset.descrShort.like(f'%{s}%'),
         Geneset.descrFull.like(f'%{s}%'),
