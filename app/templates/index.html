@@ -13,32 +13,32 @@
     <div class="container">
         <div class="row justify-content-center my-5">
             <div class="d-flex align-items-start">
-                <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}">
+                <img style="width: 30%; max-width: 40px" src="{{ url_for('static', filename='logo.png') }}">
                 <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1>
             </div>
             <p class="text-center">A collection of drugs and gene sets related to COVID-19 research contributed by the
                 community</p>
         </div>
         <div class="row justify-content-center">
-            <div class="col-2 text-center">
+            <div class="col-md-2 col-sm-6 text-center">
                 <a class="subtle-link drugs" href="{{ url_for('route_index') }}#nav-drugs-table">{{ stats.n_drugsets }}
                     drug sets</a>
             </div>
-            <div class="col-2 text-center">
+            <div class="col-md-2 col-sm-6 text-center">
                 <a class="subtle-link drugs"
                    href="{{ url_for('route_stats') }}#nav-drugs-table">{{ stats.n_unique_drugs }} unique drugs</a>
             </div>
-            <div class="col-2 text-center">
+            <div class="col-md-2 col-sm-6 text-center">
                 <a class="subtle-link genes" href="{{ url_for('route_index') }}#nav-genes-table">{{ stats.n_genesets }}
                     gene sets</a>
             </div>
-            <div class="col-2 text-center">
+            <div class="col-md-2 col-sm-6 text-center">
                 <a class="subtle-link genes"
                    href="{{ url_for('route_stats') }}#nav-genes-table">{{ stats.n_unique_genes }} unique genes</a>
             </div>
         </div>
         <div class="row justify-content-center my-5">
-            <div class="col-10">
+            <div class="col-md-10 col-sm">
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item drugs nav-link" id="nav-drugs-table-tab" data-toggle="tab"
@@ -82,7 +82,7 @@
             </div>
         </div>
         <div class="row justify-content-center my-5">
-            <div class="col-10">
+            <div class="col-md-10 col-sm">
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item drugs nav-link active" id="nav-drugs-form-tab" data-toggle="tab"
@@ -114,7 +114,7 @@
 {% endblock %}
 
 {% block socialbuttons %}
-    <div class="col-2">
+    <div class="col-md-2 col-sm">
         <div class="row my-2">
             <!-- Twitted share button -->
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
