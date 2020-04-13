@@ -105,9 +105,11 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
         Drugset.meta.like(f'%{s}%'),
         sa.and_(
             Drugset.showContacts == 1,
-            Drugset.authorName.like(f'%{s}%'),
-            Drugset.authorAffiliation.like(f'%{s}%'),
-            Drugset.authorEmail.like(f'%{s}%'),
+            sa.or_(
+                Drugset.authorName.like(f'%{s}%'),
+                Drugset.authorAffiliation.like(f'%{s}%'),
+                Drugset.authorEmail.like(f'%{s}%'),
+            ),
         ),
     ),
     lambda qs, reviewed=reviewed: [

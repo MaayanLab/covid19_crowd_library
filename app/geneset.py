@@ -123,9 +123,11 @@ serve_geneset_datatable = lambda reviewed: serve_datatable(
         Geneset.meta.like(f'%{s}%'),
         sa.and_(
             Geneset.showContacts == 1,
-            Geneset.authorName.like(f'%{s}%'),
-            Geneset.authorAffiliation.like(f'%{s}%'),
-            Geneset.authorEmail.like(f'%{s}%'),
+            sa.or_(
+                Geneset.authorName.like(f'%{s}%'),
+                Geneset.authorAffiliation.like(f'%{s}%'),
+                Geneset.authorEmail.like(f'%{s}%'),
+            ),
         ),
     ),
     lambda qs, reviewed=reviewed: [
