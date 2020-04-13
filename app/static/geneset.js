@@ -113,7 +113,7 @@ function gs_drawTable(url, reviewed) {
         buttons: [],
         columnDefs: columnDefs,
         language: {
-            search: "Search in description or genes:",
+            search: "Search in description, metadata or genes:",
             searchPlaceholder: "e.g. ACE2",
         },
         drawCallback: function () {

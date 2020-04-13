@@ -100,7 +100,7 @@ function ds_drawTable(url, reviewed) {
         buttons: [],
         columnDefs: columnDefs,
         language: {
-            search: "Search in description or drugs:",
+            search: "Search in description, metadata or drugs:",
             searchPlaceholder: "e.g. Remdesivir",
         },
         drawCallback: function () {
