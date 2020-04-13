@@ -1,9 +1,9 @@
 ---
 name: Enchancement
-about: Describe this issue template's purpose here.
+about: Blank issue for small enchansement.
 title: ''
 labels: enhancement
-assignees: ''
+assignees: maxim-k
 
 ---
 
