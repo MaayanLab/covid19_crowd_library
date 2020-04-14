@@ -9,7 +9,7 @@ from app.utils import match_meta
 
 def add_drugset(form):
     source = form['source']
-    drug_set = drug_splitter.split(form['drugSet'])
+    drug_set = list(filter(None, (drug.strip() for drug in drug_splitter.split(form['drugSet']))))
     descr_full = form['descrFull']
     desc_short = form['descrShort']
     author_name = form['authorName']

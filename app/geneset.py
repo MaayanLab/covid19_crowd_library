@@ -21,7 +21,7 @@ def enrichr_submit(geneset, short_description):
 
 def add_geneset(form):
     source = form['source']
-    gene_set = gene_splitter.split(form['geneSet'])
+    gene_set = list(filter(None, (gene.strip() for gene in gene_splitter.split(form['geneSet']))))
     descr_full = form['descrFull']
     desc_short = form['descrShort']
     author_name = form['authorName']
