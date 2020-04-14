@@ -80,7 +80,7 @@ def approve_drugset(form):
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     except Exception as e:
         traceback.print_exc()
-        return json.dumps({'success': False, 'error': str(e)}), 200, {'ContentType': 'application/json'}
+        return json.dumps({'success': False, 'error': str(e)}), 500, {'ContentType': 'application/json'}
 
 serve_drugset_datatable = lambda reviewed: serve_datatable(
     lambda sess, reviewed=reviewed: sess.query(Drugset).filter(Drugset.reviewed == reviewed),
