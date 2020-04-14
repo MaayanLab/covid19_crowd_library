@@ -1,6 +1,6 @@
 import json
 import requests
-
+import traceback
 import sqlalchemy as sa
 from app.database import Session
 from app.models import Geneset, GenesetGene, Gene, gene_splitter
@@ -59,6 +59,7 @@ def add_geneset(form):
         sess.close()
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     except Exception as e:
+        traceback.print_exc()
         return json.dumps({'success': False, 'error': str(e)}), 500, {'ContentType': 'application/json'}
 
 
@@ -69,6 +70,7 @@ def get_geneset(id):
         sess.close()
         return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
     except Exception as e:
+        traceback.print_exc()
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 
 
@@ -79,6 +81,7 @@ def get_genesets(reviewed=1):
         sess.close()
         return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
     except Exception as e:
+        traceback.print_exc()
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 
 
@@ -93,6 +96,7 @@ def approve_geneset(form):
         sess.close()
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     except Exception as e:
+        traceback.print_exc()
         return json.dumps({'success': False, 'error': str(e)}), 200, {'ContentType': 'application/json'}
 
 serve_geneset_datatable = lambda reviewed: serve_datatable(

@@ -1,5 +1,5 @@
 import json
-
+import traceback
 import sqlalchemy as sa
 from app.database import Session
 from app.models import Drugset, DrugsetDrug, Drug, drug_splitter
@@ -42,6 +42,7 @@ def add_drugset(form):
         sess.close()
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     except Exception as e:
+        traceback.print_exc()
         return json.dumps({'success': False, 'error': str(e)}), 500, {'ContentType': 'application/json'}
 
 
@@ -52,6 +53,7 @@ def get_drugset(id):
         sess.close()
         return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
     except Exception as e:
+        traceback.print_exc()
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 
 
@@ -62,6 +64,7 @@ def get_drugsets(reviewed=1):
         sess.close()
         return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
     except Exception as e:
+        traceback.print_exc()
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 
 
@@ -76,6 +79,7 @@ def approve_drugset(form):
         sess.close()
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
     except Exception as e:
+        traceback.print_exc()
         return json.dumps({'success': False, 'error': str(e)}), 200, {'ContentType': 'application/json'}
 
 serve_drugset_datatable = lambda reviewed: serve_datatable(
