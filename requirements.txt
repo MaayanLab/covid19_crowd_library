@@ -1,10 +1,13 @@
 # Python dependencies
 alembic
+connexion
 cryptography
 Flask
+flask_cors
 pymysql
 python-dotenv
 pytz
 requests
 sqlalchemy
+swagger-ui-bundle
 uwsgi

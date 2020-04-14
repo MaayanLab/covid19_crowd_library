@@ -1,6 +1,8 @@
 import os
 import json
 import flask
+import connexion
+from flask_cors import CORS
 from app import database, geneset, drugset, download, statistics
 
 ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
@@ -8,7 +10,13 @@ ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
 #  environment variables--`../.env` can be used
 #  for sensitive information!
 
-app = flask.Flask(__name__, static_url_path=ROOT_PATH + 'static')
+
+connexionApp = connexion.App(__name__)
+connexionApp.add_api(os.path.join(os.path.dirname(__file__), 'swagger.yaml'), base_path=ROOT_PATH)
+app = connexionApp.app
+app.static_url_path = ROOT_PATH + 'static'
+CORS(app)
+
 app.before_first_request(database.init)
 
 
@@ -20,13 +28,11 @@ def route_index():
 def route_genesets_table():
     return geneset.serve_geneset_datatable(int(flask.request.values.get('reviewed')))(**json.loads(flask.request.values.get('body')))
 
-@app.route(ROOT_PATH + 'genesets', methods=['GET', 'POST'])
+@app.route(ROOT_PATH + 'genesets', methods=['GET'])
 def route_genesets():
     if flask.request.method == 'GET':
         reviewed = flask.request.args.get('reviewed', 1)
         return geneset.get_genesets(reviewed)
-    elif flask.request.method == 'POST':
-        return geneset.add_geneset(flask.request.form)
 
 @app.route(ROOT_PATH + 'drugsets_table', methods=['POST'])
 def route_drugsets_table():
@@ -34,13 +40,11 @@ def route_drugsets_table():
         **json.loads(flask.request.values.get('body'))
     )
 
-@app.route(ROOT_PATH + 'drugsets', methods=['GET', 'POST'])
+@app.route(ROOT_PATH + 'drugsets', methods=['GET'])
 def route_drugs():
     if flask.request.method == 'GET':
         reviewed = flask.request.args.get('reviewed', 1)
         return drugset.get_drugsets(reviewed)
-    elif flask.request.method == 'POST':
-        return drugset.add_drugset(flask.request.form)
 
 
 @app.route(ROOT_PATH + 'review', methods=['GET', 'POST'])

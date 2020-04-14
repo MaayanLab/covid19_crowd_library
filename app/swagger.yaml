@@ -1,0 +1,175 @@
+swagger: '2.0'
+info:
+  title: COVID-19 Crowd Generated Gene and Drug Set Library API
+  version: "0.1"
+  description: A collection of drugs and gene sets related to COVID-19 research contributed by the community
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /genesets:
+    post:
+      operationId: app.geneset.add_geneset
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            source:
+              type: string
+              format: url
+              description: The source URL
+            geneSet:
+              type: string
+              description: The actual newline-separated set
+            descrFull:
+              type: string
+              description: A long description of the set
+            descrShort:
+              type: string
+              description: A short description of the set
+            authorName:
+              type: string
+              description: Author Name
+            authorEmail:
+              type: string
+              description: Author Email
+            authorAff:
+              type: string
+              description: Author affiliation
+            showContacts:
+              type: boolean
+              description: true to show, false otherwise (defaults to false)
+            meta:
+              type: object
+              description: Additional key-value metadata properties
+              additionalProperties:
+                type: string
+          required:
+          - source
+          - geneSet
+          - descrFull
+          - descrShort
+          - authorName
+          - authorEmail
+          - authorAff
+          - showContacts
+          - meta
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                description: true on success, false otherwise
+        500:
+          description: Error occurred
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                description: true on success, false otherwise
+              error:
+                type: string
+                description: A error string possibly explaining the error
+
+  /genesets.gmt:
+    get:
+      operationId: app.download.genesets
+      description: Download the genesets
+      produces:
+      - text/gmt
+      responses:
+        200:
+          description: A GMT containing all the genesets
+
+  /drugsets:
+    post:
+      operationId: app.drugset.add_drugset
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            source:
+              type: string
+              format: url
+              description: The source URL
+            geneSet:
+              type: string
+              description: The actual newline-separated set
+            descrFull:
+              type: string
+              description: A long description of the set
+            descrShort:
+              type: string
+              description: A short description of the set
+            authorName:
+              type: string
+              description: Author Name
+            authorEmail:
+              type: string
+              description: Author Email
+            authorAff:
+              type: string
+              description: Author affiliation
+            showContacts:
+              type: boolean
+              description: true to show, false otherwise (defaults to false)
+            meta:
+              type: object
+              description: Additional key-value metadata properties
+              additionalProperties:
+                type: string
+          required:
+          - source
+          - geneSet
+          - descrFull
+          - descrShort
+          - authorName
+          - authorEmail
+          - authorAff
+          - showContacts
+          - meta
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                description: true on success, false otherwise
+        500:
+          description: Error occurred
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                description: true on success, false otherwise
+              error:
+                type: string
+                description: A error string possibly explaining the error
+
+  /drugsets.gmt:
+    get:
+      operationId: app.download.drugsets
+      description: Download the drugsets
+      produces:
+        - text/gmt
+      responses:
+        200:
+          description: A GMT containing all the genesets
