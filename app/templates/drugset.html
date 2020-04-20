@@ -80,7 +80,7 @@
                 </h4>
                 <div class="mb-3">
                     {% for drug in drugset['drugs']|sort %}
-                        <a class="drug-link" href="#" target="_blank">{{ drug }}</a>
+                        <a class="drug-link" href="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query={{ drug }}" target="_blank">{{ drug }}</a>
                     {% endfor %}
 
                 </div>

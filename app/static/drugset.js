@@ -66,7 +66,7 @@ function ds_drawTable(url, reviewed) {
             render: function (data, type, row) {
                 let drugLinks = [];
                 $.each(row['drugs'].sort(), function (index, drug) {
-                    drugLinks.push('<a class="drug-link" href="#" target="_blank">' + drug + '</a>');
+                    drugLinks.push(`<a class="drug-link" href="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query=${drug}" target="_blank">${drug}</a>`);
                 });
                 return $('<div>', {
                     'class': 'enrichment-popover-button',
