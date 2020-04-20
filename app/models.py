@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 
 from pytz import timezone
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, JSON
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -60,7 +60,7 @@ class Geneset(Base):
     enrichrUserListId = Column('enrichrUserListId', Integer, nullable=False)
     genes = relationship('Gene', secondary='genesets_genes', back_populates='genesets')
     descrShort = Column('descrShort', String(255), nullable=False)
-    descrFull = Column('descrFull', String(255), nullable=False)
+    descrFull = Column('descrFull', Text, nullable=False)
     authorName = Column('authorName', String(255), nullable=False)
     authorAffiliation = Column('authorAffiliation', String(255))
     authorEmail = Column('authorEmail', String(255))
@@ -151,7 +151,7 @@ class Drugset(Base):
     id = Column('id', Integer, primary_key=True)
     drugs = relationship('Drug', secondary='drugsets_drugs', back_populates='drugsets')
     descrShort = Column('descrShort', String(255), nullable=False)
-    descrFull = Column('descrFull', String(255), nullable=False)
+    descrFull = Column('descrFull', Text, nullable=False)
     authorName = Column('authorName', String(255), nullable=False)
     authorAffiliation = Column('authorAffiliation', String(255))
     authorEmail = Column('authorEmail', String(255))
