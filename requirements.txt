@@ -1,8 +1,9 @@
 # Python dependencies
+Flask
 alembic
 cryptography
-Flask
 pymysql
+pytest
 python-dotenv
 pytz
 requests
