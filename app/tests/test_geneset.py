@@ -7,7 +7,7 @@ from app import geneset
 ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
 
 
-class TestGenesets:
+class TestAddGenesets:
     form = {'source': 'https://amp.pharm.mssm.edu/Enrichr',
             'geneSet': open('gene_list.txt').read(),
             'descrShort': 'Test: Standard submission {}'.format(
@@ -20,3 +20,18 @@ class TestGenesets:
     def test_add_geneset(self):
         response = geneset.add_geneset(self.form)
         assert response == ('{"success": true}', 200, {'ContentType': 'application/json'})
+
+
+class TestGetGeneset:
+    def test_get_geneset(self):
+        assert False
+
+
+class TestGetGenesets:
+    def test_get_genesets(self):
+        assert False
+
+
+class TestApproveGeneset:
+    def test_approve_geneset(self):
+        assert False
