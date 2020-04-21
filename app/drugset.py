@@ -83,7 +83,7 @@ def approve_drugset(form):
         return json.dumps({'success': False, 'error': str(e)}), 500, {'ContentType': 'application/json'}
 
 serve_drugset_datatable = lambda reviewed: serve_datatable(
-    lambda sess, reviewed=reviewed: sess.query(Drugset).filter(Drugset.reviewed == reviewed),
+    lambda sess, reviewed=reviewed: sess.query(Drugset).filter(Drugset.reviewed == reviewed).order_by(sa.desc(Drugset.date)),
     [
         (Drugset.id, 'id'),
         (Drugset.descrShort, 'descrShort'),

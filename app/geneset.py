@@ -100,7 +100,7 @@ def approve_geneset(form):
         return json.dumps({'success': False, 'error': str(e)}), 500, {'ContentType': 'application/json'}
 
 serve_geneset_datatable = lambda reviewed: serve_datatable(
-    lambda sess, reviewed=reviewed: sess.query(Geneset).filter(Geneset.reviewed == reviewed),
+    lambda sess, reviewed=reviewed: sess.query(Geneset).filter(Geneset.reviewed == reviewed).order_by(sa.desc(Geneset.date)),
     [
         (Geneset.id, 'id'),
         (Geneset.descrShort, 'descrShort'),
