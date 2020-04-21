@@ -1,6 +1,7 @@
 import json
 import requests
 import traceback
+from itertools import combinations
 import sqlalchemy as sa
 from app.database import Session
 from app.models import Geneset, GenesetGene, Gene, gene_splitter
@@ -153,3 +154,30 @@ serve_geneset_datatable = lambda reviewed: serve_datatable(
         for record in qs
     ]
 )
+
+
+def get_intersection(ids=[]):
+    print(ids)
+    genesets = []
+    labels = []
+    for geneset_id in ids:
+        geneset = json.loads(get_geneset(geneset_id)[0])
+        labels.append(geneset["descrShort"])
+        genesets.append(geneset)
+    overlaps = []
+    for i in range(len(genesets)):
+        combo = combinations(genesets, r=i+1)
+        for c in combo:
+            data = {
+                "sets": []
+            }
+            for d in c:
+                data["sets"].append(d["descrShort"])
+                if not "intersection" in data:
+                    data["intersection"] = set(d["genes"])
+                else:
+                    data["intersection"] = data["intersection"].intersection(d["genes"])
+            data["intersection"] = list(data["intersection"])
+            data["size"] = len(data["intersection"])
+            overlaps.append(data)
+    return {"overlaps": overlaps, "labels": labels}

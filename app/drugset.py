@@ -1,5 +1,6 @@
 import json
 import traceback
+from itertools import combinations
 import sqlalchemy as sa
 from app.database import Session
 from app.models import Drugset, DrugsetDrug, Drug, drug_splitter
@@ -67,7 +68,6 @@ def get_drugsets(reviewed=1):
         traceback.print_exc()
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 
-
 def approve_drugset(form):
     drugset_id = form['id']
     reviewed = form['reviewed']
@@ -134,3 +134,29 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
         for record in qs
     ]
 )
+
+def get_intersection(ids=[]):
+    drugsets = []
+    labels = []
+    for drugset_id in ids:
+        drugset = json.loads(get_drugset(drugset_id)[0])
+        labels.append(drugset["descrShort"])
+        drugsets.append(drugset)
+    overlaps = []
+    for i in range(len(drugsets)):
+        combo = combinations(drugsets, r=i+1)
+        for c in combo:
+            data = {
+                "sets": []
+            }
+            print(c)
+            for d in c:
+                data["sets"].append(d["descrShort"])
+                if not "intersection" in data:
+                    data["intersection"] = set(d["drugs"])
+                else:
+                    data["intersection"] = data["intersection"].intersection(d["drugs"])
+            data["intersection"] = list(data["intersection"])
+            data["size"] = len(data["intersection"])
+            overlaps.append(data)
+    return {"overlaps": overlaps, "labels": labels}
