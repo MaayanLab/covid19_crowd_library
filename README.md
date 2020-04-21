@@ -42,7 +42,7 @@ The `.env.example` and `docker-compose.yml` can be used to establish a local dat
 - `python ./manage.py load < your_data.dump`: Load contents of the database from a file
 
 ## Testing
-
+Run `pytest` in the root folder to run unit tests.
 
 ## Deployment
 
