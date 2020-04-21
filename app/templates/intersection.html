@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block og %}
+    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/genesets/{{ ','.join(ids) }}"/>
+    <meta property="og:title"
+          content="{{ type }} Overlap - COVID-19 Crowd Generated Gene and Drug Set Library"/>
+    <meta property="og:description" content="{{ type }}"/>
+{% endblock %}
+
+{% block head %}
+    <title>{{ type }} Overlaps</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>{{ type }} Overlaps</h2>
+        </div>
+        <div id="tooltip">
+            <div id="venn" class="d-flex justify-content-center"></div>
+        </div>
+        <div id="list"></div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    var intersection = {{ intersection | tojson }}
+    var div = d3.select("#venn")
+    div.datum(intersection).call(venn.VennDiagram());
+    // var chart = venn.VennDiagram();
+    // d3.select("#venn").datum(intersection).call(chart);
+    div.selectAll("text").style("font-size", "12px")
+
+    var tooltip = d3.select("#tooltip").append("div")
+        .attr("class", "venntooltip");
+    div.selectAll("path")
+        .style("stroke-opacity", 0)
+        .style("stroke", "#000")
+        .style("stroke-width", 3)
+    // add listeners to all the groups to display tooltip on mouseover
+    div.selectAll("g")
+    .on("mouseover", function(d, i) {
+        // sort all the areas relative to the current item
+        venn.sortAreas(div, d);
+
+        // Display a tooltip with the current size
+        tooltip.transition().duration(400).style("opacity", .9);
+        tooltip.text(d.size + " {{ elements }}");
+
+        // highlight the current path
+        var selection = d3.select(this).transition("tooltip").duration(400);
+        selection.select("path")
+            .style("fill-opacity", d.sets.length == 1 ? .4 : .1)
+    })
+
+    .on("mousemove", function() {
+        tooltip.style("left", (d3.event.pageX) + "px")
+               .style("top", (d3.event.pageY - 28) + "px");
+    })
+
+    .on("mouseout", function(d, i) {
+        tooltip.transition().duration(400).style("opacity", 0);
+        var selection = d3.select(this).transition("tooltip").duration(400);
+        selection.select("path")
+            .style("fill-opacity", d.sets.length == 1 ? .25 : .0)
+    })
+
+    .on("click", function(d,i){
+        div.selectAll("path")
+            .style("stroke-opacity", 0)
+            .style("stroke", "#000")
+            .style("stroke-width", 3)
+        var selection = d3.select(this).transition("tooltip").duration(400);
+        selection.select("path")
+            .style("fill-opacity", d.sets.length == 1 ? .4 : .1)
+            .style("stroke-opacity", 1);
+        
+        
+        var list = document.getElementById("list")
+        var child = list.lastElementChild;
+        while (child) { 
+            list.removeChild(child); 
+            child = list.lastElementChild;
+        }
+        var sets = document.createElement("h4");
+        d["sets"].map(label=>{
+            var label_span = document.createElement("span");
+            label_span.className = "badge badge-primary badge-pill"
+            label_span.textContent = label
+            sets.appendChild(label_span)  
+            var whitespace = document.createTextNode("\u00a0");
+            sets.appendChild(whitespace)      
+        })
+        list.appendChild(sets)
+        var count = document.createElement("h4");
+        count.className = "d-flex justify-content-between align-items-center mb-3" 
+        var count_span = document.createElement("span");
+        count_span.className = "badge badge-secondary badge-pill"
+        count_span.textContent = d.size + " {{ elements }}"
+        count.appendChild(count_span)
+        list.appendChild(count)
+        d.intersection.map(entity=>{
+            var a = document.createElement("a"); 
+            a.className = "{{ className }}"
+            a.href = "{{website}}" + entity
+            a.target = "_blank"
+            a.textContent = entity
+            list.appendChild(a)
+            var whitespace = document.createTextNode("\u00a0");
+            list.appendChild(whitespace)
+        })
+    });
+</script>
+<style>
+.venntooltip {
+    position: absolute;
+    text-align: center;
+    width: 128px;
+    height: auto;
+    background: #333;
+    color: #ddd;
+    padding: 2px;
+    border: 0px;
+    border-radius: 8px;
+    opacity: 0;
+}
+</style>
+{% endblock %}
+
+{% block socialbuttons %}
+    <div class="col-md-2 col-sm">
+        <div class="row my-2">
+            <!-- Twitted share button -->
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+               data-text="{{ type }} overlaps of {{ ', '.join(labels) }} from COVID-19 Crowd Generated Gene and Drug Set Library"
+               data-url="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}" data-via="MaayanLab"
+               data-hashtags="COVID, COVID19"
+               data-show-count="false">Tweet</a>
+        </div>
+        <div class="row my-2">
+            <!-- LinkedIn share button -->
+            <script type="IN/Share" data-url="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"></script>
+        </div>
+        <!-- Facebook share button -->
+        <div class="row my-2">
+            <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"
+                 data-layout="button" data-size="small">
+                <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"
+                     data-layout="button"
+                     data-size="small">
+                    <a target="_blank"
+                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Famp.pharm.mssm.edu%2Fcovid19&amp;src=sdkpreparse"
+                       class="fb-xfbml-parse-ignore">Share</a></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
