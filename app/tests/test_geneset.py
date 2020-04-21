@@ -9,7 +9,7 @@ ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
 
 class TestAddGenesets:
     form = {'source': 'https://amp.pharm.mssm.edu/Enrichr',
-            'geneSet': open('gene_list.txt').read(),
+            'geneSet': open(os.path.join(os.path.dirname(__file__), 'gene_list.txt')).read(),
             'descrShort': 'Test: Standard submission {}'.format(
                 datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S')),
             'descrFull': '',

@@ -41,6 +41,9 @@ The `.env.example` and `docker-compose.yml` can be used to establish a local dat
 - `python ./manage.py dump > your_data.dump`: Dump the contents of the database to a file
 - `python ./manage.py load < your_data.dump`: Load contents of the database from a file
 
+## Testing
+
+
 ## Deployment
 
 ### Build for deployment
