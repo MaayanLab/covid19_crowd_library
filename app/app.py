@@ -64,6 +64,7 @@ def route_geneset(geneset_id):
 @app.route(ROOT_PATH + 'drugsets/<drugset_id>', methods=['GET'])
 def route_drugset(drugset_id):
     json_drugset = json.loads(drugset.get_drugset(drugset_id)[0])
+    print(json_drugset)
     return flask.render_template('drugset.html', drugset=json_drugset)
 
 @app.route(ROOT_PATH + 'stats')
@@ -87,3 +88,37 @@ def download_genesets():
 @app.route(ROOT_PATH + 'drugsets.gmt')
 def download_drugsets():
     return flask.Response(download.drugsets(), mimetype='text/gmt')
+
+@app.route(ROOT_PATH + 'genesets/overlap', methods=['GET', 'POST'])
+@app.route(ROOT_PATH + 'genesets/overlap/<ids>')
+def route_overlap_genesets(ids=None):
+    if ids:
+        intersection = geneset.get_intersection(ids.split(","))
+        return flask.render_template('intersection.html',
+            intersection=intersection["overlaps"],
+            labels=intersection["labels"],
+            type="Geneset",
+            elements="genes",
+            website="https://amp.pharm.mssm.edu/Harmonizome/gene/",
+            className="enriched-gene-link",
+            ids={ids})
+    else:
+        ids = flask.request.values.getlist("id")
+        return flask.jsonify(geneset.get_intersection(ids))
+
+@app.route(ROOT_PATH + 'drugsets/overlap', methods=['GET', 'POST'])
+@app.route(ROOT_PATH + 'drugsets/overlap/<ids>')
+def route_overlap_drugsets(ids=None):
+    if ids:
+        intersection = drugset.get_intersection(ids.split(","))
+        return flask.render_template('intersection.html',
+            intersection=intersection["overlaps"],
+            labels=intersection["labels"],
+            type="Drugset",
+            elements="drugs",
+            website="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query=",
+            className="drug-link",
+            ids={ids})
+    else:
+        ids = flask.request.values.getlist("id")
+        return flask.jsonify(drugset.get_intersection(ids))
