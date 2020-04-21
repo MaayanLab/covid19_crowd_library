@@ -3,3 +3,4 @@ __pycache__
 .env
 .env.prod
 venv
+.DS_Store
