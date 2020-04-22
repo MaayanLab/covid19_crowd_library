@@ -15,7 +15,7 @@ function urlfy(source) {
     return source.replace(r, '<a href="$1">$1</a>')
 }
 
-function ds_drawTable(url, reviewed) {
+function ds_drawTable(url, reviewed, overlap_url) {
     let columns = [
         {title: "Description", data: 'descrShort'},
         {title: "Drugs", data: 'drugs', orderable: false},
@@ -84,7 +84,7 @@ function ds_drawTable(url, reviewed) {
                     .prop('outerHTML')
                     
             }
-        },
+        }
     ]
     if (reviewed === 0) {
         columnDefs.push({
@@ -100,8 +100,7 @@ function ds_drawTable(url, reviewed) {
         autoWidth: false,
         responsive: true,
         columns: columns,
-        dom: 'B<"small"f>rt<"small row"ip>',
-        buttons: [],
+        dom: '<"small row"<"col-sm-12 col-md-3"B><"col-sm-12 col-md-9"f>>rt<"small row"ip>',
         columnDefs: columnDefs,
         language: {
             search: "Search in description, metadata or drugs:",
@@ -118,8 +117,33 @@ function ds_drawTable(url, reviewed) {
                 return { body: JSON.stringify(args), reviewed: reviewed };
             }
         },
+        select: true,
+        buttons: [
+            {
+                extend: 'selected',
+                text: 'Compare',
+                action: function ( e, dt, node, config ) {
+                    const rows = dt.rows( { selected: true } );
+                    if (rows.count() > 1 && rows.count() < 6){
+                        const ids = rows.data().map(i=>i.id).join(",")
+                        window.location.href = overlap_url + "/" + ids
+                    }else if(rows.count()>5){
+                        $('#overlapModalText').text("Max five rows")
+                        $('#overlapError').modal({ show: true});
+                    }else {
+                        $('#overlapModalText').text("Please select at least two rows")
+                        $('#overlapError').modal({ show: true});
+                    }
+                    // alert( 'There are '+rows.count()+'(s) selected in the table' );
+                }
+            }
+        ],
     });
     table.columns.adjust().draw()
+    // console.log(table.rows( { selected: true } ).data());
+    // $('#drugset_table').on( 'click', 'tbody tr', function () {
+    //     console.log(table.rows( { selected: true } ).data());
+    // } );
 }
 
 $(document).ready(function () {

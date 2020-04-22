@@ -111,6 +111,19 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="overlapError" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div id="overlapModalText" class="modal-body">
+              Please select 2-5 rows
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
 {% endblock %}
 
 {% block socialbuttons %}
@@ -147,8 +160,9 @@
             window.drugSetMetaCounter = counter(0);
             window.geneSetMetaCounter = counter(0);
             navTabsSync('#nav-drugs-table');
-            ds_drawTable('{{ url_for("route_drugsets_table") }}', 1);
+            ds_drawTable('{{ url_for("route_drugsets_table") }}', 1, '{{ url_for("route_overlap_drugsets") }}');
             gs_drawTable('{{ url_for("route_genesets_table") }}', 1);
         });
+        $('#overlapError').modal({ show: false})
     </script>
 {% endblock %}

@@ -113,8 +113,7 @@ function gs_drawTable(url, reviewed) {
         width: '100%',
         responsive: true,
         columns: columns,
-        dom: 'B<"small"f>rt<"small row"ip>',
-        buttons: [],
+        dom: '<"small row"<"col-sm-12 col-md-3"B><"col-sm-12 col-md-9"f>>rt<"small row"ip>',
         columnDefs: columnDefs,
         language: {
             search: "Search in description, metadata or genes:",
@@ -132,6 +131,27 @@ function gs_drawTable(url, reviewed) {
                 return { body: JSON.stringify(args), reviewed: reviewed };
             }
         },
+        select: true,
+        buttons: [
+            {
+                extend: 'selected',
+                text: 'Compare',
+                action: function ( e, dt, node, config ) {
+                    const rows = dt.rows( { selected: true } );
+                    if (rows.count() > 1 && rows.count() < 6){
+                        const ids = rows.data().map(i=>i.id).join(",")
+                        window.location.href = overlap_url + "/" + ids
+                    }else if(rows.count()>5){
+                        $('#overlapModalText').text("Max five rows")
+                        $('#overlapError').modal({ show: true});
+                    }else {
+                        $('#overlapModalText').text("Please select at least two rows")
+                        $('#overlapError').modal({ show: true});
+                    }
+                    // alert( 'There are '+rows.count()+'(s) selected in the table' );
+                }
+            }
+        ],
     });
     table.columns.adjust().draw();
 }
