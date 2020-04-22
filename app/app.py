@@ -94,7 +94,7 @@ def route_overlap_genesets(ids=None):
     if ids:
         print(len(ids.split(",")))
         if len(ids.split(",")) > 5:
-            return flask.render_template('intersection.html', type="Geneset", maxError=True)
+            return flask.render_template('intersection.html', type="Gene set", maxError=True)
         else:
             intersection = geneset.get_intersection(ids.split(","))
             return flask.render_template('intersection.html',
@@ -115,7 +115,7 @@ def route_overlap_drugsets(ids=None):
     if ids:
         print(len(ids.split(",")))
         if len(ids.split(",")) > 5:
-            return flask.render_template('intersection.html', type="Drugset", maxError=True)
+            return flask.render_template('intersection.html', type="Drug-set", maxError=True)
         else:
             intersection = drugset.get_intersection(ids.split(","))
             return flask.render_template('intersection.html',
