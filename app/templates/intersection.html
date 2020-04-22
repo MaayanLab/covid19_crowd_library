@@ -16,14 +16,31 @@
         <div class="py-5 text-center">
             <h2>{{ type }} Overlaps</h2>
         </div>
-        <div id="tooltip">
-            <div id="venn" class="d-flex justify-content-center"></div>
-        </div>
-        <div id="list"></div>
+        {% if maxError %}
+            <div class="d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                    <h5 class="card-title">Invalid number of {{ type | lower }}s selected</h5>
+                    <p class="card-text">{{ type }} overlap diagram works best with 2-5 {{ type | lower }}s</p>
+                    <a href="{{ url_for('route_index') }}" class="card-link">Go Home</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div id="tooltip">
+                <div id="venn" class="d-flex justify-content-center"></div>
+            </div>
+            <div id="list">
+                <div class="py-5 text-center">
+                    <span>Click on an area for more information.</span>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 
 {% block script %}
+{% if not maxError %}
 <script>
     var intersection = {{ intersection | tojson }}
     var div = d3.select("#venn")
@@ -126,6 +143,7 @@
     opacity: 0;
 }
 </style>
+{% endif %}
 {% endblock %}
 
 {% block socialbuttons %}
