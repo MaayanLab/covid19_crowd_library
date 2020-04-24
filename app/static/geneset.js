@@ -28,7 +28,7 @@ function gs_drawTable(url, reviewed) {
     let columnDefs = [
         {
             targets: 0,
-            width: '20%',
+            width: '70%',
             render: function (data, type, row) {
                 const showContacts = row['showContacts'];
                 const contacts = showContacts ? `<p><b>Author:</b> ${row['authorName']}<\p><p><b>Affiliation:</b> ${row['authorAffiliation']}<\p><p><b>E-mail:</b> ${row['authorEmail']}<\p>` :
@@ -63,7 +63,7 @@ function gs_drawTable(url, reviewed) {
         },
         {
             targets: 1,
-            width: '50%',
+            width: '15%',
             render: function (data, type, row) {
                 let geneLinks = [];
                 $.each(row['genes'].sort(), function (index, gene) {
@@ -86,7 +86,7 @@ function gs_drawTable(url, reviewed) {
         {
             targets: 2,
             className: 'dt-body-left',
-            width: '30%',
+            width: '15%',
             render: function (data, type, row) {
                 return $('<a>', {
                     'href': `https://amp.pharm.mssm.edu/Enrichr/enrich?dataset=${row['enrichrShortId']}`,
@@ -109,6 +109,7 @@ function gs_drawTable(url, reviewed) {
 
 
     let table = $('#geneset_table').DataTable({
+        autoWidth: false,
         width: '100%',
         responsive: true,
         columns: columns,

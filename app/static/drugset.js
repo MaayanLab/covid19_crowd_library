@@ -27,7 +27,7 @@ function ds_drawTable(url, reviewed) {
     let columnDefs = [
         {
             targets: 0,
-            width: '70%',
+            width: '85%',
             render: function (data, type, row) {
                 const showContacts = row['showContacts'];
                 const contacts = showContacts ? `<p><b>Author:</b> ${row['authorName']}<\p><p><b>Affiliation:</b> ${row['authorAffiliation']}<\p><p><b>E-mail:</b> ${row['authorEmail']}<\p>` :
@@ -62,7 +62,7 @@ function ds_drawTable(url, reviewed) {
         },
         {
             targets: 1,
-            width: '30%',
+            width: '15%',
             render: function (data, type, row) {
                 let drugLinks = [];
                 $.each(row['drugs'].sort(), function (index, drug) {
@@ -97,6 +97,7 @@ function ds_drawTable(url, reviewed) {
 
     let table = $('#drugset_table').DataTable({
         width: '100%',
+        autoWidth: false,
         responsive: true,
         columns: columns,
         dom: 'B<"small"f>rt<"small row"ip>',
