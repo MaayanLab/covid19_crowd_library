@@ -42,19 +42,19 @@
 {% block script %}
 {% if not maxError %}
 <script>
-    var intersection = {{ intersection | tojson }}
-    var div = d3.select("#venn")
+    let intersection = {{ intersection | tojson }};
+    const div = d3.select("#venn");
     div.datum(intersection).call(venn.VennDiagram());
     // var chart = venn.VennDiagram();
     // d3.select("#venn").datum(intersection).call(chart);
-    div.selectAll("text").style("font-size", "12px")
+    div.selectAll("text").style("font-size", "18px")
 
-    var tooltip = d3.select("#tooltip").append("div")
+    const tooltip = d3.select("#tooltip").append("div")
         .attr("class", "venntooltip");
     div.selectAll("path")
         .style("stroke-opacity", 0)
         .style("stroke", "#000")
-        .style("stroke-width", 3)
+        .style("stroke-width", 0.7)
     // add listeners to all the groups to display tooltip on mouseover
     div.selectAll("g")
     .on("mouseover", function(d, i) {
@@ -66,9 +66,9 @@
         tooltip.text(d.size + " {{ elements }}");
 
         // highlight the current path
-        var selection = d3.select(this).transition("tooltip").duration(400);
+        const selection = d3.select(this).transition("tooltip").duration(400);
         selection.select("path")
-            .style("fill-opacity", d.sets.length == 1 ? .4 : .1)
+            .style("fill-opacity", d.sets.length === 1 ? .4 : .1)
     })
 
     .on("mousemove", function() {
@@ -78,53 +78,53 @@
 
     .on("mouseout", function(d, i) {
         tooltip.transition().duration(400).style("opacity", 0);
-        var selection = d3.select(this).transition("tooltip").duration(400);
+        const selection = d3.select(this).transition("tooltip").duration(400);
         selection.select("path")
-            .style("fill-opacity", d.sets.length == 1 ? .25 : .0)
+            .style("fill-opacity", d.sets.length === 1 ? .25 : .0)
     })
 
     .on("click", function(d,i){
         div.selectAll("path")
             .style("stroke-opacity", 0)
-            .style("stroke", "#000")
-            .style("stroke-width", 3)
-        var selection = d3.select(this).transition("tooltip").duration(400);
+            .style("stroke", "#fff")
+            .style("stroke-width", 1.5)
+        const selection = d3.select(this).transition("tooltip").duration(400);
         selection.select("path")
-            .style("fill-opacity", d.sets.length == 1 ? .4 : .1)
+            .style("fill-opacity", d.sets.length === 1 ? .4 : .1)
             .style("stroke-opacity", 1);
-        
-        
-        var list = document.getElementById("list")
-        var child = list.lastElementChild;
+
+
+        const list = document.getElementById("list");
+        let child = list.lastElementChild;
         while (child) { 
             list.removeChild(child); 
             child = list.lastElementChild;
         }
-        var sets = document.createElement("h4");
+        const sets = document.createElement("h4");
         d["sets"].map(label=>{
-            var label_span = document.createElement("span");
+            const label_span = document.createElement("span");
             label_span.className = "badge badge-primary badge-pill"
             label_span.textContent = label
-            sets.appendChild(label_span)  
-            var whitespace = document.createTextNode("\u00a0");
+            sets.appendChild(label_span)
+            const whitespace = document.createTextNode("\u00a0");
             sets.appendChild(whitespace)      
         })
         list.appendChild(sets)
-        var count = document.createElement("h4");
-        count.className = "d-flex justify-content-between align-items-center mb-3" 
-        var count_span = document.createElement("span");
+        const count = document.createElement("h4");
+        count.className = "d-flex justify-content-between align-items-center mb-3"
+        const count_span = document.createElement("span");
         count_span.className = "badge badge-secondary badge-pill"
         count_span.textContent = d.size + " {{ elements }}"
         count.appendChild(count_span)
         list.appendChild(count)
         d.intersection.map(entity=>{
-            var a = document.createElement("a"); 
+            const a = document.createElement("a");
             a.className = "{{ className }}"
             a.href = "{{website}}" + entity
             a.target = "_blank"
             a.textContent = entity
             list.appendChild(a)
-            var whitespace = document.createTextNode("\u00a0");
+            const whitespace = document.createTextNode("\u00a0");
             list.appendChild(whitespace)
         })
     });
