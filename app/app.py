@@ -93,18 +93,18 @@ def download_drugsets():
 def route_overlap_genesets(ids=None):
     if ids:
         print(len(ids.split(",")))
-        if len(ids.split(",")) > 5:
-            return flask.render_template('intersection.html', type="Gene set", maxError=True)
-        else:
-            intersection = geneset.get_intersection(ids.split(","))
-            return flask.render_template('intersection.html',
-                intersection=intersection["overlaps"],
-                labels=intersection["labels"],
-                type="Geneset",
-                elements="genes",
-                website="https://amp.pharm.mssm.edu/Harmonizome/gene/",
-                className="enriched-gene-link",
-                ids={ids})
+        # if len(ids.split(",")) > 5:
+        #     return flask.render_template('intersection.html', type="Gene set", maxError=True)
+        # else:
+        intersection = geneset.get_intersection(ids.split(","))
+        return flask.render_template('intersection.html',
+            intersection=intersection["overlaps"],
+            labels=intersection["labels"],
+            type="Geneset",
+            elements="genes",
+            website="https://amp.pharm.mssm.edu/Harmonizome/gene/",
+            className="enriched-gene-link",
+            ids={ids})
     else:
         ids = flask.request.values.getlist("id")
         return flask.jsonify(geneset.get_intersection(ids))
@@ -113,19 +113,19 @@ def route_overlap_genesets(ids=None):
 @app.route(ROOT_PATH + 'drugsets/overlap/<ids>')
 def route_overlap_drugsets(ids=None):
     if ids:
-        print(len(ids.split(",")))
-        if len(ids.split(",")) > 5:
-            return flask.render_template('intersection.html', type="Drug-set", maxError=True)
-        else:
-            intersection = drugset.get_intersection(ids.split(","))
-            return flask.render_template('intersection.html',
-                intersection=intersection["overlaps"],
-                labels=intersection["labels"],
-                type="Drugset",
-                elements="drugs",
-                website="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query=",
-                className="drug-link",
-                ids={ids})
+        # print(len(ids.split(",")))
+        # if len(ids.split(",")) > 5:
+        #     return flask.render_template('intersection.html', type="Drug-set", maxError=True)
+        # else:
+        intersection = drugset.get_intersection(ids.split(","))
+        return flask.render_template('intersection.html',
+            intersection=intersection["overlaps"],
+            labels=intersection["labels"],
+            type="Drugset",
+            elements="drugs",
+            website="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query=",
+            className="drug-link",
+            ids={ids})
     else:
         ids = flask.request.values.getlist("id")
         return flask.jsonify(drugset.get_intersection(ids))

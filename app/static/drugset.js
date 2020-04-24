@@ -125,13 +125,13 @@ function ds_drawTable(url, reviewed, overlap_url) {
                 className: 'btn btn-outline-primary btn-sm',
                 action: function ( e, dt, node, config ) {
                     const rows = dt.rows( { selected: true } );
-                    if (rows.count() <= 5){
+                    // if (rows.count() <= 5){
                         const ids = rows.data().map(i=>i.id).join(",")
                         window.location.href = overlap_url + "/" + ids
-                    }else{
-                        $('#overlapModalText').text("Max five rows")
-                        $('#overlapError').modal({ show: true});
-                    }
+                    // }else{
+                    //     $('#overlapModalText').text("Max five rows")
+                    //     $('#overlapError').modal({ show: true});
+                    // }
                     // alert( 'There are '+rows.count()+'(s) selected in the table' );
                 }
             }
