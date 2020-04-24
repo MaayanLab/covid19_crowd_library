@@ -15,7 +15,7 @@ function urlfy(source) {
     return source.replace(r, '<a href="$1">$1</a>')
 }
 
-function gs_drawTable(url, reviewed) {
+function gs_drawTable(url, reviewed, overlap_url) {
     let columns = [
         {title: "Description", data: 'description'},
         {title: "Genes", data: 'genes', orderable: false},
@@ -134,17 +134,15 @@ function gs_drawTable(url, reviewed) {
         buttons: [
             {
                 extend: 'selected',
-                text: 'Compare',
+                text: 'Draw Venn diagram',
+                className: 'btn btn-outline-primary btn-sm',
                 action: function ( e, dt, node, config ) {
                     const rows = dt.rows( { selected: true } );
-                    if (rows.count() > 1 && rows.count() < 6){
+                    if (rows.count() <= 5){
                         const ids = rows.data().map(i=>i.id).join(",")
                         window.location.href = overlap_url + "/" + ids
-                    }else if(rows.count()>5){
+                    }else{
                         $('#overlapModalText').text("Max five rows")
-                        $('#overlapError').modal({ show: true});
-                    }else {
-                        $('#overlapModalText').text("Please select at least two rows")
                         $('#overlapError').modal({ show: true});
                     }
                     // alert( 'There are '+rows.count()+'(s) selected in the table' );

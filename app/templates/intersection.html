@@ -20,130 +20,130 @@
             <div class="d-flex justify-content-center">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                    <h5 class="card-title">Invalid number of {{ type | lower }}s selected</h5>
-                    <p class="card-text">{{ type }} overlap diagram works best with 2-5 {{ type | lower }}s</p>
-                    <a href="{{ url_for('route_index') }}" class="card-link">Go Home</a>
+                        <h5 class="card-title">Invalid number of {{ type | lower }}s selected</h5>
+                        <p class="card-text">{{ type }} overlap diagram works best with 2-5 {{ type | lower }}s</p>
+                        <a href="{{ url_for('route_index') }}" class="card-link">Go Home</a>
                     </div>
                 </div>
             </div>
         {% else %}
-            <div id="tooltip">
-                <div id="venn" class="d-flex justify-content-center"></div>
-            </div>
             <div id="list">
                 <div class="py-5 text-center">
                     <span>Click on an area for more information.</span>
                 </div>
+            </div>
+            <div id="tooltip">
+                <div id="venn" class="d-flex justify-content-center"></div>
             </div>
         {% endif %}
     </div>
 {% endblock %}
 
 {% block script %}
-{% if not maxError %}
-<script>
-    let intersection = {{ intersection | tojson }};
-    const div = d3.select("#venn");
-    div.datum(intersection).call(venn.VennDiagram());
-    // var chart = venn.VennDiagram();
-    // d3.select("#venn").datum(intersection).call(chart);
-    div.selectAll("text").style("font-size", "18px")
+    {% if not maxError %}
+        <script>
+            let intersection = {{ intersection | tojson }};
+            const div = d3.select("#venn");
+            div.datum(intersection).call(venn.VennDiagram());
+            // var chart = venn.VennDiagram();
+            // d3.select("#venn").datum(intersection).call(chart);
+            div.selectAll("text").style("font-size", "18px")
 
-    const tooltip = d3.select("#tooltip").append("div")
-        .attr("class", "venntooltip");
-    div.selectAll("path")
-        .style("stroke-opacity", 0)
-        .style("stroke", "#000")
-        .style("stroke-width", 0.7)
-    // add listeners to all the groups to display tooltip on mouseover
-    div.selectAll("g")
-    .on("mouseover", function(d, i) {
-        // sort all the areas relative to the current item
-        venn.sortAreas(div, d);
+            const tooltip = d3.select("#tooltip").append("div")
+                .attr("class", "venntooltip");
+            div.selectAll("path")
+                .style("stroke-opacity", 0)
+                .style("stroke", "#000")
+                .style("stroke-width", 0.7)
+            // add listeners to all the groups to display tooltip on mouseover
+            div.selectAll("g")
+                .on("mouseover", function (d, i) {
+                    // sort all the areas relative to the current item
+                    venn.sortAreas(div, d);
 
-        // Display a tooltip with the current size
-        tooltip.transition().duration(400).style("opacity", .9);
-        tooltip.text(d.size + " {{ elements }}");
+                    // Display a tooltip with the current size
+                    tooltip.transition().duration(400).style("opacity", .9);
+                    tooltip.text(d.size + " {{ elements }}");
 
-        // highlight the current path
-        const selection = d3.select(this).transition("tooltip").duration(400);
-        selection.select("path")
-            .style("fill-opacity", d.sets.length === 1 ? .4 : .1)
-    })
+                    // highlight the current path
+                    const selection = d3.select(this).transition("tooltip").duration(400);
+                    selection.select("path")
+                        .style("fill-opacity", d.sets.length === 1 ? .4 : .1)
+                })
 
-    .on("mousemove", function() {
-        tooltip.style("left", (d3.event.pageX) + "px")
-               .style("top", (d3.event.pageY - 28) + "px");
-    })
+                .on("mousemove", function () {
+                    tooltip.style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY - 28) + "px");
+                })
 
-    .on("mouseout", function(d, i) {
-        tooltip.transition().duration(400).style("opacity", 0);
-        const selection = d3.select(this).transition("tooltip").duration(400);
-        selection.select("path")
-            .style("fill-opacity", d.sets.length === 1 ? .25 : .0)
-    })
+                .on("mouseout", function (d, i) {
+                    tooltip.transition().duration(400).style("opacity", 0);
+                    const selection = d3.select(this).transition("tooltip").duration(400);
+                    selection.select("path")
+                        .style("fill-opacity", d.sets.length === 1 ? .25 : .0)
+                })
 
-    .on("click", function(d,i){
-        div.selectAll("path")
-            .style("stroke-opacity", 0)
-            .style("stroke", "#fff")
-            .style("stroke-width", 1.5)
-        const selection = d3.select(this).transition("tooltip").duration(400);
-        selection.select("path")
-            .style("fill-opacity", d.sets.length === 1 ? .4 : .1)
-            .style("stroke-opacity", 1);
+                .on("click", function (d, i) {
+                    div.selectAll("path")
+                        .style("stroke-opacity", 0)
+                        .style("stroke", "#fff")
+                        .style("stroke-width", 1.5)
+                    const selection = d3.select(this).transition("tooltip").duration(400);
+                    selection.select("path")
+                        .style("fill-opacity", d.sets.length === 1 ? .4 : .1)
+                        .style("stroke-opacity", 1);
 
 
-        const list = document.getElementById("list");
-        let child = list.lastElementChild;
-        while (child) { 
-            list.removeChild(child); 
-            child = list.lastElementChild;
-        }
-        const sets = document.createElement("h4");
-        d["sets"].map(label=>{
-            const label_span = document.createElement("span");
-            label_span.className = "badge badge-primary badge-pill"
-            label_span.textContent = label
-            sets.appendChild(label_span)
-            const whitespace = document.createTextNode("\u00a0");
-            sets.appendChild(whitespace)      
-        })
-        list.appendChild(sets)
-        const count = document.createElement("h4");
-        count.className = "d-flex justify-content-between align-items-center mb-3"
-        const count_span = document.createElement("span");
-        count_span.className = "badge badge-secondary badge-pill"
-        count_span.textContent = d.size + " {{ elements }}"
-        count.appendChild(count_span)
-        list.appendChild(count)
-        d.intersection.map(entity=>{
-            const a = document.createElement("a");
-            a.className = "{{ className }}"
-            a.href = "{{website}}" + entity
-            a.target = "_blank"
-            a.textContent = entity
-            list.appendChild(a)
-            const whitespace = document.createTextNode("\u00a0");
-            list.appendChild(whitespace)
-        })
-    });
-</script>
-<style>
-.venntooltip {
-    position: absolute;
-    text-align: center;
-    width: 128px;
-    height: auto;
-    background: #333;
-    color: #ddd;
-    padding: 2px;
-    border: 0px;
-    border-radius: 8px;
-    opacity: 0;
-}
-</style>
-{% endif %}
+                    const list = document.getElementById("list");
+                    let child = list.lastElementChild;
+                    while (child) {
+                        list.removeChild(child);
+                        child = list.lastElementChild;
+                    }
+                    const sets = document.createElement("h4");
+                    d["sets"].map(label => {
+                        const label_span = document.createElement("span");
+                        label_span.className = "badge badge-primary badge-pill"
+                        label_span.textContent = label
+                        sets.appendChild(label_span)
+                        const whitespace = document.createTextNode("\u00a0");
+                        sets.appendChild(whitespace)
+                    })
+                    list.appendChild(sets)
+                    const count = document.createElement("h4");
+                    count.className = "d-flex justify-content-between align-items-center mb-3"
+                    const count_span = document.createElement("span");
+                    count_span.className = "badge badge-secondary badge-pill"
+                    count_span.textContent = d.size + " {{ elements }}"
+                    count.appendChild(count_span)
+                    list.appendChild(count)
+                    d.intersection.map(entity => {
+                        const a = document.createElement("a");
+                        a.className = "{{ className }}"
+                        a.href = "{{website}}" + entity
+                        a.target = "_blank"
+                        a.textContent = entity
+                        list.appendChild(a)
+                        const whitespace = document.createTextNode("\u00a0");
+                        list.appendChild(whitespace)
+                    })
+                });
+        </script>
+        <style>
+            .venntooltip {
+                position: absolute;
+                text-align: center;
+                width: 128px;
+                height: auto;
+                background: #333;
+                color: #ddd;
+                padding: 2px;
+                border: 0px;
+                border-radius: 8px;
+                opacity: 0;
+            }
+        </style>
+    {% endif %}
 {% endblock %}
 
 {% block socialbuttons %}
@@ -158,13 +158,16 @@
         </div>
         <div class="row my-2">
             <!-- LinkedIn share button -->
-            <script type="IN/Share" data-url="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"></script>
+            <script type="IN/Share"
+                    data-url="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"></script>
         </div>
         <!-- Facebook share button -->
         <div class="row my-2">
-            <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"
+            <div class="fb-share-button"
+                 data-href="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"
                  data-layout="button" data-size="small">
-                <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"
+                <div class="fb-share-button"
+                     data-href="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"
                      data-layout="button"
                      data-size="small">
                     <a target="_blank"
