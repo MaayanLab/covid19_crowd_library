@@ -63,7 +63,9 @@
 
                     // Display a tooltip with the current size
                     tooltip.transition().duration(400).style("opacity", .9);
-                    tooltip.text(d.size + " {{ elements }}");
+                    const tool_tip_prefix = d.sets.length === 1 ? `<h5>${d.sets[0]}</h5>`:""
+                    const tool_tip_suffix = d.intersection.join("<br />")
+                    tooltip.html(tool_tip_prefix + d.size + " {{ elements }}<br /><br />"+tool_tip_suffix);
 
                     // highlight the current path
                     const selection = d3.select(this).transition("tooltip").duration(400);
@@ -132,8 +134,8 @@
         <style>
             .venntooltip {
                 position: absolute;
-                text-align: center;
-                width: 128px;
+                min-width: 128px;
+                max-width: 300px;
                 height: auto;
                 background: #333;
                 color: #ddd;
