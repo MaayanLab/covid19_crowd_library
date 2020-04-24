@@ -17,6 +17,12 @@ function urlfy(source) {
 
 function gs_drawTable(url, reviewed, overlap_url) {
     let columns = [
+        {
+            data: null,
+            defaultContent: '',
+            className: 'select-checkbox',
+            orderable: false
+        },
         {title: "Description", data: 'description'},
         {title: "Genes", data: 'genes', orderable: false},
         {title: "Enrichr link", data: 'enrichrShortId', orderable: false},
@@ -27,7 +33,12 @@ function gs_drawTable(url, reviewed, overlap_url) {
 
     let columnDefs = [
         {
-            targets: 0,
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        },
+        {
+            targets: 1,
             width: '70%',
             render: function (data, type, row) {
                 const showContacts = row['showContacts'];
@@ -62,7 +73,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
             },
         },
         {
-            targets: 1,
+            targets: 2,
             width: '15%',
             render: function (data, type, row) {
                 let geneLinks = [];
@@ -84,7 +95,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
             },
         },
         {
-            targets: 2,
+            targets: 3,
             className: 'dt-body-left',
             width: '15%',
             render: function (data, type, row) {
@@ -131,7 +142,10 @@ function gs_drawTable(url, reviewed, overlap_url) {
                 return { body: JSON.stringify(args), reviewed: reviewed };
             }
         },
-        select: true,
+        select: {
+            style:    'multi',
+            selector: 'td:first-child'
+        },
         buttons: [
             {
                 extend: 'selected',
@@ -150,6 +164,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
                 }
             }
         ],
+        order: [[ 1, 'asc' ]]
     });
     table.columns.adjust().draw();
 }

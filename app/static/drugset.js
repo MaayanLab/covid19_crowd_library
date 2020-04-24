@@ -17,6 +17,12 @@ function urlfy(source) {
 
 function ds_drawTable(url, reviewed, overlap_url) {
     let columns = [
+        {
+            data: null,
+            defaultContent: '',
+            className: 'select-checkbox',
+            orderable: false
+        },
         {title: "Description", data: 'descrShort'},
         {title: "Drugs", data: 'drugs', orderable: false},
     ];
@@ -26,7 +32,12 @@ function ds_drawTable(url, reviewed, overlap_url) {
 
     let columnDefs = [
         {
-            targets: 0,
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        },
+        {
+            targets: 1,
             width: '85%',
             render: function (data, type, row) {
                 const showContacts = row['showContacts'];
@@ -61,7 +72,7 @@ function ds_drawTable(url, reviewed, overlap_url) {
             },
         },
         {
-            targets: 1,
+            targets: 2,
             width: '15%',
             render: function (data, type, row) {
                 let drugLinks = [];
@@ -117,7 +128,10 @@ function ds_drawTable(url, reviewed, overlap_url) {
                 return { body: JSON.stringify(args), reviewed: reviewed };
             }
         },
-        select: true,
+        select: {
+            style:    'multi',
+            selector: 'td:first-child'
+        },
         buttons: [
             {
                 extend: 'selected',
@@ -136,6 +150,7 @@ function ds_drawTable(url, reviewed, overlap_url) {
                 }
             }
         ],
+        order: [[ 1, 'asc' ]]
     });
     table.columns.adjust().draw()
     // console.log(table.rows( { selected: true } ).data());
