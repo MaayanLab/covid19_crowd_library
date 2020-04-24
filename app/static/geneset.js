@@ -135,7 +135,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
         buttons: [
             {
                 extend: 'selected',
-                text: 'Draw Venn diagram',
+                text: 'Draw a Venn diagram',
                 className: 'btn btn-outline-primary btn-sm',
                 action: function ( e, dt, node, config ) {
                     const rows = dt.rows( { selected: true } );
