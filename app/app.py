@@ -16,9 +16,12 @@ app.before_first_request(database.init)
 def route_index():
     return flask.render_template('index.html', stats=statistics.stats())
 
+
 @app.route(ROOT_PATH + 'genesets_table', methods=['POST'])
 def route_genesets_table():
-    return geneset.serve_geneset_datatable(int(flask.request.values.get('reviewed')))(**json.loads(flask.request.values.get('body')))
+    return geneset.serve_geneset_datatable(int(flask.request.values.get('reviewed')))(
+        **json.loads(flask.request.values.get('body')))
+
 
 @app.route(ROOT_PATH + 'genesets', methods=['GET', 'POST'])
 def route_genesets():
@@ -28,11 +31,13 @@ def route_genesets():
     elif flask.request.method == 'POST':
         return geneset.add_geneset(flask.request.form)
 
+
 @app.route(ROOT_PATH + 'drugsets_table', methods=['POST'])
 def route_drugsets_table():
     return drugset.serve_drugset_datatable(int(flask.request.values.get('reviewed')))(
         **json.loads(flask.request.values.get('body'))
     )
+
 
 @app.route(ROOT_PATH + 'drugsets', methods=['GET', 'POST'])
 def route_drugs():
@@ -66,27 +71,33 @@ def route_drugset(drugset_id):
     json_drugset = json.loads(drugset.get_drugset(drugset_id)[0])
     return flask.render_template('drugset.html', drugset=json_drugset)
 
+
 @app.route(ROOT_PATH + 'stats')
 def route_stats():
     return flask.render_template('stats.html', stats=statistics.stats())
+
 
 @app.route(ROOT_PATH + 'top_genes', methods=['POST'])
 def route_top_genes():
     POST = json.loads(flask.request.values.get('body'))
     return statistics.top_genes(**POST)
 
+
 @app.route(ROOT_PATH + 'top_drugs', methods=['POST'])
 def route_top_drugs():
     POST = json.loads(flask.request.values.get('body'))
     return statistics.top_drugs(**POST)
 
+
 @app.route(ROOT_PATH + 'genesets.gmt')
 def download_genesets():
     return flask.Response(download.genesets(), mimetype='text/gmt')
 
+
 @app.route(ROOT_PATH + 'drugsets.gmt')
 def download_drugsets():
     return flask.Response(download.drugsets(), mimetype='text/gmt')
+
 
 @app.route(ROOT_PATH + 'genesets/overlap', methods=['GET', 'POST'])
 @app.route(ROOT_PATH + 'genesets/overlap/<ids>')
@@ -94,20 +105,21 @@ def route_overlap_genesets(ids=None):
     if ids:
         print(len(ids.split(",")))
         # if len(ids.split(",")) > 5:
-        #     return flask.render_template('intersection.html', type="Gene set", maxError=True)
+        #     return flask.render_template('venn.html', type="Gene set", maxError=True)
         # else:
         intersection = geneset.get_intersection(ids.split(","))
-        return flask.render_template('intersection.html',
-            intersection=intersection["overlaps"],
-            labels=intersection["labels"],
-            type="Gene Set",
-            elements="genes",
-            website="https://amp.pharm.mssm.edu/Harmonizome/gene/",
-            className="enriched-gene-link",
-            ids={ids})
+        return flask.render_template('venn.html',
+                                     intersection=intersection["overlaps"],
+                                     labels=intersection["labels"],
+                                     type="Gene Set",
+                                     elements="genes",
+                                     website="https://amp.pharm.mssm.edu/Harmonizome/gene/",
+                                     className="enriched-gene-link",
+                                     ids={ids})
     else:
         ids = flask.request.values.getlist("id")
         return flask.jsonify(geneset.get_intersection(ids))
+
 
 @app.route(ROOT_PATH + 'drugsets/overlap', methods=['GET', 'POST'])
 @app.route(ROOT_PATH + 'drugsets/overlap/<ids>')
@@ -115,17 +127,17 @@ def route_overlap_drugsets(ids=None):
     if ids:
         # print(len(ids.split(",")))
         # if len(ids.split(",")) > 5:
-        #     return flask.render_template('intersection.html', type="Drug-set", maxError=True)
+        #     return flask.render_template('venn.html', type="Drug-set", maxError=True)
         # else:
         intersection = drugset.get_intersection(ids.split(","))
-        return flask.render_template('intersection.html',
-            intersection=intersection["overlaps"],
-            labels=intersection["labels"],
-            type="Drug Set",
-            elements="drugs",
-            website="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query=",
-            className="drug-link",
-            ids={ids})
+        return flask.render_template('venn.html',
+                                     intersection=intersection["overlaps"],
+                                     labels=intersection["labels"],
+                                     type="Drug Set",
+                                     elements="drugs",
+                                     website="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query=",
+                                     className="drug-link",
+                                     ids={ids})
     else:
         ids = flask.request.values.getlist("id")
         return flask.jsonify(drugset.get_intersection(ids))

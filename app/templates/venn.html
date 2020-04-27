@@ -13,7 +13,16 @@
 
 {% block body %}
     <div class="container">
-        <div class="py-5 text-center">
+            <div class="row justify-content-center mt-5">
+            <div class="d-flex align-items-start">
+                <img style="width: 30%; max-width: 40px" src="{{ url_for('static', filename='logo.png') }}">
+                <a style="color: #212529" href={{ url_for("route_index") }}>
+                    <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
+            </div>
+            <p class="text-center">A collection of drugs and gene sets related to COVID-19 research contributed by the
+                community</p>
+        </div>
+        <div class="text-center">
             <h2>{{ type }} Overlaps</h2>
         </div>
         {% if maxError %}
@@ -27,14 +36,14 @@
                 </div>
             </div>
         {% else %}
-            <div id="list">
-                <div class="py-5 text-center">
-                    <span>Click on an area for more information.</span>
+            <div class="text-center">
+                    <span>Click on figures and overlaps to see {{ type | lower }}s</span>
+            </div>
+                <div id="tooltip">
+                    <div id="venn" class="d-flex justify-content-center"></div>
+                <div id="list">
                 </div>
-            </div>
-            <div id="tooltip">
-                <div id="venn" class="d-flex justify-content-center"></div>
-            </div>
+                </div>
         {% endif %}
     </div>
 {% endblock %}
@@ -62,10 +71,10 @@
                     venn.sortAreas(div, d);
 
                     // Display a tooltip with the current size
-                    tooltip.transition().duration(400).style("opacity", .9);
+                    tooltip.transition().style("opacity", .9);
                     const tool_tip_prefix = d.sets.length === 1 ? `<h5>${d.sets[0]}</h5>`:""
-                    const tool_tip_suffix = d.intersection.join("<br />")
-                    tooltip.html(tool_tip_prefix + d.size + " {{ elements }}<br /><br />"+tool_tip_suffix);
+                    const tool_tip_suffix = d.intersection.join(", ")
+                    tooltip.html(`${tool_tip_prefix} <p>${d.size} {{ elements }}</p> ${tool_tip_suffix}`);
 
                     // highlight the current path
                     const selection = d3.select(this).transition("tooltip").duration(400);
@@ -74,8 +83,8 @@
                 })
 
                 .on("mousemove", function () {
-                    tooltip.style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 28) + "px");
+                    tooltip.style("left", (d3.event.pageX + 30) + "px")
+                        .style("top", (d3.event.pageY) + "px");
                 })
 
                 .on("mouseout", function (d, i) {
@@ -86,6 +95,7 @@
                 })
 
                 .on("click", function (d, i) {
+                    $('#list').get(0).scrollIntoView();
                     div.selectAll("path")
                         .style("stroke-opacity", 0)
                         .style("stroke", "#fff")
@@ -105,7 +115,11 @@
                     const sets = document.createElement("h4");
                     d["sets"].map(label => {
                         const label_span = document.createElement("span");
-                        label_span.className = "badge badge-primary badge-pill"
+                        $(`g[data-venn-sets|="${label}"] > text`).each(function() {
+                            const background = this.style.fill.replace(')', ', 0.25)')
+                            label_span.style = `background-color: ${background}; color: ${this.style.fill}; font-weight: normal;`;
+                        });
+                        label_span.className = "badge badge-pill"
                         label_span.textContent = label
                         sets.appendChild(label_span)
                         const whitespace = document.createTextNode("\u00a0");
@@ -134,15 +148,16 @@
         <style>
             .venntooltip {
                 position: absolute;
-                min-width: 128px;
-                max-width: 300px;
+                min-width: 300px;
+                max-width: 500px;
                 height: auto;
                 background: #333;
                 color: #ddd;
-                padding: 2px;
-                border: 0px;
+                padding: 1rem;
+                border: 0;
                 border-radius: 8px;
                 opacity: 0;
+                z-index: 1;
             }
         </style>
     {% endif %}
