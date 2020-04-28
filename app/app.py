@@ -77,16 +77,22 @@ def route_stats():
     return flask.render_template('stats.html', stats=statistics.stats())
 
 
-@app.route(ROOT_PATH + 'top_genes', methods=['POST'])
+@app.route(ROOT_PATH + 'top_genes', methods=['GET', 'POST'])
 def route_top_genes():
-    POST = json.loads(flask.request.values.get('body'))
-    return statistics.top_genes(**POST)
+    if flask.request.method == 'GET':
+        return json.dumps({'success': True, 'data': statistics.top_genes()['data']}), 200, {'ContentType': 'application/json'}
+    elif flask.request.method == 'POST':
+        POST = json.loads(flask.request.values.get('body'))
+        return statistics.top_genes(**POST)
 
 
-@app.route(ROOT_PATH + 'top_drugs', methods=['POST'])
+@app.route(ROOT_PATH + 'top_drugs', methods=['GET', 'POST'])
 def route_top_drugs():
-    POST = json.loads(flask.request.values.get('body'))
-    return statistics.top_drugs(**POST)
+    if flask.request.method == 'GET':
+        return json.dumps({'success': True, 'data': statistics.top_drugs()['data']}), 200, {'ContentType': 'application/json'}
+    elif flask.request.method == 'POST':
+        POST = json.loads(flask.request.values.get('body'))
+        return statistics.top_drugs(**POST)
 
 
 @app.route(ROOT_PATH + 'genesets.gmt')

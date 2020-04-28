@@ -30,6 +30,7 @@
                             Drug Sets: {{ stats.n_drugsets }}<br/>
                             Unique Drugs: {{ stats.n_unique_drugs }}
                         </p>
+{#                        <svg id="drugs_bargraph"></svg>#}
                         <table id="top_drugs_table" class="table compact hover order-column row-border"
                                style="width:100%">
                         </table>
@@ -40,6 +41,7 @@
                             Gene Sets: {{ stats.n_genesets }}<br/>
                             Unique Genes: {{ stats.n_unique_genes }}
                         </p>
+{#                        <svg id="genes_bargraph"></svg>#}
                         <table id="top_genes_table" class="table compact hover order-column row-border"
                                style="width:100%">
                         </table>
@@ -52,10 +54,20 @@
 
 
 {% block script %}
+
     <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='bargraph.js') }}"></script>
     <script>
         $(document).ready(function () {
             navTabsSync('#nav-drugs-table')
+{#
+            $.get('http://0.0.0.0:8080/covid19/top_genes', function(data){
+                chart(JSON.parse(data)['data'], '#genes_bargraph', 10);
+            });
+
+            $.get('http://0.0.0.0:8080/covid19/top_drugs', function(data){
+                chart(JSON.parse(data)['data'], '#drugs_bargraph', 10);
+            });#}
 
             $('#top_genes_table').DataTable({
                 width: '100%',
