@@ -93,11 +93,11 @@
         $(document).ready(function () {
             navTabsSync('#nav-drugs-table')
 
-            $.get('http://0.0.0.0:8080/covid19/top_genes', function (data) {
+            $.get('https://amp.pharm.mssm.edu/covid19/top_genes', function (data) {
                 chart(JSON.parse(data)['data'], 'genes', 20, "#3e8cd6");
             });
 
-            $.get('http://0.0.0.0:8080/covid19/top_drugs', function (data) {
+            $.get('https://amp.pharm.mssm.edu/covid19/top_drugs', function (data) {
                 chart(JSON.parse(data)['data'], 'drugs', 20, "#ff8080");
             });
 

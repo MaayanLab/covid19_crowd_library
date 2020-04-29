@@ -160,6 +160,7 @@ class Drugset(Base):
     source = Column('source', String(255), default=0)
     date = Column('date', DateTime, default=lambda: datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
     meta = Column('meta', ImmutableSerializedJSON, default=0)
+    category = Column('category', Integer, nullable=False, default=0)
 
     @staticmethod
     def create(sess, drugs=[], **kwargs):
@@ -190,7 +191,8 @@ class Drugset(Base):
             'reviewed': self.reviewed,
             'source': self.source,
             'date': self.date,
-            'meta': self.meta
+            'meta': self.meta,
+            'category': self.category
         }
         if deep:
             ret['drugs'] = sorted({drug.jsonify() for drug in self.drugs})
