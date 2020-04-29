@@ -80,7 +80,7 @@ def route_stats():
 @app.route(ROOT_PATH + 'top_genes', methods=['GET', 'POST'])
 def route_top_genes():
     if flask.request.method == 'GET':
-        return json.dumps({'success': True, 'data': statistics.top_genes()['data']}), 200, {'ContentType': 'application/json'}
+        return json.dumps({'success': True, 'data': statistics.bar_genes()}), 200, {'ContentType': 'application/json'}
     elif flask.request.method == 'POST':
         POST = json.loads(flask.request.values.get('body'))
         return statistics.top_genes(**POST)
@@ -89,7 +89,7 @@ def route_top_genes():
 @app.route(ROOT_PATH + 'top_drugs', methods=['GET', 'POST'])
 def route_top_drugs():
     if flask.request.method == 'GET':
-        return json.dumps({'success': True, 'data': statistics.top_drugs()['data']}), 200, {'ContentType': 'application/json'}
+        return json.dumps({'success': True, 'data': statistics.bar_drugs()}), 200, {'ContentType': 'application/json'}
     elif flask.request.method == 'POST':
         POST = json.loads(flask.request.values.get('body'))
         return statistics.top_drugs(**POST)

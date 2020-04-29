@@ -27,6 +27,20 @@ def stats():
     return ret
 
 
+def bar_drugs():
+    sess = Session()
+    td = top_drugs_qs(sess)
+    sess.close()
+    return [{'symbol': t[0], 'count': t[1]} for t in td]
+
+
+def bar_genes():
+    sess = Session()
+    tg = top_genes_qs(sess)
+    sess.close()
+    return [{'symbol': t[0], 'count': t[1]} for t in tg]
+
+
 def top_genes_qs(sess):
     return sess.query(Gene.symbol, gene_count) \
         .join(GenesetGene, GenesetGene.gene == Gene.id) \
@@ -52,6 +66,5 @@ def top_drugs_qs(sess):
 
 def top_drugs_search(sess, val):
     return Drug.symbol.like(f'%{val}%')
-
 
 top_drugs = serve_datatable(top_drugs_qs, [(Drug.symbol, 'symbol'), (drug_count, 'count')], top_drugs_search)

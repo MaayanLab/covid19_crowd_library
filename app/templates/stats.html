@@ -30,10 +30,26 @@
                             Drug Sets: {{ stats.n_drugsets }}<br/>
                             Unique Drugs: {{ stats.n_unique_drugs }}
                         </p>
-{#                        <svg id="drugs_bargraph"></svg>#}
-                        <table id="top_drugs_table" class="table compact hover order-column row-border"
-                               style="width:100%">
-                        </table>
+                        <div class="nav nav-pills mb-3" id="drugs-table-tab" role="tablist">
+                            <a class="nav-link active" id="drugs-table-home-tab" data-toggle="pill"
+                               href="#drugs-table-home" role="tab" aria-controls="drugs-table-home"
+                               aria-selected="true">Table</a>
+                            <a class="nav-link" id="drugs-table-profile-tab" data-toggle="pill"
+                               href="#drugs-table-profile" role="tab" aria-controls="drugs-table-profile"
+                               aria-selected="false">Top 20 drugs</a>
+                        </div>
+                        <div class="tab-content" id="drugs-table-tabContent">
+                            <div class="tab-pane fade show active" id="drugs-table-home" role="tabpanel"
+                                 aria-labelledby="drugs-table-home-tab">
+                                <table id="top_drugs_table" class="table compact hover order-column row-border"
+                                       style="width:100%">
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="drugs-table-profile" role="tabpanel"
+                                 aria-labelledby="drugs-table-profile-tab">
+                                <svg id="drugs_bargraph"></svg>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane genes fade border-left border-right border-bottom rounded-bottom p-3"
                          id="nav-genes-table" role="tabpanel" aria-labelledby="nav-genes-table-tab">
@@ -41,10 +57,26 @@
                             Gene Sets: {{ stats.n_genesets }}<br/>
                             Unique Genes: {{ stats.n_unique_genes }}
                         </p>
-{#                        <svg id="genes_bargraph"></svg>#}
-                        <table id="top_genes_table" class="table compact hover order-column row-border"
-                               style="width:100%">
-                        </table>
+                        <div class="nav nav-pills mb-3" id="genes-table-tab" role="tablist">
+                            <a class="nav-link active" id="genes-table-home-tab" data-toggle="pill"
+                               href="#genes-table-home" role="tab" aria-controls="genes-table-home"
+                               aria-selected="true">Table</a>
+                            <a class="nav-link" id="genes-table-profile-tab" data-toggle="pill"
+                               href="#genes-table-profile" role="tab" aria-controls="genes-table-profile"
+                               aria-selected="false">Top 20 genes</a>
+                        </div>
+                        <div class="tab-content" id="genes-table-tabContent">
+                            <div class="tab-pane fade show active" id="genes-table-home" role="tabpanel"
+                                 aria-labelledby="genes-table-home-tab">
+                                <table id="top_genes_table" class="table compact hover order-column row-border"
+                                       style="width:100%">
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="genes-table-profile" role="tabpanel"
+                                 aria-labelledby="genes-table-profile-tab">
+                                <svg id="genes_bargraph"></svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,14 +92,14 @@
     <script>
         $(document).ready(function () {
             navTabsSync('#nav-drugs-table')
-{#
-            $.get('http://0.0.0.0:8080/covid19/top_genes', function(data){
-                chart(JSON.parse(data)['data'], '#genes_bargraph', 10);
+
+            $.get('http://0.0.0.0:8080/covid19/top_genes', function (data) {
+                chart(JSON.parse(data)['data'], 'genes', 20, "#3e8cd6");
             });
 
-            $.get('http://0.0.0.0:8080/covid19/top_drugs', function(data){
-                chart(JSON.parse(data)['data'], '#drugs_bargraph', 10);
-            });#}
+            $.get('http://0.0.0.0:8080/covid19/top_drugs', function (data) {
+                chart(JSON.parse(data)['data'], 'drugs', 20, "#ff8080");
+            });
 
             $('#top_genes_table').DataTable({
                 width: '100%',
