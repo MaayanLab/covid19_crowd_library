@@ -163,7 +163,7 @@ class Drugset(Base):
     source = Column('source', String(255), default=0)
     date = Column('date', DateTime, default=lambda: datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
     meta = Column('meta', ImmutableSerializedJSON, default=0)
-    category = Column('category', Integer, ForeignKey('categories.id'), onupdate="CASCADE", nullable=False, default=1)
+    category = Column('category', Integer, nullable=False, default=1)
 
     @staticmethod
     def create(sess, drugs=[], **kwargs):

@@ -82,8 +82,8 @@ def approve_drugset(form):
         traceback.print_exc()
         return json.dumps({'success': False, 'error': str(e)}), 500, {'ContentType': 'application/json'}
 
-serve_drugset_datatable = lambda reviewed: serve_datatable(
-    lambda sess, reviewed=reviewed: sess.query(Drugset).filter(Drugset.reviewed == reviewed).order_by(sa.desc(Drugset.date)),
+serve_drugset_datatable = lambda reviewed, category: serve_datatable(
+    lambda sess, reviewed=reviewed: sess.query(Drugset).filter(Drugset.reviewed == reviewed).filter(Drugset.category == category).order_by(sa.desc(Drugset.date)),
     [
         (Drugset.id, 'id'),
         (Drugset.descrShort, 'descrShort'),
@@ -96,6 +96,7 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
         (Drugset.date, 'date'),
         (Drugset.showContacts, 'showContacts'),
         (Drugset.meta, 'meta'),
+        (Drugset.category, 'category'),
     ],
     lambda sess, s: sa.or_(
         Drugset.id.in_(
