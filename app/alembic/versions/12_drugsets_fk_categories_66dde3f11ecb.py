@@ -27,7 +27,7 @@ def upgrade():
     sess.add(models_11_94ad0824ffb3.Categories())
     sess.commit()
     op.create_index('categories_name_uindex', 'categories', ['name'], unique=True)
-    op.create_foreign_key('drugsets_categories_id_fk', 'drugsets', 'categories', ['category'], ['id'], onupdate='CASCADE')
+    op.create_foreign_key('drugsets_categories_id_fk', 'drugsets', 'categories', ['category'], ['id'])
     # ### end Alembic commands ###
 
 
