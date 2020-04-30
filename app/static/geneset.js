@@ -12,7 +12,7 @@ function renderMeta(meta) {
 
 function urlfy(source) {
     let r = /(https?:\/\/[^\s]+\.\w{2,}(\/*\w*\-*)*)\??(\w*\-*)*\=?(\w*\-*\w*\&*)*/g;
-    return source.replace(r, '<a href="$1">$1</a>')
+    return source.replace(r, '<a href="$1" target="_blank">$1</a>')
 }
 
 function gs_drawTable(url, reviewed, overlap_url) {
@@ -88,7 +88,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
                     'data-html': 'true',
                     'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
                     'title': 'Gene set',
-                    'data-content': `${geneLinks.slice(0, 20).join(" ")}<br/><a href="/covid19/genesets/${row['id']}">${geneLinks.length > 20 ? '...<br/>' : ''}View gene set page</a>`
+                    'data-content': `${geneLinks.slice(0, 20).join(" ")}<br/><a href="/covid19/genesets/${row['id']}" target="_blank">${geneLinks.length > 20 ? '...<br/>' : ''}View gene set page</a>`
                 }).append(
                     `<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${row['genes'].length} genes </span>`,
                 ).prop('outerHTML')

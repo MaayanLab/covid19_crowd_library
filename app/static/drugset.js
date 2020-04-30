@@ -12,7 +12,7 @@ function renderMeta(meta) {
 
 function urlfy(source) {
     let r = /(https?:\/\/[^\s]+\.\w{2,}(\/*\w*\-*)*)\??(\w*\-*)*\=?(\w*\-*\w*\&*)*/g;
-    return source.replace(r, '<a href="$1">$1</a>')
+    return source.replace(r, '<a href="$1" target="_blank">$1</a>')
 }
 
 function ds_drawTable(url, wrapper, reviewed, overlap_url, category=0) {
@@ -88,7 +88,7 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category=0) {
                     'data-html': 'true',
                     'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
                     'title': 'Drug set',
-                    'data-content': `${drugLinks.slice(0, 20).join(" ")}<br/><a href="/covid19/drugsets/${row['id']}">${drugLinks.length > 20 ? '...<br/>' : ''}View drug set page</a>`
+                    'data-content': `${drugLinks.slice(0, 20).join(" ")}<br/><a href="/covid19/drugsets/${row['id']} target="_blank"">${drugLinks.length > 20 ? '...<br/>' : ''}View drug set page</a>`
                 })
                     .append(
                         `<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${row['drugs'].length} drugs </span>`,
