@@ -34,9 +34,14 @@ def route_genesets():
 
 @app.route(ROOT_PATH + 'drugsets_table', methods=['POST'])
 def route_drugsets_table():
-    return drugset.serve_drugset_datatable(int(flask.request.values.get('reviewed')), 0)(
-        **json.loads(flask.request.values.get('body'))
-    )
+    category = int(flask.request.values.get('category', default=0))
+    if category:
+        return drugset.serve_drugset_filtered_datatable(int(flask.request.values.get('reviewed')), category)(
+            **json.loads(flask.request.values.get('body')))
+    else:
+        return drugset.serve_drugset_datatable(int(flask.request.values.get('reviewed')))(
+            **json.loads(flask.request.values.get('body')))
+
 
 
 @app.route(ROOT_PATH + 'drugsets', methods=['GET', 'POST'])

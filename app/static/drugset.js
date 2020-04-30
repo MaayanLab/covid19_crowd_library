@@ -15,7 +15,8 @@ function urlfy(source) {
     return source.replace(r, '<a href="$1">$1</a>')
 }
 
-function ds_drawTable(url, reviewed, overlap_url) {
+function ds_drawTable(url, wrapper, reviewed, overlap_url, category=0) {
+    console.log(category)
     let columns = [
         {
             data: null,
@@ -106,7 +107,7 @@ function ds_drawTable(url, reviewed, overlap_url) {
         });
     }
 
-    let table = $('#drugset_table').DataTable({
+    let table = $(`#${wrapper}`).DataTable({
         width: '100%',
         autoWidth: false,
         responsive: true,
@@ -125,7 +126,7 @@ function ds_drawTable(url, reviewed, overlap_url) {
             url: url,
             type: 'POST',
             data: function (args) {
-                return { body: JSON.stringify(args), reviewed: reviewed };
+                return { body: JSON.stringify(args), reviewed: reviewed , category: category};
             }
         },
         select: {

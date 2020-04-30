@@ -82,7 +82,61 @@ def approve_drugset(form):
         traceback.print_exc()
         return json.dumps({'success': False, 'error': str(e)}), 500, {'ContentType': 'application/json'}
 
-serve_drugset_datatable = lambda reviewed, category: serve_datatable(
+serve_drugset_datatable = lambda reviewed: serve_datatable(
+    lambda sess, reviewed=reviewed: sess.query(Drugset).filter(Drugset.reviewed == reviewed).order_by(sa.desc(Drugset.date)),
+    [
+        (Drugset.id, 'id'),
+        (Drugset.descrShort, 'descrShort'),
+        (Drugset.descrFull, 'descrFull'),
+        (Drugset.drugs, 'drugs'),
+        (Drugset.authorName, 'authorName'),
+        (Drugset.authorAffiliation, 'authorAffiliation'),
+        (Drugset.authorEmail, 'authorEmail'),
+        (Drugset.source, 'source'),
+        (Drugset.date, 'date'),
+        (Drugset.showContacts, 'showContacts'),
+        (Drugset.meta, 'meta'),
+        (Drugset.category, 'category'),
+    ],
+    lambda sess, s: sa.or_(
+        Drugset.id.in_(
+            sess.query(DrugsetDrug.drugset) \
+                .join(Drug, Drug.id == DrugsetDrug.drug) \
+                .filter(Drug.symbol.like(f'{s}%'))
+        ),
+        Drugset.descrShort.like(f'%{s}%'),
+        Drugset.descrFull.like(f'%{s}%'),
+        Drugset.source.like(f'%{s}%'),
+        Drugset.meta.like(f'%{s}%'),
+        Drugset.date.like(f'%{s}%'),
+        sa.and_(
+            Drugset.showContacts == 1,
+            sa.or_(
+                Drugset.authorName.like(f'%{s}%'),
+                Drugset.authorAffiliation.like(f'%{s}%'),
+                Drugset.authorEmail.like(f'%{s}%'),
+            ),
+        ),
+    ),
+    lambda qs, reviewed=reviewed: [
+        {
+            'id': record.id,
+            'descrShort': record.descrShort,
+            'descrFull': record.descrFull,
+            'drugs': [gene.symbol for gene in record.drugs],
+            'authorName': record.authorName if record.showContacts or reviewed == 0 else '',
+            'authorAffiliation': record.authorAffiliation if record.showContacts or reviewed == 0 else '',
+            'authorEmail': record.authorEmail if record.showContacts or reviewed == 0 else '',
+            'source': record.source,
+            'date': record.date,
+            'showContacts': record.showContacts,
+            'meta': record.meta,
+        }
+        for record in qs
+    ]
+)
+
+serve_drugset_filtered_datatable = lambda reviewed, category: serve_datatable(
     lambda sess, reviewed=reviewed: sess.query(Drugset).filter(Drugset.reviewed == reviewed).filter(Drugset.category == category).order_by(sa.desc(Drugset.date)),
     [
         (Drugset.id, 'id'),
