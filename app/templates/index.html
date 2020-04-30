@@ -3,7 +3,8 @@
 {% block og %}
     <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19"/>
     <meta property="og:title" content="COVID-19 Crowd Generated Gene and Drug Set Library"/>
-    <meta property="og:description" content="A collection of drugs and gene sets related to COVID-19 research contributed by the community"/>
+    <meta property="og:description"
+          content="A collection of drugs and gene sets related to COVID-19 research contributed by the community"/>
 {% endblock %}
 {% block head %}
     <title>COVID-19 Crowd Generated Gene and Drug Set Library</title>
@@ -52,17 +53,57 @@
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane drugs fade show border-left border-right border-bottom rounded-bottom p-3"
                          id="nav-drugs-table" role="tabpanel" aria-labelledby="nav-drugs-table-tab">
-                        <div class="container-fluid" style="display: block">
-                            <table id="drugset_table" class="table compact hover order-column row-border"
-                                   style="width:100%">
-                            </table>
-                            <div class="row">
-                                <a href="{{ url_for('download_drugsets') }}"><i class="fas fa-download mr-1"
-                                                                                style="font-size: 0.9rem;"></i>Download
-                                    all drug sets</a>
+                        <nav class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <a class="nav-link round-pill active" id="pills-all-tab" data-toggle="pill" href="#pills-all"
+                               role="tab" aria-controls="pills-all" aria-selected="true">All drug sets</a>
+                            <a class="nav-link round-pill" id="pills-experimental-tab" data-toggle="pill"
+                               href="#pills-experimental" role="tab" aria-controls="pills-experimental"
+                               aria-selected="false">Experimental drug sets</a>
+                            <a class="nav-link round-pill" id="pills-computational-tab" data-toggle="pill"
+                               href="#pills-computational" role="tab" aria-controls="pills-computational"
+                               aria-selected="false">Computational drug sets</a>
+                            <a class="nav-link round-pill" id="pills-twitter-tab" data-toggle="pill" href="#pills-twitter"
+                               role="tab" aria-controls="pills-twitter" aria-selected="false">Twitter drug sets</a>
+                        </nav>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-all" role="tabpanel"
+                                 aria-labelledby="pills-all-tab">
+                                <div class="container-fluid" style="display: block">
+                                    <table id="drugset_table" class="table compact hover order-column row-border"
+                                           style="width:100%">
+                                    </table>
+                                    <div class="row">
+                                        <a href="{{ url_for('download_drugsets') }}"><i class="fas fa-download mr-1"
+                                                                                        style="font-size: 0.9rem;"></i>Download
+                                            all drug sets</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-experimental" role="tabpanel"
+                                 aria-labelledby="pills-experimental-tab">
+                                <div class="container-fluid" style="display: block">
+                                    <table id="experimental_table" class="table compact hover order-column row-border"
+                                           style="width:100%">
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-computational" role="tabpanel"
+                                 aria-labelledby="pills-computational-tab">
+                                <div class="container-fluid" style="display: block">
+                                    <table id="computational_table" class="table compact hover order-column row-border"
+                                           style="width:100%">
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-twitter" role="tabpanel"
+                                 aria-labelledby="pills-twitter-tab">
+                                <div class="container-fluid" style="display: block">
+                                    <table id="twitter_table" class="table compact hover order-column row-border"
+                                           style="width:100%">
+                                    </table>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="tab-pane genes fade border-left border-right border-bottom rounded-bottom p-3"
                          id="nav-genes-table" role="tabpanel" aria-labelledby="nav-genes-table-tab">
@@ -114,16 +155,16 @@
     <!-- Modal -->
     <div class="modal fade" id="overlapError" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div id="overlapModalText" class="modal-body">
-              Please select at least two rows
+            <div class="modal-content">
+                <div id="overlapModalText" class="modal-body">
+                    Please select at least two rows
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 {% endblock %}
 
 {% block socialbuttons %}
@@ -161,8 +202,11 @@
             window.geneSetMetaCounter = counter(0);
             navTabsSync('#nav-drugs-table');
             ds_drawTable('{{ url_for("route_drugsets_table") }}', 'drugset_table', 1, '{{ url_for("route_overlap_drugsets") }}');
+            ds_drawTable('{{ url_for("route_drugsets_table") }}', 'experimental_table', 1, '{{ url_for("route_overlap_drugsets") }}', 2);
+            ds_drawTable('{{ url_for("route_drugsets_table") }}', 'computational_table', 1, '{{ url_for("route_overlap_drugsets") }}', 3);
+            ds_drawTable('{{ url_for("route_drugsets_table") }}', 'twitter_table', 1, '{{ url_for("route_overlap_drugsets") }}', 4);
             gs_drawTable('{{ url_for("route_genesets_table") }}', 1, '{{ url_for("route_overlap_genesets") }}');
         });
-        $('#overlapError').modal({ show: false})
+        $('#overlapError').modal({show: false})
     </script>
 {% endblock %}

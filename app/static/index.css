@@ -39,3 +39,12 @@
 a {
     color: #007aca;
 }
+
+.round-pill {
+    border-radius: 1.5rem !important;
+    padding: .3rem .8rem !important;
+}
+
+.round-pill.active {
+    background-color: #2975c8 !important;
+}
