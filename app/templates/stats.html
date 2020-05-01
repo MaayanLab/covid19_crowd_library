@@ -1,4 +1,12 @@
 {% extends "base.html" %}
+
+{% block og %}
+    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/stats"/>
+    <meta property="og:title"
+          content="Submission statistics - COVID-19 Crowd Generated Gene and Drug Set Library"/>
+    <meta property="og:description" content="Uniqie drug and gene counts from submitted sets"/>
+{% endblock %}
+
 {% block body %}
     <div class="container">
         <div class="row justify-content-center my-5">
@@ -83,10 +91,34 @@
         </div>
     </div>
 {% endblock %}
-
+{% block socialbuttons %}
+    <div class="col-md-2 col-sm">
+        <div class="row my-2 ml-2">
+            <!-- Twitted share button -->
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+               data-text="A collection of drugs and gene sets related to COVID-19 research contributed by the community"
+               data-url="https://amp.pharm.mssm.edu/covid19/stats" data-via="MaayanLab" data-hashtags="COVID, COVID19"
+               data-show-count="false">Tweet</a>
+        </div>
+        <div class="row my-2 ml-2">
+            <!-- LinkedIn share button -->
+            <script type="IN/Share" data-url="https://amp.pharm.mssm.edu/covid19/stats"></script>
+        </div>
+        <!-- Facebook share button -->
+        <div class="row my-2 ml-2">
+            <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/stats"
+                 data-layout="button" data-size="small">
+                <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/stats" data-layout="button"
+                     data-size="small">
+                    <a target="_blank"
+                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Famp.pharm.mssm.edu%2Fcovid19%2Fstats&amp;src=sdkpreparse"
+                       class="fb-xfbml-parse-ignore">Share</a></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
 {% block script %}
-
     <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='bargraph.js') }}"></script>
     <script>
