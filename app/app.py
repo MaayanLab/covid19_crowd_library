@@ -62,7 +62,10 @@ def route_review():
         if form['set_type'] == 'geneset':
             return geneset.approve_geneset(form)
         elif form['set_type'] == 'drugset':
-            return drugset.approve_drugset(form)
+            if 'category' in form:
+                return drugset.change_category(form)
+            else:
+                return drugset.approve_drugset(form)
 
 
 @app.route(ROOT_PATH + 'genesets/<geneset_id>', methods=['GET'])

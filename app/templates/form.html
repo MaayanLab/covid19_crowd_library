@@ -14,7 +14,8 @@
                 <span id="sourceLabel" class="input-group-text">{{ c.Type }} set URL</span>
             </div>
             <input type="url" class="form-control" name="source" aria-describedby="sourceLabel">
-            <div class="invalid-feedback">Please input the URL of the published {{ c.type}} set from which this drug set was derived. If the data set is not
+            <div class="invalid-feedback">Please input the URL of the published {{ c.type }} set from which this drug
+                set was derived. If the data set is not
                 published yet, you can provide method details, such as cell line, drug, dose, or treatment in the
                 'Metadata' field below.
             </div>
@@ -35,6 +36,28 @@
                   placeholder="Paste a {{ c.type }} set here" required></textarea>
         <div class="invalid-feedback">Please input a {{ c.type }} set. {{ c.title }}</div>
     </div>
+    {% if c.set_type == "drugSet" %}
+        <div class="form-group">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span id="categoryLabel" class="input-group-text">{{ c.Type }} set category</span>
+                </div>
+                <div id="categories">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-primary">
+                            <input type="radio" name="computational" id="computational" autocomplete="off">Computational
+                        </label>
+                        <label class="btn btn-outline-primary">
+                            <input type="radio" name="experimental" id="experimental" autocomplete="off">Exmerimental
+                        </label>
+                        <label class="btn btn-outline-primary active">
+                            <input type="radio" name="all" id="all" autocomplete="off" checked>Other
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
     <div class="form-group" id="meta-{{ c.type }}-form">
     </div>
     <div class="form-group">

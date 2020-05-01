@@ -19,6 +19,15 @@ def add_drugset(form):
     show_contacts = 1 if 'showContacts' in form else 0
     meta = {}
 
+    if 'experimental' in form and form['experimental'] == 'on':
+        category = 2
+    elif 'computational' in form and form['computational'] == 'on':
+        category = 3
+    elif 'twitter' in form and form['twitter'] == 'on':
+        category = 4
+    else:
+        category = 1
+
     # '-show_contacts' is correction for, well, show_contacts presence
     if len(form) - show_contacts > 7:
         meta = match_meta(form, 7)
@@ -37,6 +46,7 @@ def add_drugset(form):
                 drugs=drug_set,
                 source=source,
                 meta=meta,
+                category=category,
             )
         )
         sess.commit()
@@ -68,6 +78,7 @@ def get_drugsets(reviewed=1):
         traceback.print_exc()
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 
+
 def approve_drugset(form):
     drugset_id = form['id']
     reviewed = form['reviewed']
@@ -82,8 +93,26 @@ def approve_drugset(form):
         traceback.print_exc()
         return json.dumps({'success': False, 'error': str(e)}), 500, {'ContentType': 'application/json'}
 
+
+def change_category(form):
+    drugset_id = form['id']
+    category = form['category']
+    try:
+        sess = Session()
+        drugset = sess.query(Drugset).get(drugset_id)
+        drugset.category = category
+        sess.commit()
+        sess.close()
+        return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+    except Exception as e:
+        traceback.print_exc()
+        return json.dumps({'success': False, 'error': str(e)}), 500, {'ContentType': 'application/json'}
+
+
+
 serve_drugset_datatable = lambda reviewed: serve_datatable(
-    lambda sess, reviewed=reviewed: sess.query(Drugset).filter(Drugset.reviewed == reviewed).order_by(sa.desc(Drugset.date)),
+    lambda sess, reviewed=reviewed: sess.query(Drugset).filter(Drugset.reviewed == reviewed).order_by(
+        sa.desc(Drugset.date)),
     [
         (Drugset.id, 'id'),
         (Drugset.descrShort, 'descrShort'),
@@ -131,13 +160,15 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
             'date': record.date,
             'showContacts': record.showContacts,
             'meta': record.meta,
+            'category': record.category,
         }
         for record in qs
     ]
 )
 
 serve_drugset_filtered_datatable = lambda reviewed, category: serve_datatable(
-    lambda sess, reviewed=reviewed: sess.query(Drugset).filter(Drugset.reviewed == reviewed).filter(Drugset.category == category).order_by(sa.desc(Drugset.date)),
+    lambda sess, reviewed=reviewed: sess.query(Drugset).filter(Drugset.reviewed == reviewed).filter(
+        Drugset.category == category).order_by(sa.desc(Drugset.date)),
     [
         (Drugset.id, 'id'),
         (Drugset.descrShort, 'descrShort'),
@@ -185,10 +216,12 @@ serve_drugset_filtered_datatable = lambda reviewed, category: serve_datatable(
             'date': record.date,
             'showContacts': record.showContacts,
             'meta': record.meta,
+            'category': record.category,
         }
         for record in qs
     ]
 )
+
 
 def get_intersection(ids=[]):
     drugsets = []
@@ -199,7 +232,7 @@ def get_intersection(ids=[]):
         drugsets.append(drugset)
     overlaps = []
     for i in range(len(drugsets)):
-        combo = combinations(drugsets, r=i+1)
+        combo = combinations(drugsets, r=i + 1)
         for c in combo:
             data = {
                 "sets": []

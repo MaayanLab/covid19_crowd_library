@@ -18,3 +18,13 @@ function clickReviewButton(id, reviewed, set_type) {
     $.post('review', {id: id, reviewed: reviewed, set_type: set_type});
     switchButtonRecolor(id, reviewed, set_type)
 }
+
+function activateCategoryButton(current, category) {
+    return current === category ? 'btn-primary' : 'btn-outline-primary'
+}
+
+function clickCategoryButton(id, category, set_type) {
+    $.post('review', {id: id, set_type: set_type, category: category});
+    $(`.btn-cat-${id}`).removeClass('btn-primary').addClass('btn-outline-primary');
+    $(`#${id}-${category}`).removeClass('btn-outline-primary').addClass('btn-primary');
+}
