@@ -14,7 +14,8 @@ class TestAddDrugsets:
             'descrFull': '',
             'authorName': 'PyTest',
             'authorEmail': 'test@mail.com',
-            'authorAff': 'PyTest'}
+            'authorAff': 'PyTest',
+            'twitter': 'on'}
 
     def test_add_drugset(self):
         response = drugset.add_drugset(self.form)
