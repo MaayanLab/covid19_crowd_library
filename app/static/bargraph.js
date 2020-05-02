@@ -1,6 +1,7 @@
 function chart(data, type, numBar, fill) {
     const svg_wrapper = `#${type}_bargraph`
     data = data.sort((a, b) => d3.descending(a.count, b.count)).slice(0, numBar);
+    data.format = "d"
     const margin = ({top: 20, right: 30, bottom: 20, left: 100})
     const barHeight = 16
     const width = 600;

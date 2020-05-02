@@ -95,13 +95,20 @@ def route_top_genes():
 
 
 @app.route(ROOT_PATH + 'top_drugs', methods=['GET', 'POST'])
-def route_top_drugs():
+@app.route(ROOT_PATH + 'top_drugs/<categories>', methods=['GET', 'POST'])
+def route_top_drugs(categories=None):
     if flask.request.method == 'GET':
-        return json.dumps({'success': True, 'data': statistics.bar_drugs()}), 200, {'ContentType': 'application/json'}
+        if not categories or categories == 0:
+            return json.dumps({'success': True, 'data': statistics.bar_drugs()}), 200, {'ContentType': 'application/json'}
+        else:
+            return json.dumps({'success': True, 'data': statistics.bar_drugs(categories)}), 200, {
+                'ContentType': 'application/json'}
     elif flask.request.method == 'POST':
         POST = json.loads(flask.request.values.get('body'))
-        return statistics.top_drugs(**POST)
-
+        if not categories or categories == 0:
+            return statistics.top_drugs(**POST)
+        else:
+            return statistics.top_drugs_categories(categories, POST)
 
 @app.route(ROOT_PATH + 'genesets.gmt')
 def download_genesets():

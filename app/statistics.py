@@ -27,9 +27,13 @@ def stats():
     return ret
 
 
-def bar_drugs():
+def bar_drugs(categories=0):
     sess = Session()
-    td = top_drugs_qs(sess)
+    qs = {'2': top_drugs_exp, '3': top_drugs_comp, '4': top_drugs_tw}
+    if categories:
+        td = qs[categories](sess)
+    else:
+        td = top_drugs_qs(sess)
     sess.close()
     return [{'symbol': t[0], 'count': t[1]} for t in td]
 
@@ -64,7 +68,40 @@ def top_drugs_qs(sess):
         .group_by(Drug.id)
 
 
+def top_drugs_exp(sess):
+    return sess.query(Drug.symbol, drug_count) \
+        .join(DrugsetDrug, DrugsetDrug.drug == Drug.id) \
+        .join(Drugset, DrugsetDrug.drugset == Drugset.id) \
+        .filter(Drugset.reviewed == 1) \
+        .filter(Drugset.category == 2) \
+        .group_by(Drug.id)
+
+
+def top_drugs_comp(sess):
+    return sess.query(Drug.symbol, drug_count) \
+        .join(DrugsetDrug, DrugsetDrug.drug == Drug.id) \
+        .join(Drugset, DrugsetDrug.drugset == Drugset.id) \
+        .filter(Drugset.reviewed == 1) \
+        .filter(Drugset.category == 3) \
+        .group_by(Drug.id)
+
+
+def top_drugs_tw(sess):
+    return sess.query(Drug.symbol, drug_count) \
+        .join(DrugsetDrug, DrugsetDrug.drug == Drug.id) \
+        .join(Drugset, DrugsetDrug.drugset == Drugset.id) \
+        .filter(Drugset.reviewed == 1) \
+        .filter(Drugset.category == 4) \
+        .group_by(Drug.id)
+
+
 def top_drugs_search(sess, val):
     return Drug.symbol.like(f'%{val}%')
 
+
 top_drugs = serve_datatable(top_drugs_qs, [(Drug.symbol, 'symbol'), (drug_count, 'count')], top_drugs_search)
+
+
+def top_drugs_categories(category, post):
+    qs = {'2': top_drugs_exp, '3': top_drugs_comp, '4': top_drugs_tw}
+    return serve_datatable(qs[category], [(Drug.symbol, 'symbol'), (drug_count, 'count')], top_drugs_search)(**post)

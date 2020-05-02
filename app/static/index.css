@@ -48,3 +48,12 @@ a {
 .round-pill.active {
     background-color: #2975c8 !important;
 }
+
+.cat-pill {
+    border-radius: .2rem !important;
+    padding: .1rem .7rem !important;
+}
+
+.cat-pill.active {
+    background-color: #7fa4cc !important;
+}
