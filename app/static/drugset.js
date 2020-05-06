@@ -16,7 +16,6 @@ function urlfy(source) {
 }
 
 function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
-    console.log(category)
     let columns = [
         {
             data: null,
@@ -31,7 +30,9 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
         columns.push({title: "Category", data: 'category', orderable: false});
         columns.push({title: "Review", data: 'id', orderable: false});
     }
-
+    if (wrapper === 'drugset_table') {
+        columns.push({title: "Category", data: 'category', orderable: false});
+    }
     let columnDefs = [
         {
             orderable: false,
@@ -124,6 +125,16 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
                             <button id="${row['id']}-drugset-rejected" type="button" class="btn btn-outline-danger btn-sm" 
                                     onclick="clickReviewButton(${row['id']},-1, 'drugset')"><i class="fas fa-times"></i></button>
                         </div>`
+            }
+        });
+    }
+
+    if (wrapper === 'drugset_table') {
+        let type_switch = {1: 'fas fa-globe', 2: 'fas fa-flask', 3: 'fas fa-calculator', 4: 'fab fa-twitter'};
+        columnDefs.push({
+            targets: -1,
+            render: function (data, type, row) {
+                return `<i class="${type_switch[row['category']]}"></i>`
             }
         });
     }

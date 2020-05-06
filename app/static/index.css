@@ -57,3 +57,7 @@ a {
 .cat-pill.active {
     background-color: #7fa4cc !important;
 }
+
+.spark {
+    cursor: pointer;
+}

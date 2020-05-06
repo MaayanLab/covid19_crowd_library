@@ -162,3 +162,13 @@ def route_overlap_drugsets(ids=None):
     else:
         ids = flask.request.values.getlist("id")
         return flask.jsonify(drugset.get_intersection(ids))
+
+
+@app.route(ROOT_PATH + 'genesets/submissions', methods=['GET'])
+def route_genesets_submissions():
+    return json.dumps({'success': True, 'data': statistics.genesets_submissions()}), 200, {'ContentType': 'application/json'}
+
+
+@app.route(ROOT_PATH + 'drugsets/submissions', methods=['GET'])
+def route_drugsets_submissions():
+    return json.dumps({'success': True, 'data': statistics.drugsets_submissions()}), 200, {'ContentType': 'application/json'}

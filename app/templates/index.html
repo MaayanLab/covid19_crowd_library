@@ -12,13 +12,25 @@
 
 {% block body %}
     <div class="container">
-        <div class="row justify-content-center mt-4 mb-2">
+        <div class="row justify-content-center mt-4">
             <div class="d-flex align-items-start">
                 <img style="width: 30%; max-width: 40px" src="{{ url_for('static', filename='logo.png') }}">
                 <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1>
             </div>
             <p class="text-center">A collection of drugs and gene sets related to COVID-19 research contributed by the
                 community</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-2 col-sm-6 text-center">
+                <svg id="drugsets_spark_total" class="spark" onclick='$("#drugsets_spark_total").hide(); $("#drugsets_spark_daily").show()'></svg>
+                <svg id="drugsets_spark_daily" class="spark" onclick='$("#drugsets_spark_daily").hide(); $("#drugsets_spark_total").show()'></svg>
+            </div>
+            <div class="col-md-2 col-sm-6 text-center"></div>
+            <div class="col-md-2 col-sm-6 text-center">
+                <svg id="genesets_spark_total" class="spark" onclick='$("#genesets_spark_total").hide(); $("#genesets_spark_daily").show()'></svg>
+                <svg id="genesets_spark_daily" class="spark" onclick='$("#genesets_spark_daily").hide(); $("#genesets_spark_total").show()'></svg>
+            </div>
+            <div class="col-md-2 col-sm-6 text-center"></div>
         </div>
         <div class="row justify-content-center">
             <div class="col-md-2 col-sm-6 text-center">
@@ -56,14 +68,17 @@
                         <nav class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <a class="nav-link round-pill active" id="pills-experimental-tab" data-toggle="pill"
                                href="#pills-experimental" role="tab" aria-controls="pills-experimental"
-                               aria-selected="false">Experimental drug sets</a>
+                               aria-selected="false"><i class="fas fa-flask"></i> Experimental drug sets</a>
                             <a class="nav-link round-pill" id="pills-computational-tab" data-toggle="pill"
                                href="#pills-computational" role="tab" aria-controls="pills-computational"
-                               aria-selected="false">Computational drug sets</a>
-                            <a class="nav-link round-pill" id="pills-twitter-tab" data-toggle="pill" href="#pills-twitter"
-                               role="tab" aria-controls="pills-twitter" aria-selected="false">Twitter drug sets</a>
+                               aria-selected="false"><i class="fas fa-calculator"></i> Computational drug sets</a>
+                            <a class="nav-link round-pill" id="pills-twitter-tab" data-toggle="pill"
+                               href="#pills-twitter"
+                               role="tab" aria-controls="pills-twitter" aria-selected="false"><i
+                                    class="fab fa-twitter"></i> Twitter drug sets</a>
                             <a class="nav-link round-pill" id="pills-all-tab" data-toggle="pill" href="#pills-all"
-                               role="tab" aria-controls="pills-all" aria-selected="true">All drug sets</a>
+                               role="tab" aria-controls="pills-all" aria-selected="true"><i class="fas fa-globe"></i>
+                                All drug sets</a>
                         </nav>
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-experimental" role="tabpanel"
@@ -112,8 +127,9 @@
                                    style="width:100%">
                             </table>
                             <div class="row">
-                                <a href="{{ url_for('download_genesets') }}" target="_blank"><i class="fas fa-download mr-1"
-                                                                                style="font-size: 0.9rem;"> </i>Download
+                                <a href="{{ url_for('download_genesets') }}" target="_blank"><i
+                                        class="fas fa-download mr-1"
+                                        style="font-size: 0.9rem;"> </i>Download
                                     all gene sets</a>
                             </div>
                         </div>
@@ -196,10 +212,22 @@
 
 {% block script %}
     <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='submissions.js') }}"></script>
     <script>
         $(document).ready(function () {
+            let url_prefix = 'http://0.0.0.0:8080/covid19'
             window.drugSetMetaCounter = counter(0);
             window.geneSetMetaCounter = counter(0);
+            $.get(`${url_prefix}/genesets/submissions`, function (data) {
+                spark(cumulative_sum(JSON.parse(data)['data']), '#genesets_spark_total', 'total');
+                spark(JSON.parse(data)['data'], '#genesets_spark_daily', 'today');
+                $('#genesets_spark_daily').hide();
+            });
+            $.get(`${url_prefix}/drugsets/submissions`, function (data) {
+                spark(cumulative_sum(JSON.parse(data)['data']), '#drugsets_spark_total', 'total');
+                spark(JSON.parse(data)['data'], '#drugsets_spark_daily', 'today');
+                $('#drugsets_spark_daily').hide();
+            });
             navTabsSync('#nav-drugs-table');
             ds_drawTable('{{ url_for("route_drugsets_table") }}', 'drugset_table', 1, '{{ url_for("route_overlap_drugsets") }}');
             ds_drawTable('{{ url_for("route_drugsets_table") }}', 'experimental_table', 1, '{{ url_for("route_overlap_drugsets") }}', 2);

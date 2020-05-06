@@ -105,3 +105,17 @@ top_drugs = serve_datatable(top_drugs_qs, [(Drug.symbol, 'symbol'), (drug_count,
 def top_drugs_categories(category, post):
     qs = {'2': top_drugs_exp, '3': top_drugs_comp, '4': top_drugs_tw}
     return serve_datatable(qs[category], [(Drug.symbol, 'symbol'), (drug_count, 'count')], top_drugs_search)(**post)
+
+
+def genesets_submissions():
+    sess = Session()
+    q = sess.query(sa.cast(Geneset.date, sa.Date).label('date'), sa.func.count(sa.cast(Geneset.date, sa.Date)).label('count')).group_by(sa.cast(Geneset.date, sa.Date)).filter(Geneset.reviewed == 1)
+    sess.close()
+    return list(map(lambda x: {'date': str(x), 'count': dict(q)[x]}, dict(q)))
+
+
+def drugsets_submissions():
+    sess = Session()
+    q = sess.query(sa.cast(Drugset.date, sa.Date).label('date'), sa.func.count(sa.cast(Drugset.date, sa.Date)).label('count')).group_by(sa.cast(Drugset.date, sa.Date)).filter(Drugset.reviewed == 1)
+    sess.close()
+    return list(map(lambda x: {'date': str(x), 'count': dict(q)[x]}, dict(q)))
