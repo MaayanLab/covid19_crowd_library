@@ -12,9 +12,12 @@ spark = (data, wrapper, label) => {
             fill: "#f00",
             stroke: "none"
         },
+        label: {
+            font: ".5em sans-serif"
+        },
         margin: {
             left: 5,
-            right: 35,
+            right: 55,
             top: 5,
             bottom: 5
         },
@@ -69,6 +72,15 @@ spark = (data, wrapper, label) => {
         .style("fill", style.circle.fill)
         .style("stroke", style.circle.stroke);
 
+    if (label === 'today') {
+        let today = Intl.DateTimeFormat('en-US').format(new Date())
+        let last_day = Intl.DateTimeFormat('en-US').format(new Date(data[data.length - 1].date))
+        if (today !== last_day){
+            label = `at ${last_day}`;
+            style.label.font = ".45em sans-serif"
+        }
+    }
+
     const curr_label_n = current
         .append("text")
         .attr("text-anchor", "right")
@@ -76,7 +88,7 @@ spark = (data, wrapper, label) => {
         .attr("pointer-events", "none")
         .attr("x", 5)
         .style("fill", style.circle.fill)
-        .style("font", ".5em sans-serif")
+        .style("font", style.label.font)
         .text(`${data[data.length - 1].count} ${label}`);
 
     return svg.node();

@@ -32,8 +32,9 @@
         <label for="{{ c.set_type }}">
             <abbr title="{{ c.title }}">{{ c.Type }} set</abbr>
         </label>
-        <textarea class="form-control" name="{{ c.set_type }}" rows="7"
+        <textarea id="{{ c.set_type }}_textarea" class="form-control" name="{{ c.set_type }}" rows="7"
                   placeholder="Paste a {{ c.type }} set here" required></textarea>
+        <span id="{{ c.set_type }}-count" style="color: darkgrey; font-size: 0.9rem;"></span>
         <div class="invalid-feedback">Please input a {{ c.type }} set. {{ c.title }}</div>
     </div>
     {% if c.set_type == "drugSet" %}

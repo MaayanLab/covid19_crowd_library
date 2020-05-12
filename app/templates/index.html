@@ -228,6 +228,8 @@
                 spark(JSON.parse(data)['data'], '#drugsets_spark_daily', 'today');
                 $('#drugsets_spark_daily').hide();
             });
+            setListListener('drugSet');
+            setListListener('geneSet');
             navTabsSync('#nav-drugs-table');
             ds_drawTable('{{ url_for("route_drugsets_table") }}', 'drugset_table', 1, '{{ url_for("route_overlap_drugsets") }}');
             ds_drawTable('{{ url_for("route_drugsets_table") }}', 'experimental_table', 1, '{{ url_for("route_overlap_drugsets") }}', 2);
