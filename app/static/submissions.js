@@ -72,10 +72,16 @@ spark = (data, wrapper, label) => {
         .style("fill", style.circle.fill)
         .style("stroke", style.circle.stroke);
 
+    console.log(data[data.length-1])
+
     if (label === 'today') {
-        let today = Intl.DateTimeFormat('en-US').format(new Date())
-        let last_day = Intl.DateTimeFormat('en-US').format(new Date(data[data.length - 1].date))
-        if (today !== last_day){
+        let today = new Date()
+        today.setTime(today.getTime() + today.getTimezoneOffset()*60*1000)
+        let today_intl = Intl.DateTimeFormat('en-US').format(today)
+        let last_day = new Date(data[data.length - 1].date)
+        last_day.setTime(last_day.getTime() + last_day.getTimezoneOffset()*60*1000)
+        let last_day_intl = Intl.DateTimeFormat('en-US').format(last_day)
+        if (today_intl !== last_day_intl){
             label = `at ${last_day}`;
             style.label.font = ".45em sans-serif"
         }

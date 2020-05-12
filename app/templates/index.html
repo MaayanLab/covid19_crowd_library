@@ -215,7 +215,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='submissions.js') }}"></script>
     <script>
         $(document).ready(function () {
-            let url_prefix = 'http://0.0.0.0:8080/covid19'
+            let url_prefix = 'https://amp.pharm.mssm.edu/covid19'
             window.drugSetMetaCounter = counter(0);
             window.geneSetMetaCounter = counter(0);
             $.get(`${url_prefix}/genesets/submissions`, function (data) {
