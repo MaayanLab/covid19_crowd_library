@@ -5,7 +5,7 @@ import sqlalchemy as sa
 from app.database import Session
 from app.models import Drugset, DrugsetDrug, Drug, drug_splitter
 from app.datatables import serve_datatable
-from app.utils import match_meta
+from app.utils import match_meta, enrichr_submit
 
 
 def add_drugset(form):
@@ -17,6 +17,9 @@ def add_drugset(form):
     author_email = form['authorEmail']
     author_aff = form['authorAff']
     show_contacts = 1 if 'showContacts' in form else 0
+    enrichr_ids = enrichr_submit(drug_set, desc_short, 'DrugEnrichr')
+    enrichr_shortid = enrichr_ids['shortId']
+    enrichr_userlistid = enrichr_ids['userListId']
     meta = {}
 
     if 'experimental' in form and form['experimental'] == 'on':
@@ -37,6 +40,8 @@ def add_drugset(form):
         sess.add(
             Drugset.create(
                 sess,
+                enrichrShortId=enrichr_shortid,
+                enrichrUserListId=enrichr_userlistid,
                 descrShort=desc_short,
                 descrFull=descr_full,
                 authorName=author_name,
@@ -118,6 +123,7 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
         (Drugset.descrShort, 'descrShort'),
         (Drugset.descrFull, 'descrFull'),
         (Drugset.drugs, 'drugs'),
+        (Drugset.enrichrShortId, 'enrichrShortId'),
         (Drugset.authorName, 'authorName'),
         (Drugset.authorAffiliation, 'authorAffiliation'),
         (Drugset.authorEmail, 'authorEmail'),
@@ -153,6 +159,7 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
             'descrShort': record.descrShort,
             'descrFull': record.descrFull,
             'drugs': [gene.symbol for gene in record.drugs],
+            'enrichrShortId': record.enrichrShortId,
             'authorName': record.authorName if record.showContacts or reviewed == 0 else '',
             'authorAffiliation': record.authorAffiliation if record.showContacts or reviewed == 0 else '',
             'authorEmail': record.authorEmail if record.showContacts or reviewed == 0 else '',

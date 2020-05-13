@@ -1,23 +1,11 @@
 import json
-import requests
 import traceback
 from itertools import combinations
 import sqlalchemy as sa
 from app.database import Session
 from app.models import Geneset, GenesetGene, Gene, gene_splitter
 from app.datatables import serve_datatable
-from app.utils import match_meta
-
-
-def enrichr_submit(geneset, short_description):
-    payload = {
-        'list': (None, '\n'.join(geneset)),
-        'description': (None, short_description)
-    }
-    response = requests.post('http://amp.pharm.mssm.edu/Enrichr/addList', files=payload)
-    if not response.ok:
-        raise Exception('Error analyzing gene list')
-    return json.loads(response.text)
+from app.utils import match_meta, enrichr_submit
 
 
 def add_geneset(form):
@@ -29,7 +17,7 @@ def add_geneset(form):
     author_email = form['authorEmail']
     author_aff = form['authorAff']
     show_contacts = 1 if 'showContacts' in form else 0
-    enrichr_ids = enrichr_submit(gene_set, desc_short)
+    enrichr_ids = enrichr_submit(gene_set, desc_short, 'Enrichr')
     enrichr_shortid = enrichr_ids['shortId']
     enrichr_userlistid = enrichr_ids['userListId']
     meta = {}
