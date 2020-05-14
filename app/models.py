@@ -84,7 +84,7 @@ class Geneset(Base):
     def to_gmt(self):
         return '\t'.join([
             self.descrShort,
-            self.descrFull,
+            re.sub(r'[\t\r\n]', ' ', self.descrFull),
             *[
                 gene.symbol
                 for gene in self.genes
@@ -199,7 +199,7 @@ class Drugset(Base):
     def to_gmt(self):
         return '\t'.join([
             self.descrShort,
-            self.descrFull,
+            re.sub(r'[\t\r\n]', ' ', self.descrFull),
             *[
                 drug.symbol
                 for drug in self.drugs
