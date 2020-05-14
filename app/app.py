@@ -119,6 +119,18 @@ def download_genesets():
 def download_drugsets():
     return flask.Response(download.drugsets(), mimetype='text/gmt')
 
+@app.route(ROOT_PATH + 'experimantal_drugsets.gmt')
+def download_experimental():
+    return flask.Response(download.drugsets(2), mimetype='text/gmt')
+
+@app.route(ROOT_PATH + 'computational_drugsets.gmt')
+def download_computational():
+    return flask.Response(download.drugsets(3), mimetype='text/gmt')
+
+@app.route(ROOT_PATH + 'twitter_drugsets.gmt')
+def download_twitter():
+    return flask.Response(download.drugsets(4), mimetype='text/gmt')
+
 
 @app.route(ROOT_PATH + 'genesets/overlap', methods=['GET', 'POST'])
 @app.route(ROOT_PATH + 'genesets/overlap/<ids>')
