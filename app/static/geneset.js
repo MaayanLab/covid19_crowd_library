@@ -25,7 +25,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
         },
         {title: "Description", data: 'description'},
         {title: "Genes", data: 'genes', orderable: false},
-        {title: "Enrichr link", data: 'enrichrShortId', orderable: false},
+        {title: "En<span style='color: red;'>rich</span>r link", data: 'enrichrShortId', orderable: false},
     ];
     if (reviewed === 0) {
         columns.push({title: "Review", data: 'id', orderable: false});

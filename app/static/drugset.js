@@ -25,6 +25,7 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
         },
         {title: "Description", data: 'descrShort'},
         {title: "Drugs", data: 'drugs', orderable: false},
+        {title: "<span style='color: dodgerblue;'>DrugEn</span><span style='color: #ff3581;'>rich</span><span style='color: dodgerblue;'>r</span> URL", data: 'enrichrShortId', orderable: false},
     ];
     if (reviewed === 0) {
         columns.push({title: "Category", data: 'category', orderable: false});
@@ -98,7 +99,20 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
                     .prop('outerHTML')
 
             }
-        }
+        },
+        {
+            targets: 3,
+            className: 'dt-body-left',
+            width: '15%',
+            render: function (data, type, row) {
+                return $('<a>', {
+                    'href': `https://amp.pharm.mssm.edu/DrugEnrichr/enrich?dataset=${row['enrichrShortId']}`,
+                    'target': '_blank'
+                })
+                    .append('<i class="fas fa-external-link-alt ml-1" style="font-size: 0.9rem;"></i>')
+                    .prop('outerHTML')
+            },
+        },
     ]
     if (reviewed === 0) {
         columnDefs.push({

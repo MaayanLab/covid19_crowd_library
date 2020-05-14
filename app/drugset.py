@@ -120,10 +120,11 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
         sa.desc(Drugset.date)),
     [
         (Drugset.id, 'id'),
+        (Drugset.enrichrShortId, 'enrichrShortId'),
+        (Drugset.enrichrUserListId, 'enrichrUserListId'),
         (Drugset.descrShort, 'descrShort'),
         (Drugset.descrFull, 'descrFull'),
         (Drugset.drugs, 'drugs'),
-        (Drugset.enrichrShortId, 'enrichrShortId'),
         (Drugset.authorName, 'authorName'),
         (Drugset.authorAffiliation, 'authorAffiliation'),
         (Drugset.authorEmail, 'authorEmail'),
@@ -156,10 +157,11 @@ serve_drugset_datatable = lambda reviewed: serve_datatable(
     lambda qs, reviewed=reviewed: [
         {
             'id': record.id,
+            'enrichrShortId': record.enrichrShortId,
+            'enrichrUserListId': record.enrichrUserListId,
             'descrShort': record.descrShort,
             'descrFull': record.descrFull,
             'drugs': [gene.symbol for gene in record.drugs],
-            'enrichrShortId': record.enrichrShortId,
             'authorName': record.authorName if record.showContacts or reviewed == 0 else '',
             'authorAffiliation': record.authorAffiliation if record.showContacts or reviewed == 0 else '',
             'authorEmail': record.authorEmail if record.showContacts or reviewed == 0 else '',
@@ -178,6 +180,8 @@ serve_drugset_filtered_datatable = lambda reviewed, category: serve_datatable(
         Drugset.category == category).order_by(sa.desc(Drugset.date)),
     [
         (Drugset.id, 'id'),
+        (Drugset.enrichrShortId, 'enrichrShortId'),
+        (Drugset.enrichrUserListId, 'enrichrUserListId'),
         (Drugset.descrShort, 'descrShort'),
         (Drugset.descrFull, 'descrFull'),
         (Drugset.drugs, 'drugs'),
@@ -213,6 +217,8 @@ serve_drugset_filtered_datatable = lambda reviewed, category: serve_datatable(
     lambda qs, reviewed=reviewed: [
         {
             'id': record.id,
+            'enrichrShortId': record.enrichrShortId,
+            'enrichrUserListId': record.enrichrUserListId,
             'descrShort': record.descrShort,
             'descrFull': record.descrFull,
             'drugs': [gene.symbol for gene in record.drugs],

@@ -61,3 +61,7 @@ a {
 .spark {
     cursor: pointer;
 }
+
+table.dataTable thead tr th {
+  font-weight: 500;
+}
