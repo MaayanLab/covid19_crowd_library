@@ -25,7 +25,7 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
         },
         {title: "Description", data: 'descrShort'},
         {title: "Drugs", data: 'drugs', orderable: false},
-        {title: "<span style='color: dodgerblue;'>DrugEn</span><span style='color: #ff3581;'>rich</span><span style='color: dodgerblue;'>r</span> URL", data: 'enrichrShortId', orderable: false},
+        {title: "<span style='color: dodgerblue;'>DrugEn</span><span style='color: #ff3581;'>rich</span><span style='color: dodgerblue;'>r</span> link", data: 'enrichrShortId', orderable: false},
     ];
     if (reviewed === 0) {
         columns.push({title: "Category", data: 'category', orderable: false});
