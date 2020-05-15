@@ -70,7 +70,7 @@ function cleanArray(actual) {
 function setListListener(wrapper) {
     let textfield = $(`#${wrapper}_textarea`);
     textfield.on("change keyup paste", function () {
-        let textfield_clean = textfield.val().trim().split(/[\s\n,]/).join('\n')
+        let textfield_clean = textfield.val().trim().split(/[\r\n]/).join('\n')
         const len = cleanArray(textfield_clean.trim().split('\n')).length;
 
         if (len === 0) {
