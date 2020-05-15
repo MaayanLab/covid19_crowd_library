@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block og %}
-        <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drugset['id'] }}"/>
-        <meta property="og:title" content="{{ drugset['descrShort'] }} - COVID-19 Crowd Generated Gene and Drug Set Library"/>
-        <meta property="og:description" content="{{ drugset['descrFull'] }}"/>
+    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drugset['id'] }}"/>
+    <meta property="og:title"
+          content="{{ drugset['descrShort'] }} - COVID-19 Crowd Generated Gene and Drug Set Library"/>
+    <meta property="og:description" content="{{ drugset['descrFull'] }}"/>
 {% endblock %}
 
 {% block head %}
@@ -13,7 +14,9 @@
 {% block body %}
     <div class="container">
         <div class="py-5 text-center">
-            <h2>{{ drugset['descrShort'] }}</h2>
+            <h2>
+                {{ drugset['descrShort'] }}
+            </h2>
         </div>
         <div class="row">
             <div class="col-md-4 mb-4">
@@ -72,6 +75,22 @@
                             <span class="text-muted wrapped">{{ drugset['date'].split(' ')[0] }}</span>
                         </div>
                     </li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">Category</h6>
+                            <span class="text-muted wrapped">
+                                {% if drugset['category']==2 %}
+                                    <span><i class="fas fa-flask"></i> Experimental</span>
+                                    {% elif drugset['category']==3 %}
+                                    <span><i class="fas fa-calculator"></i> Computational</span>
+                                    {% elif drugset['category']==4 %}
+                                    <span><i class="fab fa-twitter"></i> Twitter</span>
+                                    {% else %}
+                                    <span><i class="fas fa-globe"></i> Other</span>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </li>
                 </ul>
             </div>
             <div class="col-md-8 order-md-1">
@@ -80,7 +99,9 @@
                 </h4>
                 <div class="mb-3">
                     {% for drug in drugset['drugs']|sort %}
-                        <a class="drug-link" href="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query={{ drug }}" target="_blank">{{ drug }}</a>
+                        <a class="drug-link"
+                           href="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query={{ drug }}"
+                           target="_blank">{{ drug }}</a>
                     {% endfor %}
 
                 </div>
