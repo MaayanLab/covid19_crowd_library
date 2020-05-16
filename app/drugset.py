@@ -73,6 +73,22 @@ def get_drugset(id):
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 
 
+def get_drug(name):
+    try:
+        sess = Session()
+        drug = sess.query(Drug).filter(Drug.symbol == name).first()
+        drugset_ids = sess.query(DrugsetDrug).filter(DrugsetDrug.drug == drug.id)
+        r = {'name': name, 'sets': []}
+        for drugset_id in drugset_ids:
+            drugset = sess.query(Drugset).filter(Drugset.id == drugset_id.drugset).first()
+            r['sets'].append({'id': drugset.id, 'name': drugset.descrShort})
+        sess.close()
+        return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
+    except Exception as e:
+        traceback.print_exc()
+        return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
+
+
 def get_drugsets(reviewed=1):
     try:
         sess = Session()

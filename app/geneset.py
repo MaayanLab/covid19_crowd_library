@@ -63,6 +63,22 @@ def get_geneset(id):
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 
 
+def get_gene(name):
+    try:
+        sess = Session()
+        gene = sess.query(Gene).filter(Gene.symbol == name).first()
+        geneset_ids = sess.query(GenesetGene).filter(GenesetGene.gene == gene.id)
+        r = {'name': name, 'sets': []}
+        for geneset_id in geneset_ids:
+            geneset = sess.query(Geneset).filter(Geneset.id == geneset_id.geneset).first()
+            r['sets'].append({'id': geneset.id, 'name': geneset.descrShort})
+        sess.close()
+        return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
+    except Exception as e:
+        traceback.print_exc()
+        return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
+
+
 def get_genesets(reviewed=1):
     try:
         sess = Session()
