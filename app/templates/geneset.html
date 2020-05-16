@@ -12,6 +12,16 @@
 {% endblock %}
 
 {% block body %}
+    <div class="row justify-content-center mt-4 mb-2">
+        <div class="d-flex align-items-start">
+
+            <a href={{ url_for("route_index") }}>
+                <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}"></a>
+            <a style="color: #212529" href={{ url_for("route_index") }}>
+                <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
+        </div>
+        <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
+    </div>
     <div class="container">
         <div class="py-5 text-center">
             <h2>{{ geneset['descrShort'] }}</h2>
@@ -41,7 +51,13 @@
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
                             <div>
                                 <h6 class="my-0">Source</h6>
-                                <span class="text-muted wrapped">{{ geneset['source'] }}</span>
+                                {% if geneset['source'][0:4] == 'http' %}
+                                    <span class="text-muted wrapped">
+                                        <a href="{{ geneset['source'] }}">{{ geneset['source'] }}</a>
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted wrapped">{{ geneset['source'] }}</span>
+                                {% endif %}
                             </div>
                         </li>
                     {% endif %}
@@ -81,16 +97,6 @@
                         <div>
                             <h6 class="my-0">Date added</h6>
                             <span class="text-muted wrapped">{{ geneset['date'].split(' ')[0] }}</span>
-                        </div>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0">En<span style='color: red;'>rich</span>r link</h6>
-                            <span class="text-muted wrapped">
-                                <a href="https://amp.pharm.mssm.edu/Enrichr/enrich?dataset={{ drugset['enrichrShortId'] }}">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                            </span>
                         </div>
                     </li>
                 </ul>

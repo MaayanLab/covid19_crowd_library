@@ -12,6 +12,16 @@
 {% endblock %}
 
 {% block body %}
+    <div class="row justify-content-center mt-4 mb-2">
+        <div class="d-flex align-items-start">
+
+            <a href={{ url_for("route_index") }}>
+                <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}"></a>
+            <a style="color: #212529" href={{ url_for("route_index") }}>
+                <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
+        </div>
+        <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
+    </div>
     <div class="container">
         <div class="py-5 text-center">
             <h2>
@@ -43,7 +53,13 @@
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
                             <div>
                                 <h6 class="my-0">Source</h6>
-                                <span class="text-muted wrapped">{{ drugset['source'] }}</span>
+                                {% if drugset['source'][0:4] == 'http' %}
+                                    <span class="text-muted wrapped">
+                                        <a href="{{ drugset['source'] }}">{{ drugset['source'] }}</a>
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted wrapped">{{ drugset['source'] }}</span>
+                                {% endif %}
                             </div>
                         </li>
                     {% endif %}
@@ -71,6 +87,18 @@
                     {% endif %}
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
+                            <h6 class="my-0"><span style='color: dodgerblue;'>DrugEn</span><span
+                                    style='color: #ff3581;'>rich</span><span style='color: dodgerblue;'>r</span> link
+                            </h6>
+                            <span class="text-muted wrapped">
+                                <a href="https://amp.pharm.mssm.edu/DrugEnrichr/enrich?dataset={{ drugset['enrichrShortId'] }}">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
                             <h6 class="my-0">Date added</h6>
                             <span class="text-muted wrapped">{{ drugset['date'].split(' ')[0] }}</span>
                         </div>
@@ -81,23 +109,13 @@
                             <span class="text-muted wrapped">
                                 {% if drugset['category']==2 %}
                                     <span><i class="fas fa-flask"></i> Experimental</span>
-                                    {% elif drugset['category']==3 %}
+                                {% elif drugset['category']==3 %}
                                     <span><i class="fas fa-calculator"></i> Computational</span>
-                                    {% elif drugset['category']==4 %}
+                                {% elif drugset['category']==4 %}
                                     <span><i class="fab fa-twitter"></i> Twitter</span>
-                                    {% else %}
+                                {% else %}
                                     <span><i class="fas fa-globe"></i> Other</span>
                                 {% endif %}
-                            </span>
-                        </div>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0"><span style='color: dodgerblue;'>DrugEn</span><span style='color: #ff3581;'>rich</span><span style='color: dodgerblue;'>r</span> link</h6>
-                            <span class="text-muted wrapped">
-                                <a href="https://amp.pharm.mssm.edu/DrugEnrichr/enrich?dataset={{drugset['enrichrShortId']}}">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
                             </span>
                         </div>
                     </li>
