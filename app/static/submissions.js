@@ -1,6 +1,6 @@
 total = d => d.reduce((total, arg) => total + arg.count, 0);
 cumulative_sum = d => d.map((e, i) => ({date: e.date, count: total(d.slice(0, i + 1))}))
-spark = (data, wrapper, label) => {
+spark = (data, wrapper, label, dim = {width: 100, height: 30}) => {
     const x = d3.scaleLinear()
     const y = d3.scaleLinear()
     const style = ({
@@ -21,10 +21,7 @@ spark = (data, wrapper, label) => {
             top: 5,
             bottom: 5
         },
-        dim: {
-            width: 100,
-            height: 30
-        }
+        dim: dim
     })
     const dateParse = d3.timeParse('%Y-%m-%d')
     const xScale = x

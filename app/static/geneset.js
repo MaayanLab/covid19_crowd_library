@@ -78,7 +78,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
             render: function (data, type, row) {
                 let geneLinks = [];
                 $.each(row['genes'].sort(), function (index, gene) {
-                    geneLinks.push('<a class="enriched-gene-link" href="http://amp.pharm.mssm.edu/Harmonizome/gene/' + gene + '" target="_blank">' + gene + '</a>');
+                    geneLinks.push('<a class="enriched-gene-link" href="http://amp.pharm.mssm.edu/covid19/genes/' + gene + '" target="_blank">' + gene + '</a>');
                 });
                 return $('<div>', {
                     'class': 'enrichment-popover-button',

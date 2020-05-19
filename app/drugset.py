@@ -80,8 +80,31 @@ def get_drug(name):
         drugset_ids = sess.query(DrugsetDrug).filter(DrugsetDrug.drug == drug.id)
         r = {'name': name, 'sets': []}
         for drugset_id in drugset_ids:
-            drugset = sess.query(Drugset).filter(Drugset.id == drugset_id.drugset).first()
+            drugset = sess.query(Drugset)\
+                .filter(Drugset.id == drugset_id.drugset)\
+                .filter(sa.or_(Drugset.category == 2, Drugset.category == 3))\
+                .filter(Drugset.reviewed == 1).first()
             r['sets'].append({'id': drugset.id, 'name': drugset.descrShort})
+        sess.close()
+        return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
+    except Exception as e:
+        traceback.print_exc()
+        return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
+
+
+def twitter_drug_submission(name):
+    try:
+        sess = Session()
+        drug = sess.query(Drug).filter(Drug.symbol == name).first()
+        drugset_ids = sess.query(DrugsetDrug).filter(DrugsetDrug.drug == drug.id)
+        r = []
+        for drugset_id in drugset_ids:
+            print(drugset_id)
+            date = sess.query(sa.cast(Drugset.date, sa.Date)) \
+                .filter(Drugset.id == drugset_id.drugset) \
+                .filter(Drugset.category == 4)\
+                .filter(Drugset.reviewed == 1).first()
+            r.append({'count': 1, 'date': date[0]})
         sess.close()
         return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
     except Exception as e:
@@ -128,7 +151,6 @@ def change_category(form):
     except Exception as e:
         traceback.print_exc()
         return json.dumps({'success': False, 'error': str(e)}), 500, {'ContentType': 'application/json'}
-
 
 
 serve_drugset_datatable = lambda reviewed: serve_datatable(

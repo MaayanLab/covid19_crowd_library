@@ -12,17 +12,17 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row justify-content-center mt-4 mb-2">
-        <div class="d-flex align-items-start">
-
-            <a href={{ url_for("route_index") }}>
-                <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}"></a>
-            <a style="color: #212529" href={{ url_for("route_index") }}>
-                <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
-        </div>
-        <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
-    </div>
     <div class="container">
+        <div class="row justify-content-center mt-4 mb-2">
+            <div class="d-flex align-items-start">
+
+                <a href={{ url_for("route_index") }}>
+                    <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}"></a>
+                <a style="color: #212529" href={{ url_for("route_index") }}>
+                    <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
+            </div>
+            <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
+        </div>
         <div class="py-5 text-center">
             <h2>{{ geneset['descrShort'] }}</h2>
         </div>
@@ -107,7 +107,7 @@
                 </h4>
                 <div class="mb-3">
                     {% for gene in geneset['genes']|sort %}
-                        <a class="enriched-gene-link" href="https://amp.pharm.mssm.edu/Harmonizome/gene/{{ gene }}"
+                        <a class="enriched-gene-link" href="https://amp.pharm.mssm.edu/covid19/genes/{{ gene }}"
                            target="_blank">{{ gene }}</a>
                     {% endfor %}
 

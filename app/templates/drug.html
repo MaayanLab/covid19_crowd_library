@@ -11,17 +11,16 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row justify-content-center mt-4 mb-2">
-        <div class="d-flex align-items-start">
-
-            <a href={{ url_for("route_index") }}>
-                <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}"></a>
-            <a style="color: #212529" href={{ url_for("route_index") }}>
-                <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
-        </div>
-        <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
-    </div>
     <div class="container">
+        <div class="row justify-content-center mt-4 mb-2">
+            <div class="d-flex align-items-start">
+                <a href={{ url_for("route_index") }}>
+                    <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}"></a>
+                <a style="color: #212529" href={{ url_for("route_index") }}>
+                    <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
+            </div>
+            <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
+        </div>
         <div class="py-5 text-center">
             <h2>{{ drug['name'] }}</h2>
         </div>
@@ -30,15 +29,24 @@
                 <ul class="list-group mb-3">
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
-                            <h6 class="my-0">{{ drug['name'] }}</h6>
-                            <span class="text-muted wrapped">{{ drug['descrFull'] }}</span>
+                            <h6 class="my-0">DrugBank link</h6>
+                            <a href="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query={{ drug['name'] }}"
+                               target="_blank"><i class="fas fa-external-link-alt"></i></a>
                         </div>
                     </li>
+                    {% if 'twitter' in drug %}
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <h6 class="my-0">Twitter datasets mentions since {{ drug['start'] }}</h6>
+                                <svg id="drug_twitter_daily" class="spark mt-1"></svg>
+                            </div>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="col-md-8 order-md-1">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="badge badge-secondary badge-pill">{{ drug['sets']|length }} sets</span>
+                    <span class="badge badge-secondary badge-pill">{{ drug['sets']|length }} experimental and computational sets</span>
                 </h4>
                 <div class="mb-3">
                     {% for drugset in drug['sets'] %}
@@ -79,4 +87,16 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+        <script type="text/javascript" src="{{ url_for('static', filename='submissions.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            {% if 'twitter' in drug %}
+                let data = JSON.parse(`{{ drug['twitter'] | safe }}`);
+                spark(cumulative_sum(data), '#drug_twitter_daily', 'total', {width: 300, height: 30});
+            {% endif %}
+        });
+    </script>
 {% endblock %}

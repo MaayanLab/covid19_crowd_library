@@ -70,7 +70,9 @@ def get_gene(name):
         geneset_ids = sess.query(GenesetGene).filter(GenesetGene.gene == gene.id)
         r = {'name': name, 'sets': []}
         for geneset_id in geneset_ids:
-            geneset = sess.query(Geneset).filter(Geneset.id == geneset_id.geneset).first()
+            geneset = sess.query(Geneset)\
+                .filter(Geneset.id == geneset_id.geneset)\
+                .filter(Geneset.reviewed == 1).first()
             r['sets'].append({'id': geneset.id, 'name': geneset.descrShort})
         sess.close()
         return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
@@ -104,8 +106,10 @@ def approve_geneset(form):
         traceback.print_exc()
         return json.dumps({'success': False, 'error': str(e)}), 500, {'ContentType': 'application/json'}
 
+
 serve_geneset_datatable = lambda reviewed: serve_datatable(
-    lambda sess, reviewed=reviewed: sess.query(Geneset).filter(Geneset.reviewed == reviewed).order_by(sa.desc(Geneset.date)),
+    lambda sess, reviewed=reviewed: sess.query(Geneset).filter(Geneset.reviewed == reviewed).order_by(
+        sa.desc(Geneset.date)),
     [
         (Geneset.id, 'id'),
         (Geneset.descrShort, 'descrShort'),
@@ -170,7 +174,7 @@ def get_intersection(ids=[]):
         genesets.append(geneset)
     overlaps = []
     for i in range(len(genesets)):
-        combo = combinations(genesets, r=i+1)
+        combo = combinations(genesets, r=i + 1)
         for c in combo:
             data = {
                 "sets": []

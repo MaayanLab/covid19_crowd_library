@@ -12,17 +12,17 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row justify-content-center mt-4 mb-2">
-        <div class="d-flex align-items-start">
-
-            <a href={{ url_for("route_index") }}>
-                <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}"></a>
-            <a style="color: #212529" href={{ url_for("route_index") }}>
-                <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
-        </div>
-        <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
-    </div>
     <div class="container">
+        <div class="row justify-content-center mt-4 mb-2">
+            <div class="d-flex align-items-start">
+
+                <a href={{ url_for("route_index") }}>
+                    <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}"></a>
+                <a style="color: #212529" href={{ url_for("route_index") }}>
+                    <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
+            </div>
+            <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
+        </div>
         <div class="py-5 text-center">
             <h2>
                 {{ drugset['descrShort'] }}
@@ -128,10 +128,9 @@
                 <div class="mb-3">
                     {% for drug in drugset['drugs']|sort %}
                         <a class="drug-link"
-                           href="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query={{ drug }}"
+                           href="https://amp.pharm.mssm.edu/covid19/drugs/{{ drug }}"
                            target="_blank">{{ drug }}</a>
                     {% endfor %}
-
                 </div>
             </div>
         </div>
@@ -165,4 +164,16 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+        <script type="text/javascript" src="{{ url_for('static', filename='submissions.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            // Force https if not on dev
+            if ((location.protocol !== 'https:') && (location.hostname !== '0.0.0.0')) {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+            let url_prefix = 'https://amp.pharm.mssm.edu/covid19'
+        }
 {% endblock %}

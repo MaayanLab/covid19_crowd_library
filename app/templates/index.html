@@ -235,10 +235,6 @@
     <script type="text/javascript" src="{{ url_for('static', filename='submissions.js') }}"></script>
     <script>
         $(document).ready(function () {
-            // Force https if not on dev
-            if ((location.protocol !== 'https:') && (location.hostname !== '0.0.0.0')) {
-                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
-            }
             let url_prefix = 'https://amp.pharm.mssm.edu/covid19'
             window.drugSetMetaCounter = counter(0);
             window.geneSetMetaCounter = counter(0);

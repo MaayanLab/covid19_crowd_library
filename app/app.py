@@ -1,6 +1,7 @@
 import os
 import json
 import flask
+import datetime
 from app import database, geneset, drugset, download, statistics
 
 ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
@@ -88,8 +89,23 @@ def route_gene(gene_name):
 @app.route(ROOT_PATH + 'drugs/<drug_name>', methods=['GET'])
 def route_drug(drug_name):
     json_drugset = json.loads(drugset.get_drug(drug_name)[0])
+    # If it's 404, set 'name' anyway
+    json_drugset['name'] = drug_name
+    twitter = drugset.twitter_drug_submission(drug_name)
+    if twitter[1] == 200:
+        json_drugset['twitter'] = twitter[0]
+        start = json.loads(twitter[0])[0]['date']
+        print(start)
+        y, m, d = start.split('-')
+        s = datetime.datetime(int(y), int(m), int(d))
+        start = s.strftime("%b %d")
+        json_drugset['start'] = start
     return flask.render_template('drug.html', drug=json_drugset)
 
+
+@app.route(ROOT_PATH + 'stats/drugs/<drug_name>/twitter', methods=['GET'])
+def route_drug_twitter_submissions(drug_name):
+    return drugset.twitter_drug_submission(drug_name)[0]
 
 @app.route(ROOT_PATH + 'stats')
 def route_stats():

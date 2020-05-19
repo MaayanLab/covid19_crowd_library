@@ -112,6 +112,14 @@
         src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
 
 {% block script %}
+    <script>
+        $(document).ready(function () {
+            // Force https if not on dev
+            if ((location.protocol !== 'https:') && (location.hostname !== '0.0.0.0')) {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+        });
+    </script>
 {% endblock %}
 </body>
 </html>
