@@ -95,7 +95,6 @@ def route_drug(drug_name):
     if twitter[1] == 200:
         json_drugset['twitter'] = twitter[0]
         start = json.loads(twitter[0])[0]['date']
-        print(start)
         y, m, d = start.split('-')
         s = datetime.datetime(int(y), int(m), int(d))
         start = s.strftime("%b %d")
