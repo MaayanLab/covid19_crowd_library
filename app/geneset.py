@@ -73,7 +73,8 @@ def get_gene(name):
             geneset = sess.query(Geneset)\
                 .filter(Geneset.id == geneset_id.geneset)\
                 .filter(Geneset.reviewed == 1).first()
-            r['sets'].append({'id': geneset.id, 'name': geneset.descrShort})
+            if geneset:
+                r['sets'].append({'id': geneset.id, 'name': geneset.descrShort})
         sess.close()
         return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
     except Exception as e:

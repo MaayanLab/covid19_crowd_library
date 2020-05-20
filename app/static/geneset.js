@@ -11,8 +11,8 @@ function renderMeta(meta) {
 }
 
 function urlfy(source) {
-    let r = /(https?:\/\/[^\s]+\.\w{2,}(\/*\w*\-*)*)\??(\w*\-*)*\=?(\w*\-*\w*\&*)*/g;
-    return source.replace(r, '<a href="$1" target="_blank">$1</a>')
+    let r = /(http)s?(:\/\/[^\s]+\.\w{2,}(\/*\w*-*)*)\??((\w*-*)*=?(\w*-*\w*&*)*)*/g;
+    return source.replace(r, '<a href="$&" target="_blank">$&</a>')
 }
 
 function gs_drawTable(url, reviewed, overlap_url) {
@@ -46,12 +46,11 @@ function gs_drawTable(url, reviewed, overlap_url) {
                     reviewed ? '<i class="far fa-eye-slash"></i> Author preferred not to share contact details' : `<p style="color: red"><i class="far fa-eye-slash"></i> As author preferred not to share contact details, following will not be displayed:</p><p style="color: red"><b>Author:</b> ${row['authorName']}<\p><p style="color: red"><b>Affiliation:</b> ${row['authorAffiliation']}<\p><p style="color: red"><b>E-mail:</b> ${row['authorEmail']}<\p>`;
                 let source;
                 if (row['source'] === null) {
-                    source = ''
+                    source = '';
                 } else if (row['source'].includes('http')) {
                     source = `<p><b>Source: </b><p class="wrapped">${urlfy(row['source'])}</p></p>`
-                } else {
-                    source = `<p><b>Source: </b> ${row['source']}</p>`;
                 }
+
                 const dateObj = new Date(row['date'])
                 const dateStr = `${dateObj.getFullYear()}-${dateObj.getMonth()+1}-${dateObj.getDate()}`
                 const date = `<p><b>Date added:</b> ${dateStr}</p>`;
@@ -114,7 +113,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
             render: function(data, type, row) {
                 return `<div class="btn-group" role="group" aria-label="Basic example"><button id="${row['id']}-geneset-approved" type="button" class="btn btn-outline-success btn-sm" onclick="clickReviewButton(${row['id']}, 1, 'geneset')"><i class="fas fa-check"></i></button><button id="${row['id']}-geneset-rejected" type="button" class="btn btn-outline-danger btn-sm" onclick="clickReviewButton(${row['id']},-1,'geneset')"><i class="fas fa-times"></i></button></div>`
             }
-            
+
         });
     }
 

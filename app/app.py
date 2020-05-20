@@ -92,7 +92,7 @@ def route_drug(drug_name):
     # If it's 404, set 'name' anyway
     json_drugset['name'] = drug_name
     twitter = drugset.twitter_drug_submission(drug_name)
-    if twitter[1] == 200:
+    if (twitter[1] == 200) and (twitter[0] != '[]'):
         json_drugset['twitter'] = twitter[0]
         start = json.loads(twitter[0])[0]['date']
         y, m, d = start.split('-')
@@ -105,6 +105,7 @@ def route_drug(drug_name):
 @app.route(ROOT_PATH + 'stats/drugs/<drug_name>/twitter', methods=['GET'])
 def route_drug_twitter_submissions(drug_name):
     return drugset.twitter_drug_submission(drug_name)[0]
+
 
 @app.route(ROOT_PATH + 'stats')
 def route_stats():
