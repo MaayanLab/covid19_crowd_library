@@ -13,11 +13,12 @@
             <div class="input-group-prepend">
                 <span id="sourceLabel" class="input-group-text">{{ c.Type }} set URL</span>
             </div>
-            <input type="url" class="form-control" name="source" aria-describedby="sourceLabel">
-            <div class="invalid-feedback">Please input the URL of the published {{ c.type }} set from which this drug
+            <input type="url" class="form-control" name="source" aria-describedby="sourceLabel" maxlength="250">
+            <div class="invalid-feedback">The entered URL is either incorrectly formatted, or longer than 250 characters.
+                Please input the URL of the published {{ c.type }} set from which this drug
                 set was derived. If the data set is not
                 published yet, you can provide method details, such as cell line, drug, dose, or treatment in the
-                'Metadata' field below.
+                'Metadata' field below. If you need to shorten the URL, you can use <a href="https://tinyurl.com/">TinyURL</a>.
             </div>
         </div>
     </div>
