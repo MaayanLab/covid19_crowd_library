@@ -66,15 +66,11 @@ def get_geneset(id):
 def get_gene(name):
     try:
         sess = Session()
-        gene = sess.query(Gene).filter(Gene.symbol == name).first()
-        geneset_ids = sess.query(GenesetGene).filter(GenesetGene.gene == gene.id)
-        r = {'name': name, 'sets': []}
-        for geneset_id in geneset_ids:
-            geneset = sess.query(Geneset)\
-                .filter(Geneset.id == geneset_id.geneset)\
-                .filter(Geneset.reviewed == 1).first()
-            if geneset:
-                r['sets'].append({'id': geneset.id, 'name': geneset.descrShort})
+        r = {'name': name, 'sets': [{'id': geneset.id, 'name': geneset.descrShort}
+                                    for geneset in sess.query(Geneset) \
+                                        .join(GenesetGene, Geneset.id == GenesetGene.geneset) \
+                                        .join(Gene, GenesetGene.gene == Gene.id) \
+                                        .filter(Gene.symbol == name, Geneset.reviewed == 1)]}
         sess.close()
         return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
     except Exception as e:

@@ -49,12 +49,11 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
                     reviewed ? '<i class="far fa-eye-slash"></i> Author preferred not to share contact details' : `<p style="color: red"><i class="far fa-eye-slash"></i> As author preferred not to share contact details, following will not be displayed:</p><p style="color: red"><b>Author:</b> ${row['authorName']}<\p><p style="color: red"><b>Affiliation:</b> ${row['authorAffiliation']}<\p><p style="color: red"><b>E-mail:</b> ${row['authorEmail']}<\p>`;
                 let source;
                 if (row['source'] === null) {
-                    source = ''
+                    source = '';
                 } else if (row['source'].includes('http')) {
                     source = `<p><b>Source: </b><p class="wrapped">${urlfy(row['source'])}</p></p>`
-                } else {
-                    source = `<p><b>Source: </b> ${row['source']}</p>`;
                 }
+
                 const dateObj = new Date(row['date'])
                 const dateStr = `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateObj.getDate()}`
                 const date = `<p><b>Date added:</b> ${dateStr}</p>`;

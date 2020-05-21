@@ -76,17 +76,25 @@ def get_drugset(id):
 def get_drug(name):
     try:
         sess = Session()
-        drug = sess.query(Drug).filter(Drug.symbol == name).first()
-        drugset_ids = sess.query(DrugsetDrug).filter(DrugsetDrug.drug == drug.id)
-        r = {'name': name, 'sets': []}
-        for drugset_id in drugset_ids:
-            drugset = sess.query(Drugset)\
-                .filter(Drugset.id == drugset_id.drugset)\
-                .filter(sa.or_(Drugset.category == 2, Drugset.category == 3))\
-                .filter(Drugset.reviewed == 1)\
-                .first()
-            if drugset:
-                r['sets'].append({'id': drugset.id, 'name': drugset.descrShort})
+        r = {'name': name, 'sets': [{'id': drugset.id, 'name': drugset.descrShort}
+                                    for drugset in sess.query(Drugset) \
+                                        .join(DrugsetDrug, Drugset.id == DrugsetDrug.drugset) \
+                                        .join(Drug, DrugsetDrug.drug == Drug.id) \
+                                        .filter(Drug.symbol == name,
+                                                Drugset.reviewed == 1,
+                                                sa.or_(Drugset.category == 2, Drugset.category == 3))]}
+        #
+        # drug = sess.query(Drug).filter(Drug.symbol == name).first()
+        # drugset_ids = sess.query(DrugsetDrug).filter(DrugsetDrug.drug == drug.id)
+        # r = {'name': name, 'sets': []}
+        # for drugset_id in drugset_ids:
+        #     drugset = sess.query(Drugset)\
+        #         .filter(Drugset.id == drugset_id.drugset)\
+        #         .filter(sa.or_(Drugset.category == 2, Drugset.category == 3))\
+        #         .filter(Drugset.reviewed == 1)\
+        #         .first()
+        #     if drugset:
+        #         r['sets'].append({'id': drugset.id, 'name': drugset.descrShort})
         sess.close()
         return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
     except Exception as e:
@@ -102,8 +110,8 @@ def twitter_drug_submission(name):
         r = []
         for drugset_id in drugset_ids:
             date = sess.query(sa.cast(Drugset.date, sa.Date)) \
-                .filter(Drugset.id == drugset_id.drugset)\
-                .filter(Drugset.category == 4)\
+                .filter(Drugset.id == drugset_id.drugset) \
+                .filter(Drugset.category == 4) \
                 .filter(Drugset.reviewed == 1).first()
             if date:
                 r.append({'count': 1, 'date': date[0]})
