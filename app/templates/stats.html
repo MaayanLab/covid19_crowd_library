@@ -45,10 +45,10 @@
                             <a class="nav-link round-pill" id="stats-drugs-computational-tab" data-toggle="pill"
                                href="#stats-drugs-computational" role="tab" aria-controls="stats-drugs-computational"
                                aria-selected="false">Computational drug sets</a>
-                            <a class="nav-link round-pill" id="stats-drugs-twitter-tab" data-toggle="pill"
-                               href="#stats-drugs-twitter"
-                               role="tab" aria-controls="stats-drugs-twitter" aria-selected="false">Twitter drug
-                                sets</a>
+{#                            <a class="nav-link round-pill" id="stats-drugs-twitter-tab" data-toggle="pill"#}
+{#                               href="#stats-drugs-twitter"#}
+{#                               role="tab" aria-controls="stats-drugs-twitter" aria-selected="false">Twitter drug#}
+{#                                sets</a>#}
                             <a class="nav-link round-pill" id="stats-drugs-all-tab" data-toggle="pill"
                                href="#stats-drugs-all"
                                role="tab" aria-controls="stats-drugs-all" aria-selected="true">All drug sets</a>
@@ -110,32 +110,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="stats-drugs-twitter" role="tabpanel"
-                                 aria-labelledby="stats-drugs-twitter-tab">
-                                <nav class="nav nav-pills mb-3" id="twitter-table-tab" role="tablist">
-                                    <a class="nav-link cat-pill active" id="twitter-table-home-tab" data-toggle="pill"
-                                       href="#twitter-table-home" role="tab" aria-controls="twitter-table-home"
-                                       aria-selected="true">Table</a>
-                                    <a class="nav-link cat-pill" id="twitter-table-profile-tab" data-toggle="pill"
-                                       href="#twitter-table-profile" role="tab" aria-controls="twitter-table-profile"
-                                       aria-selected="false"><i class="far fa-chart-bar"></i>Top 20 drugs</a>
-                                </nav>
-                                <div class="tab-content" id="twitter-table-tabContent">
-                                    <div class="tab-pane fade show active" id="twitter-table-home" role="tabpanel"
-                                         aria-labelledby="twitter-table-home-tab">
-                                        <div class="container-fluid" style="display: block">
-                                            <table id="top_drugs_twitter_table"
-                                                   class="table compact hover order-column row-border"
-                                                   style="width:100%">
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="twitter-table-profile" role="tabpanel"
-                                         aria-labelledby="twitter-table-profile-tab">
-                                        <svg id="drugs_twitter_bargraph"></svg>
-                                    </div>
-                                </div>
-                            </div>
+{#                            <div class="tab-pane fade" id="stats-drugs-twitter" role="tabpanel"#}
+{#                                 aria-labelledby="stats-drugs-twitter-tab">#}
+{#                                <nav class="nav nav-pills mb-3" id="twitter-table-tab" role="tablist">#}
+{#                                    <a class="nav-link cat-pill active" id="twitter-table-home-tab" data-toggle="pill"#}
+{#                                       href="#twitter-table-home" role="tab" aria-controls="twitter-table-home"#}
+{#                                       aria-selected="true">Table</a>#}
+{#                                    <a class="nav-link cat-pill" id="twitter-table-profile-tab" data-toggle="pill"#}
+{#                                       href="#twitter-table-profile" role="tab" aria-controls="twitter-table-profile"#}
+{#                                       aria-selected="false"><i class="far fa-chart-bar"></i>Top 20 drugs</a>#}
+{#                                </nav>#}
+{#                                <div class="tab-content" id="twitter-table-tabContent">#}
+{#                                    <div class="tab-pane fade show active" id="twitter-table-home" role="tabpanel"#}
+{#                                         aria-labelledby="twitter-table-home-tab">#}
+{#                                        <div class="container-fluid" style="display: block">#}
+{#                                            <table id="top_drugs_twitter_table"#}
+{#                                                   class="table compact hover order-column row-border"#}
+{#                                                   style="width:100%">#}
+{#                                            </table>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="tab-pane fade" id="twitter-table-profile" role="tabpanel"#}
+{#                                         aria-labelledby="twitter-table-profile-tab">#}
+{#                                        <svg id="drugs_twitter_bargraph"></svg>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
                             <div class="tab-pane fade" id="stats-drugs-all" role="tabpanel"
                                  aria-labelledby="stats-drugs-all-tab">
                                 <nav class="nav nav-pills mb-3" id="all-table-tab" role="tablist">
@@ -283,14 +283,14 @@
                 chart(JSON.parse(data)['data'], 'drugs_computational', 20, "#ff8080");
             });
 
-            $.get(`${url_prefix}/top_drugs/4`, function (data) {
-                chart(JSON.parse(data)['data'], 'drugs_twitter', 20, "#ff8080");
-            });
+            {#$.get(`${url_prefix}/top_drugs/4`, function (data) {#}
+            {#    chart(JSON.parse(data)['data'], 'drugs_twitter', 20, "#ff8080");#}
+            {#});#}
 
             renderTable('#top_genes_table', '{{ url_for('route_top_genes') }}', 0);
             renderTable('#top_drugs_experimental_table', '{{ url_for("route_top_drugs") }}', 2);
             renderTable('#top_drugs_computational_table', '{{ url_for("route_top_drugs") }}', 3);
-            renderTable('#top_drugs_twitter_table', '{{ url_for("route_top_drugs") }}', 4);
+            {#renderTable('#top_drugs_twitter_table', '{{ url_for("route_top_drugs") }}', 4);#}
             renderTable('#top_drugs_all_table', '{{ url_for("route_top_drugs") }}', 0);
         })
     </script>
