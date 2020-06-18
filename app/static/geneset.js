@@ -11,8 +11,8 @@ function renderMeta(meta) {
 }
 
 function urlfy(source) {
-    let r = /(https?:\/\/[^\s]+\.\w{2,}(\/*\w*\-*)*)\??(\w*\-*)*\=?(\w*\-*\w*\&*)*/g;
-    return source.replace(r, '<a href="$1">$1</a>')
+    let r = /(http)s?(:\/\/[^\s]+\.\w{2,}(\/*\w*-*)*)\??((\w*-*)*=?(\w*-*\w*&*)*)*/g;
+    return source.replace(r, '<a href="$&" target="_blank">$&</a>')
 }
 
 function gs_drawTable(url, reviewed, overlap_url) {
@@ -25,7 +25,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
         },
         {title: "Description", data: 'description'},
         {title: "Genes", data: 'genes', orderable: false},
-        {title: "Enrichr link", data: 'enrichrShortId', orderable: false},
+        {title: "En<span style='color: red;'>rich</span>r link", data: 'enrichrShortId', orderable: false},
     ];
     if (reviewed === 0) {
         columns.push({title: "Review", data: 'id', orderable: false});
@@ -46,12 +46,11 @@ function gs_drawTable(url, reviewed, overlap_url) {
                     reviewed ? '<i class="far fa-eye-slash"></i> Author preferred not to share contact details' : `<p style="color: red"><i class="far fa-eye-slash"></i> As author preferred not to share contact details, following will not be displayed:</p><p style="color: red"><b>Author:</b> ${row['authorName']}<\p><p style="color: red"><b>Affiliation:</b> ${row['authorAffiliation']}<\p><p style="color: red"><b>E-mail:</b> ${row['authorEmail']}<\p>`;
                 let source;
                 if (row['source'] === null) {
-                    source = ''
+                    source = '';
                 } else if (row['source'].includes('http')) {
                     source = `<p><b>Source: </b><p class="wrapped">${urlfy(row['source'])}</p></p>`
-                } else {
-                    source = `<p><b>Source: </b> ${row['source']}</p>`;
                 }
+
                 const dateObj = new Date(row['date'])
                 const dateStr = `${dateObj.getFullYear()}-${dateObj.getMonth()+1}-${dateObj.getDate()}`
                 const date = `<p><b>Date added:</b> ${dateStr}</p>`;
@@ -78,7 +77,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
             render: function (data, type, row) {
                 let geneLinks = [];
                 $.each(row['genes'].sort(), function (index, gene) {
-                    geneLinks.push('<a class="enriched-gene-link" href="http://amp.pharm.mssm.edu/Harmonizome/gene/' + gene + '" target="_blank">' + gene + '</a>');
+                    geneLinks.push('<a class="enriched-gene-link" href="http://amp.pharm.mssm.edu/covid19/genes/' + gene + '" target="_blank">' + gene + '</a>');
                 });
                 return $('<div>', {
                     'class': 'enrichment-popover-button',
@@ -88,7 +87,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
                     'data-html': 'true',
                     'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
                     'title': 'Gene set',
-                    'data-content': `${geneLinks.slice(0, 20).join(" ")}<br/><a href="/covid19/genesets/${row['id']}">${geneLinks.length > 20 ? '...<br/>' : ''}View gene set page</a>`
+                    'data-content': `${geneLinks.slice(0, 20).join(" ")}<br/><a href="/covid19/genesets/${row['id']}" target="_blank">${geneLinks.length > 20 ? '...<br/>' : ''}View gene set page</a>`
                 }).append(
                     `<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${row['genes'].length} genes </span>`,
                 ).prop('outerHTML')
@@ -114,7 +113,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
             render: function(data, type, row) {
                 return `<div class="btn-group" role="group" aria-label="Basic example"><button id="${row['id']}-geneset-approved" type="button" class="btn btn-outline-success btn-sm" onclick="clickReviewButton(${row['id']}, 1, 'geneset')"><i class="fas fa-check"></i></button><button id="${row['id']}-geneset-rejected" type="button" class="btn btn-outline-danger btn-sm" onclick="clickReviewButton(${row['id']},-1,'geneset')"><i class="fas fa-times"></i></button></div>`
             }
-            
+
         });
     }
 

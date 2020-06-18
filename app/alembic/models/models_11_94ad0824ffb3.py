@@ -6,9 +6,6 @@ from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
-import json
-import requests
-
 from app.sa_types.serialized_json import ImmutableSerializedJSON
 
 Base = declarative_base()
@@ -83,32 +80,13 @@ class Geneset(Base):
 
     def to_gmt(self):
         return '\t'.join([
-            self.descrShort,
-            re.sub(r'[\t\r\n]', ' ', self.descrFull),
+            f'{self.id}: {self.descrShort}',
+            self.descrFull,
             *[
                 gene.symbol
                 for gene in self.genes
             ],
         ])
-
-    def submit_to_enrichr(self):
-        ENRICHR_URL = 'http://amp.pharm.mssm.edu/Enrichr/addList'
-        genes_str = '\n'.join(*[
-            gene.symbol
-            for gene in self.genes
-        ])
-        description = self.descrShort
-        payload = {
-            'list': (None, genes_str),
-            'description': (None, description)
-        }
-
-        response = requests.post(ENRICHR_URL, files=payload)
-        if not response.ok:
-            raise Exception('Error analyzing gene list')
-        self.enrichrShortId = json.loads(response.text)['shortId']
-        self.enrichrUserListId= json.loads(response.text)['userListId']
-        return json.loads(response.text)
 
     def jsonify(self, deep=True):
         ret = {
@@ -174,8 +152,6 @@ class Drugset(Base):
     __tablename__ = 'drugsets'
 
     id = Column('id', Integer, primary_key=True)
-    enrichrShortId = Column('enrichrShortId', String(255), nullable=False)
-    enrichrUserListId = Column('enrichrUserListId', Integer, nullable=False)
     drugs = relationship('Drug', secondary='drugsets_drugs', back_populates='drugsets')
     descrShort = Column('descrShort', String(255), nullable=False)
     descrFull = Column('descrFull', Text, nullable=False)
@@ -187,7 +163,7 @@ class Drugset(Base):
     source = Column('source', String(255), default=0)
     date = Column('date', DateTime, default=lambda: datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d %H:%M:%S'))
     meta = Column('meta', ImmutableSerializedJSON, default=0)
-    category = Column('category', Integer, ForeignKey('categories.id'), nullable=False, default=1)
+    category = Column('category', Integer, nullable=False, default=1)
 
     @staticmethod
     def create(sess, drugs=[], **kwargs):
@@ -198,38 +174,17 @@ class Drugset(Base):
 
     def to_gmt(self):
         return '\t'.join([
-            self.descrShort,
-            re.sub(r'[\t\r\n]', ' ', self.descrFull),
+            f'{self.id}: {self.descrShort}',
+            self.descrFull,
             *[
                 drug.symbol
                 for drug in self.drugs
             ],
         ])
 
-    def submit_to_enrichr(self):
-        ENRICHR_URL = 'http://amp.pharm.mssm.edu/DrugEnrichr/addList'
-        drugs_str = '\n'.join(*[
-            gene.symbol
-            for gene in self.drugs
-        ])
-        description = self.descrShort
-        payload = {
-            'list': (None, drugs_str),
-            'description': (None, description)
-        }
-
-        response = requests.post(ENRICHR_URL, files=payload)
-        if not response.ok:
-            raise Exception('Error analyzing gene list')
-        self.enrichrShortId = json.loads(response.text)['shortId']
-        self.enrichrUserListId= json.loads(response.text)['userListId']
-        return json.loads(response.text)
-
     def jsonify(self, deep=True):
         ret = {
             'id': self.id,
-            'enrichrShortId': self.enrichrShortId,
-            'enrichrUserListId': self.enrichrUserListId,
             'descrShort': self.descrShort,
             'descrFull': self.descrFull,
             'authorName': self.authorName,

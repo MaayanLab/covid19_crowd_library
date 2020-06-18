@@ -1,6 +1,7 @@
 import os
 import json
 import flask
+import datetime
 from app import database, geneset, drugset, download, statistics
 
 ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
@@ -34,9 +35,13 @@ def route_genesets():
 
 @app.route(ROOT_PATH + 'drugsets_table', methods=['POST'])
 def route_drugsets_table():
-    return drugset.serve_drugset_datatable(int(flask.request.values.get('reviewed')))(
-        **json.loads(flask.request.values.get('body'))
-    )
+    category = int(flask.request.values.get('category', default=0))
+    if category:
+        return drugset.serve_drugset_filtered_datatable(int(flask.request.values.get('reviewed')), category)(
+            **json.loads(flask.request.values.get('body')))
+    else:
+        return drugset.serve_drugset_datatable(int(flask.request.values.get('reviewed')))(
+            **json.loads(flask.request.values.get('body')))
 
 
 @app.route(ROOT_PATH + 'drugsets', methods=['GET', 'POST'])
@@ -57,7 +62,10 @@ def route_review():
         if form['set_type'] == 'geneset':
             return geneset.approve_geneset(form)
         elif form['set_type'] == 'drugset':
-            return drugset.approve_drugset(form)
+            if 'category' in form:
+                return drugset.change_category(form)
+            else:
+                return drugset.approve_drugset(form)
 
 
 @app.route(ROOT_PATH + 'genesets/<geneset_id>', methods=['GET'])
@@ -72,21 +80,63 @@ def route_drugset(drugset_id):
     return flask.render_template('drugset.html', drugset=json_drugset)
 
 
+@app.route(ROOT_PATH + 'genes/<gene_name>', methods=['GET'])
+def route_gene(gene_name):
+    json_geneset = json.loads(geneset.get_gene(gene_name)[0])
+    return flask.render_template('gene.html', gene=json_geneset)
+
+
+@app.route(ROOT_PATH + 'drugs/<drug_name>', methods=['GET'])
+def route_drug(drug_name):
+    json_drugset = json.loads(drugset.get_drug(drug_name)[0])
+    # If it's 404, set 'name' anyway
+    json_drugset['name'] = drug_name
+    twitter = drugset.twitter_drug_submission(drug_name)
+    if (twitter[1] == 200) and (twitter[0] != '[]'):
+        json_drugset['twitter'] = twitter[0]
+        start = json.loads(twitter[0])[0]['date']
+        y, m, d = start.split('-')
+        s = datetime.datetime(int(y), int(m), int(d))
+        start = s.strftime("%b %d")
+        json_drugset['start'] = start
+    return flask.render_template('drug.html', drug=json_drugset)
+
+
+@app.route(ROOT_PATH + 'stats/drugs/<drug_name>/twitter', methods=['GET'])
+def route_drug_twitter_submissions(drug_name):
+    return drugset.twitter_drug_submission(drug_name)[0]
+
+
 @app.route(ROOT_PATH + 'stats')
 def route_stats():
     return flask.render_template('stats.html', stats=statistics.stats())
 
 
-@app.route(ROOT_PATH + 'top_genes', methods=['POST'])
+@app.route(ROOT_PATH + 'top_genes', methods=['GET', 'POST'])
 def route_top_genes():
-    POST = json.loads(flask.request.values.get('body'))
-    return statistics.top_genes(**POST)
+    if flask.request.method == 'GET':
+        return json.dumps({'success': True, 'data': statistics.bar_genes()}), 200, {'ContentType': 'application/json'}
+    elif flask.request.method == 'POST':
+        POST = json.loads(flask.request.values.get('body'))
+        return statistics.top_genes(**POST)
 
 
-@app.route(ROOT_PATH + 'top_drugs', methods=['POST'])
-def route_top_drugs():
-    POST = json.loads(flask.request.values.get('body'))
-    return statistics.top_drugs(**POST)
+@app.route(ROOT_PATH + 'top_drugs', methods=['GET', 'POST'])
+@app.route(ROOT_PATH + 'top_drugs/<categories>', methods=['GET', 'POST'])
+def route_top_drugs(categories=None):
+    if flask.request.method == 'GET':
+        if not categories or categories == 0:
+            return json.dumps({'success': True, 'data': statistics.bar_drugs()}), 200, {
+                'ContentType': 'application/json'}
+        else:
+            return json.dumps({'success': True, 'data': statistics.bar_drugs(categories)}), 200, {
+                'ContentType': 'application/json'}
+    elif flask.request.method == 'POST':
+        POST = json.loads(flask.request.values.get('body'))
+        if not categories or categories == 0:
+            return statistics.top_drugs(**POST)
+        else:
+            return statistics.top_drugs_categories(categories, POST)
 
 
 @app.route(ROOT_PATH + 'genesets.gmt')
@@ -97,6 +147,21 @@ def download_genesets():
 @app.route(ROOT_PATH + 'drugsets.gmt')
 def download_drugsets():
     return flask.Response(download.drugsets(), mimetype='text/gmt')
+
+
+@app.route(ROOT_PATH + 'experimantal_drugsets.gmt')
+def download_experimental():
+    return flask.Response(download.drugsets(2), mimetype='text/gmt')
+
+
+@app.route(ROOT_PATH + 'computational_drugsets.gmt')
+def download_computational():
+    return flask.Response(download.drugsets(3), mimetype='text/gmt')
+
+
+@app.route(ROOT_PATH + 'twitter_drugsets.gmt')
+def download_twitter():
+    return flask.Response(download.drugsets(4), mimetype='text/gmt')
 
 
 @app.route(ROOT_PATH + 'genesets/overlap', methods=['GET', 'POST'])
@@ -141,3 +206,15 @@ def route_overlap_drugsets(ids=None):
     else:
         ids = flask.request.values.getlist("id")
         return flask.jsonify(drugset.get_intersection(ids))
+
+
+@app.route(ROOT_PATH + 'genesets/submissions', methods=['GET'])
+def route_genesets_submissions():
+    return json.dumps({'success': True, 'data': statistics.genesets_submissions()}), 200, {
+        'ContentType': 'application/json'}
+
+
+@app.route(ROOT_PATH + 'drugsets/submissions', methods=['GET'])
+def route_drugsets_submissions():
+    return json.dumps({'success': True, 'data': statistics.drugsets_submissions()}), 200, {
+        'ContentType': 'application/json'}

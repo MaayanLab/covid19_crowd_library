@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block og %}
+    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/genes/{{ gene['id'] }}"/>
+    <meta property="og:title"
+          content="{{ gene['name'] }} - COVID-19 Crowd Generated Gene and Drug Set Library"/>
+{% endblock %}
+
+{% block head %}
+    <title>{{ gene['name'] }}</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center mt-4 mb-2">
+            <div class="d-flex align-items-start">
+
+                <a href={{ url_for("route_index") }}>
+                    <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}"></a>
+                <a style="color: #212529" href={{ url_for("route_index") }}>
+                    <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
+            </div>
+            <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
+        </div>
+        <div class="py-5 text-center">
+            <h2>{{ gene['name'] }}</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">Harmonizome link</h6>
+                            <a href="https://amp.pharm.mssm.edu/Harmonizome/gene/{{ gene['name'] }}"
+                               target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-8 order-md-1">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge badge-secondary badge-pill">{{ gene['sets']|length }} sets</span>
+                </h4>
+                <div class="mb-3">
+                    {% for geneset in gene['sets'] %}
+                        <a class="enriched-gene-link"
+                           href="https://amp.pharm.mssm.edu/covid19/genesets/{{ geneset['id'] }}"
+                           target="_blank">{{ geneset['name'] }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block socialbuttons %}
+    <div class="col-md-2 col-sm">
+        <div class="row my-2 ml-2">
+            <!-- Twitted share button -->
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+               data-text="{{ gene['name'] }} from COVID-19 Crowd Generated Gene and Drug Set Library"
+               data-url="https://amp.pharm.mssm.edu/covid19/genesets/{{ gene['id'] }}" data-via="MaayanLab"
+               data-hashtags="COVID, COVID19"
+               data-show-count="false">Tweet</a>
+        </div>
+        <div class="row my-2 ml-2">
+            <!-- LinkedIn share button -->
+            <script type="IN/Share" data-url="https://amp.pharm.mssm.edu/covid19/genesets/{{ gene['id'] }}"></script>
+        </div>
+        <!-- Facebook share button -->
+        <div class="row my-2 ml-2">
+            <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/genesets/{{ gene['id'] }}"
+                 data-layout="button" data-size="small">
+                <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/genesets/{{ gene['id'] }}"
+                     data-layout="button"
+                     data-size="small">
+                    <a target="_blank"
+                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Famp.pharm.mssm.edu%2Fcovid19%2Fgenesets%2F{{ gene['id'] }}&amp;src=sdkpreparse"
+                       class="fb-xfbml-parse-ignore">Share</a></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -39,3 +39,29 @@
 a {
     color: #007aca;
 }
+
+.round-pill {
+    border-radius: 1.5rem !important;
+    padding: .3rem .8rem !important;
+}
+
+.round-pill.active {
+    background-color: #2975c8 !important;
+}
+
+.cat-pill {
+    border-radius: .2rem !important;
+    padding: .1rem .7rem !important;
+}
+
+.cat-pill.active {
+    background-color: #7fa4cc !important;
+}
+
+.spark {
+    cursor: pointer;
+}
+
+table.dataTable thead tr th {
+  font-weight: 500;
+}

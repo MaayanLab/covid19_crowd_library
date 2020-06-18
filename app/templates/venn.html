@@ -165,7 +165,7 @@
 
 {% block socialbuttons %}
     <div class="col-md-2 col-sm">
-        <div class="row my-2">
+        <div class="row my-2 ml-2">
             <!-- Twitted share button -->
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
                data-text="{{ type }} overlaps of {{ ', '.join(labels) }} from COVID-19 Crowd Generated Gene and Drug Set Library"
@@ -173,13 +173,13 @@
                data-hashtags="COVID, COVID19"
                data-show-count="false">Tweet</a>
         </div>
-        <div class="row my-2">
+        <div class="row my-2 ml-2">
             <!-- LinkedIn share button -->
             <script type="IN/Share"
                     data-url="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"></script>
         </div>
         <!-- Facebook share button -->
-        <div class="row my-2">
+        <div class="row my-2 ml-2">
             <div class="fb-share-button"
                  data-href="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"
                  data-layout="button" data-size="small">

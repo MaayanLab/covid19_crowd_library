@@ -30,9 +30,9 @@ function navTabsSync(def) {
 }
 
 function* counter(index) {
-  while (index >= 0) {
-    yield index++;
-  }
+    while (index >= 0) {
+        yield index++;
+    }
 }
 
 function addMetaField(setType) {
@@ -40,8 +40,7 @@ function addMetaField(setType) {
     let count;
     if (setType === 'drug') {
         count = window.drugSetMetaCounter.next().value;
-    }
-    else if (setType === 'gene') {
+    } else if (setType === 'gene') {
         count = window.geneSetMetaCounter.next().value;
     }
     const meta_input =
@@ -56,4 +55,34 @@ function addMetaField(setType) {
         `            <input type="text" class="form-control" aria-label="Matadata parameter value ${count}" name="val_${count}">\n` +
         `        </div>`;
     form.append(meta_input);
+}
+
+function cleanArray(actual) {
+    let newArray = [];
+    for (let i = 0; i < actual.length; i++) {
+        if (actual[i]) {
+            newArray.push(actual[i]);
+        }
+    }
+    return newArray;
+}
+
+function setListListener(wrapper) {
+    let textfield = $(`#${wrapper}_textarea`);
+    textfield.on("change keyup paste", function () {
+        let textfield_clean = textfield.val().trim().split(/[\r\n]/).join('\n')
+        const len = cleanArray(textfield_clean.trim().split('\n')).length;
+
+        if (len === 0) {
+            $(`#${wrapper}-count`).text('');
+            $(`#submit_${wrapper}_button`).prop("disabled", true);
+        } else if (len > 0) {
+            $(`#submit_${wrapper}_button`).prop("disabled", false);
+            let genes = `${len} ${wrapper.replace('Set', '')}s`;
+            if (len.toString()[len.toString().length - 1] === "1") {
+                genes = `${len} ${wrapper.replace('Set', '')}`;
+            }
+            $(`#${wrapper}-count`).text(genes);
+        }
+    });
 }

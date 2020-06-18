@@ -1,23 +1,11 @@
 import json
-import requests
 import traceback
 from itertools import combinations
 import sqlalchemy as sa
 from app.database import Session
 from app.models import Geneset, GenesetGene, Gene, gene_splitter
 from app.datatables import serve_datatable
-from app.utils import match_meta
-
-
-def enrichr_submit(geneset, short_description):
-    payload = {
-        'list': (None, '\n'.join(geneset)),
-        'description': (None, short_description)
-    }
-    response = requests.post('http://amp.pharm.mssm.edu/Enrichr/addList', files=payload)
-    if not response.ok:
-        raise Exception('Error analyzing gene list')
-    return json.loads(response.text)
+from app.utils import match_meta, enrichr_submit
 
 
 def add_geneset(form):
@@ -29,7 +17,7 @@ def add_geneset(form):
     author_email = form['authorEmail']
     author_aff = form['authorAff']
     show_contacts = 1 if 'showContacts' in form else 0
-    enrichr_ids = enrichr_submit(gene_set, desc_short)
+    enrichr_ids = enrichr_submit(gene_set, desc_short, 'Enrichr')
     enrichr_shortid = enrichr_ids['shortId']
     enrichr_userlistid = enrichr_ids['userListId']
     meta = {}
@@ -75,6 +63,21 @@ def get_geneset(id):
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 
 
+def get_gene(name):
+    try:
+        sess = Session()
+        r = {'name': name, 'sets': [{'id': geneset.id, 'name': geneset.descrShort}
+                                    for geneset in sess.query(Geneset) \
+                                        .join(GenesetGene, Geneset.id == GenesetGene.geneset) \
+                                        .join(Gene, GenesetGene.gene == Gene.id) \
+                                        .filter(Gene.symbol == name, Geneset.reviewed == 1)]}
+        sess.close()
+        return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
+    except Exception as e:
+        traceback.print_exc()
+        return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
+
+
 def get_genesets(reviewed=1):
     try:
         sess = Session()
@@ -100,8 +103,10 @@ def approve_geneset(form):
         traceback.print_exc()
         return json.dumps({'success': False, 'error': str(e)}), 500, {'ContentType': 'application/json'}
 
+
 serve_geneset_datatable = lambda reviewed: serve_datatable(
-    lambda sess, reviewed=reviewed: sess.query(Geneset).filter(Geneset.reviewed == reviewed).order_by(sa.desc(Geneset.date)),
+    lambda sess, reviewed=reviewed: sess.query(Geneset).filter(Geneset.reviewed == reviewed).order_by(
+        sa.desc(Geneset.date)),
     [
         (Geneset.id, 'id'),
         (Geneset.descrShort, 'descrShort'),
@@ -166,7 +171,7 @@ def get_intersection(ids=[]):
         genesets.append(geneset)
     overlaps = []
     for i in range(len(genesets)):
-        combo = combinations(genesets, r=i+1)
+        combo = combinations(genesets, r=i + 1)
         for c in combo:
             data = {
                 "sets": []

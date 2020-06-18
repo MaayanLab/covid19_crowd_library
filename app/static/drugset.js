@@ -12,10 +12,10 @@ function renderMeta(meta) {
 
 function urlfy(source) {
     let r = /(https?:\/\/[^\s]+\.\w{2,}(\/*\w*\-*)*)\??(\w*\-*)*\=?(\w*\-*\w*\&*)*/g;
-    return source.replace(r, '<a href="$1">$1</a>')
+    return source.replace(r, '<a href="$1" target="_blank">$1</a>')
 }
 
-function ds_drawTable(url, reviewed, overlap_url) {
+function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
     let columns = [
         {
             data: null,
@@ -25,16 +25,20 @@ function ds_drawTable(url, reviewed, overlap_url) {
         },
         {title: "Description", data: 'descrShort'},
         {title: "Drugs", data: 'drugs', orderable: false},
+        {title: "<span style='color: dodgerblue;'>DrugEn</span><span style='color: #ff3581;'>rich</span><span style='color: dodgerblue;'>r</span> link", data: 'enrichrShortId', orderable: false},
     ];
     if (reviewed === 0) {
+        columns.push({title: "Category", data: 'category', orderable: false});
         columns.push({title: "Review", data: 'id', orderable: false});
     }
-
+    if (wrapper === 'drugset_table') {
+        columns.push({title: "Category", data: 'category', orderable: false});
+    }
     let columnDefs = [
         {
             orderable: false,
             className: 'select-checkbox',
-            targets:   0
+            targets: 0
         },
         {
             targets: 1,
@@ -45,30 +49,30 @@ function ds_drawTable(url, reviewed, overlap_url) {
                     reviewed ? '<i class="far fa-eye-slash"></i> Author preferred not to share contact details' : `<p style="color: red"><i class="far fa-eye-slash"></i> As author preferred not to share contact details, following will not be displayed:</p><p style="color: red"><b>Author:</b> ${row['authorName']}<\p><p style="color: red"><b>Affiliation:</b> ${row['authorAffiliation']}<\p><p style="color: red"><b>E-mail:</b> ${row['authorEmail']}<\p>`;
                 let source;
                 if (row['source'] === null) {
-                    source = ''
+                    source = '';
                 } else if (row['source'].includes('http')) {
                     source = `<p><b>Source: </b><p class="wrapped">${urlfy(row['source'])}</p></p>`
-                } else {
-                    source = `<p><b>Source: </b> ${row['source']}</p>`;
                 }
+
                 const dateObj = new Date(row['date'])
-                const dateStr = `${dateObj.getFullYear()}-${dateObj.getMonth()+1}-${dateObj.getDate()}`
+                const dateStr = `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateObj.getDate()}`
                 const date = `<p><b>Date added:</b> ${dateStr}</p>`;
                 const meta = row['meta'] ? renderMeta(row['meta']) : '';
                 const desc = `<p>${row['descrFull']}<\p>${source}${meta}${date}${contacts}`;
 
                 return $('<div>', {
-                        'class': 'enrichment-popover-button',
-                        'data-toggle': 'popover',
-                        'data-placement': 'bottom',
-                        'data-trigger': 'focus',
-                        'data-html': 'true',
-                        'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
-                        'data-content': desc,
-                        'title': row['descrShort']
-                    })
-                        .append(`<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${row['descrShort']}</span>`)
-                        .prop('outerHTML')
+                    'class': 'enrichment-popover-button',
+                    'data-toggle': 'popover',
+                    'data-placement': 'bottom',
+                    'data-trigger': 'focus',
+                     'data-delay': '{ "show": 0, "hide": 4000 }',
+                    'data-html': 'true',
+                    'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+                    'data-content': desc,
+                    'title': row['descrShort']
+                })
+                    .append(`<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${row['descrShort']}</span>`)
+                    .prop('outerHTML')
             },
         },
         {
@@ -77,7 +81,7 @@ function ds_drawTable(url, reviewed, overlap_url) {
             render: function (data, type, row) {
                 let drugLinks = [];
                 $.each(row['drugs'].sort(), function (index, drug) {
-                    drugLinks.push(`<a class="drug-link" href="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query=${drug}" target="_blank">${drug}</a>`);
+                    drugLinks.push(`<a class="drug-link" href="https://amp.pharm.mssm.edu/covid19/drugs/${drug}" target="_blank">${drug}</a>`);
                 });
                 return $('<div>', {
                     'class': 'enrichment-popover-button',
@@ -87,26 +91,69 @@ function ds_drawTable(url, reviewed, overlap_url) {
                     'data-html': 'true',
                     'data-template': '<div class="popover enrichment-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
                     'title': 'Drug set',
-                    'data-content': `${drugLinks.slice(0, 20).join(" ")}<br/><a href="/covid19/drugsets/${row['id']}">${drugLinks.length > 20 ? '...<br/>' : ''}View drug set page</a>`
+                    'data-content': `${drugLinks.slice(0, 20).join(" ")}<br/><a href="/covid19/drugsets/${row['id']}" target="_blank">${drugLinks.length > 20 ? '...<br/>' : ''}View drug set page</a>`
                 })
                     .append(
                         `<span tabindex="-1" style="cursor: pointer;text-decoration: underline dotted;">${row['drugs'].length} drugs </span>`,
                     )
                     .prop('outerHTML')
-                    
+
             }
-        }
+        },
+        {
+            targets: 3,
+            className: 'dt-body-left',
+            width: '15%',
+            render: function (data, type, row) {
+                return $('<a>', {
+                    'href': `https://amp.pharm.mssm.edu/DrugEnrichr/enrich?dataset=${row['enrichrShortId']}`,
+                    'target': '_blank'
+                })
+                    .append('<i class="fas fa-external-link-alt ml-1" style="font-size: 0.9rem;"></i>')
+                    .prop('outerHTML')
+            },
+        },
     ]
     if (reviewed === 0) {
         columnDefs.push({
+            targets: -2,
+            render: function (data, type, row) {
+                return `<div class="btn-group" role="group" aria-label="Basic example">
+                            <button id="${row['id']}-1" type="button" class="btn btn-cat-${row['id']} ${activateCategoryButton(1, row['category'])} btn-sm"
+                                    onclick="clickCategoryButton(${row['id']}, 1, 'drugset')"><i class="fas fa-globe"></i></button>
+                            <button id="${row['id']}-2" type="button" class="btn btn-cat-${row['id']} ${activateCategoryButton(2, row['category'])} btn-sm"
+                                    onclick="clickCategoryButton(${row['id']}, 2, 'drugset')"><i class="fas fa-flask"></i></button>
+                            <button id="${row['id']}-3" type="button" class="btn btn-cat-${row['id']} ${activateCategoryButton(3, row['category'])} btn-sm"
+                                    onclick="clickCategoryButton(${row['id']}, 3, 'drugset')"><i class="fas fa-calculator"></i></button>
+                            <button id="${row['id']}-4" type="button" class="btn btn-cat-${row['id']} ${activateCategoryButton(4, row['category'])} btn-sm"
+                                    onclick="clickCategoryButton(${row['id']}, 4, 'drugset')"><i class="fab fa-twitter"></i></button>
+                        </div>`
+            }
+        });
+        columnDefs.push({
             targets: -1,
             render: function (data, type, row) {
-                return `<div class="btn-group" role="group" aria-label="Basic example"><button id="${row['id']}-drugset-approved" type="button" class="btn btn-outline-success btn-sm" onclick="clickReviewButton(${row['id']}, 1, 'drugset')"><i class="fas fa-check"></i></button><button id="${row['id']}-drugset-rejected" type="button" class="btn btn-outline-danger btn-sm" onclick="clickReviewButton(${row['id']},-1, 'drugset')"><i class="fas fa-times"></i></button></div>`
+                return `<div class="btn-group" role="group" aria-label="Basic example">
+                            <button id="${row['id']}-drugset-approved" type="button" class="btn btn-outline-success btn-sm" 
+                                    onclick="clickReviewButton(${row['id']}, 1, 'drugset')"><i class="fas fa-check"></i></button>
+                            <button id="${row['id']}-drugset-rejected" type="button" class="btn btn-outline-danger btn-sm" 
+                                    onclick="clickReviewButton(${row['id']},-1, 'drugset')"><i class="fas fa-times"></i></button>
+                        </div>`
             }
         });
     }
 
-    let table = $('#drugset_table').DataTable({
+    if (wrapper === 'drugset_table') {
+        let type_switch = {1: 'fas fa-globe', 2: 'fas fa-flask', 3: 'fas fa-calculator', 4: 'fab fa-twitter'};
+        columnDefs.push({
+            targets: -1,
+            render: function (data, type, row) {
+                return `<i class="${type_switch[row['category']]}"></i>`
+            }
+        });
+    }
+
+    let table = $(`#${wrapper}`).DataTable({
         width: '100%',
         autoWidth: false,
         responsive: true,
@@ -125,11 +172,11 @@ function ds_drawTable(url, reviewed, overlap_url) {
             url: url,
             type: 'POST',
             data: function (args) {
-                return { body: JSON.stringify(args), reviewed: reviewed };
+                return {body: JSON.stringify(args), reviewed: reviewed, category: category};
             }
         },
         select: {
-            style:    'multi',
+            style: 'multi',
             selector: 'td:first-child'
         },
         buttons: [
@@ -137,11 +184,11 @@ function ds_drawTable(url, reviewed, overlap_url) {
                 extend: 'selected',
                 text: 'Draw a Venn diagram',
                 className: 'btn btn-outline-primary btn-sm',
-                action: function ( e, dt, node, config ) {
-                    const rows = dt.rows( { selected: true } );
+                action: function (e, dt, node, config) {
+                    const rows = dt.rows({selected: true});
                     // if (rows.count() <= 5){
-                        const ids = rows.data().map(i=>i.id).join(",")
-                        window.location.href = overlap_url + "/" + ids
+                    const ids = rows.data().map(i => i.id).join(",")
+                    window.location.href = overlap_url + "/" + ids
                     // }else{
                     //     $('#overlapModalText').text("Max five rows")
                     //     $('#overlapError').modal({ show: true});
@@ -150,7 +197,7 @@ function ds_drawTable(url, reviewed, overlap_url) {
                 }
             }
         ],
-        order: [[ 1, 'asc' ]]
+        order: [[1, 'asc']]
     });
     table.columns.adjust().draw()
     // console.log(table.rows( { selected: true } ).data());

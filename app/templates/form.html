@@ -13,10 +13,12 @@
             <div class="input-group-prepend">
                 <span id="sourceLabel" class="input-group-text">{{ c.Type }} set URL</span>
             </div>
-            <input type="url" class="form-control" name="source" aria-describedby="sourceLabel">
-            <div class="invalid-feedback">Please input the URL of the published {{ c.type}} set from which this drug set was derived. If the data set is not
+            <input type="url" class="form-control" name="source" aria-describedby="sourceLabel" maxlength="250">
+            <div class="invalid-feedback">The entered URL is either incorrectly formatted, or longer than 250 characters.
+                Please input the URL of the published {{ c.type }} set from which this drug
+                set was derived. If the data set is not
                 published yet, you can provide method details, such as cell line, drug, dose, or treatment in the
-                'Metadata' field below.
+                'Metadata' field below. If you need to shorten the URL, you can use <a href="https://tinyurl.com/">TinyURL</a>.
             </div>
         </div>
     </div>
@@ -31,10 +33,33 @@
         <label for="{{ c.set_type }}">
             <abbr title="{{ c.title }}">{{ c.Type }} set</abbr>
         </label>
-        <textarea class="form-control" name="{{ c.set_type }}" rows="7"
+        <textarea id="{{ c.set_type }}_textarea" class="form-control" name="{{ c.set_type }}" rows="7"
                   placeholder="Paste a {{ c.type }} set here" required></textarea>
+        <span id="{{ c.set_type }}-count" style="color: darkgrey; font-size: 0.9rem;"></span>
         <div class="invalid-feedback">Please input a {{ c.type }} set. {{ c.title }}</div>
     </div>
+    {% if c.set_type == "drugSet" %}
+        <div class="form-group">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span id="categoryLabel" class="input-group-text">{{ c.Type }} set category</span>
+                </div>
+                <div id="categories">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-primary">
+                            <input type="radio" name="computational" id="computational" autocomplete="off"><i class="fas fa-calculator"></i> Computational
+                        </label>
+                        <label class="btn btn-outline-primary">
+                            <input type="radio" name="experimental" id="experimental" autocomplete="off"><i class="fas fa-flask"></i> Experimental
+                        </label>
+                        <label class="btn btn-outline-primary active">
+                            <input type="radio" name="all" id="all" autocomplete="off" checked><i class="fas fa-globe"></i> Other
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
     <div class="form-group" id="meta-{{ c.type }}-form">
     </div>
     <div class="form-group">
@@ -75,7 +100,7 @@
         <label class="form-check-label" for="showContacts">Share contact information</label>
     </div>
 
-    <button id="submit_{{ c.set_type }}_button" type="button" class="btn btn-primary">
+    <button id="submit_{{ c.set_type }}_button" type="button" class="btn btn-primary" disabled>
         Submit
     </button>
 

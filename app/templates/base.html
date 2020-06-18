@@ -50,7 +50,7 @@
             </div>
             <div class="col-md-2 col-sm">
                 <div class="row my-2">
-                    <a class="badge badge-secondary px-2" href="https://github.com/MaayanLab/covid19_crowd_library">
+                    <a class="badge badge-secondary px-2" href="https://github.com/MaayanLab/covid19_crowd_library" target="_blank">
                         <span class="badge badge-light">
                             <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
                                  style="width: 1rem;">
@@ -60,7 +60,7 @@
                 </div>
                 <div class="row my-2">
                     <a class="badge badge-secondary px-2"
-                       href="https://github.com/MaayanLab/covid19_crowd_library/issues/new">
+                       href="https://github.com/MaayanLab/covid19_crowd_library/issues/new" target="_blank">
                         <span class="badge badge-light">
                         <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
                              style="width: 1rem;">
@@ -73,6 +73,10 @@
             {% block socialbuttons %}
             {% endblock %}
         </div>
+    <div class="row justify-content-center">
+        <small><p class="text-muted">Read the pre-print – <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3606799" target="_blank">The COVID-19 Gene and Drug Set Library. Kuleshov et al. 2020. Sneak Peak</a></p></small>
+    </div>
+    </div>
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -112,6 +116,14 @@
         src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
 
 {% block script %}
+    <script>
+        $(document).ready(function () {
+            // Force https if not on dev
+            if ((location.protocol !== 'https:') && (location.hostname !== '0.0.0.0')) {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }
+        });
+    </script>
 {% endblock %}
 </body>
 </html>
