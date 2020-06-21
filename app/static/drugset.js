@@ -2,7 +2,7 @@
 // as I expect them to diverge further on.
 
 //Array to hold the checked ids
-var checkboxes = []
+var drug_checkboxes = []
 
 function renderMeta(meta) {
     let tmp = [];
@@ -189,7 +189,7 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
                 className: 'btn btn-outline-primary btn-sm',
                 action: function (e, dt, node, config) {
                     // if (rows.count() <= 5){
-                    const ids = checkboxes.join(",")
+                    const ids = drug_checkboxes.join(",")
                     window.location.href = overlap_url + "/" + ids
                     // }else{
                     //     $('#overlapModalText').text("Max five rows")
@@ -209,14 +209,14 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
     table.on( 'select', function ( e, dt, type, indexes ) {
         if ( type === 'row' ) {
             var data = table.rows( indexes ).data().pluck( 'id' );
-            checkboxes.push(data[0])
+            drug_checkboxes.push(data[0])
             // do something with the ID of the selected items
         }
     });
     table.on( 'deselect', function ( e, dt, type, indexes ) {
         if ( type === 'row' ) {
             var data = table.rows( indexes ).data().pluck( 'id' );
-            checkboxes = checkboxes.filter(i=>i!==data[0])
+            drug_checkboxes = drug_checkboxes.filter(i=>i!==data[0])
             // do something with the ID of the selected items
         }
     });

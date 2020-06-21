@@ -2,7 +2,7 @@
 // as I expect them to diverge further on.
 
 //Array to hold the checked ids
-var checkboxes = []
+var gene_checkboxes = []
 
 function renderMeta(meta) {
     let tmp = [];
@@ -155,7 +155,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
                 className: 'btn btn-outline-primary btn-sm',
                 action: function ( e, dt, node, config ) {
                     // if (rows.count() <= 5){
-                        const ids = checkboxes.join(",")
+                        const ids = gene_checkboxes.join(",")
                         window.location.href = overlap_url + "/" + ids
                     // }else{
                     //     $('#overlapModalText').text("Max five rows")
@@ -171,14 +171,14 @@ function gs_drawTable(url, reviewed, overlap_url) {
     table.on( 'select', function ( e, dt, type, indexes ) {
         if ( type === 'row' ) {
             var data = table.rows( indexes ).data().pluck( 'id' );
-            checkboxes.push(data[0])
+            gene_checkboxes.push(data[0])
             // do something with the ID of the selected items
         }
     });
     table.on( 'deselect', function ( e, dt, type, indexes ) {
         if ( type === 'row' ) {
             var data = table.rows( indexes ).data().pluck( 'id' );
-            checkboxes = checkboxes.filter(i=>i!==data[0])
+            gene_checkboxes = gene_checkboxes.filter(i=>i!==data[0])
             // do something with the ID of the selected items
         }
     });
