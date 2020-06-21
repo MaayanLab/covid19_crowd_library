@@ -1,6 +1,9 @@
 // Even though this file is nearly identical to drugset.js, I deliberately keep them separated,
 // as I expect them to diverge further on.
 
+//Array to hold the checked ids
+var checkboxes = []
+
 function renderMeta(meta) {
     let tmp = [];
     for (let m in meta) {
@@ -151,9 +154,8 @@ function gs_drawTable(url, reviewed, overlap_url) {
                 text: 'Draw a Venn diagram',
                 className: 'btn btn-outline-primary btn-sm',
                 action: function ( e, dt, node, config ) {
-                    const rows = dt.rows( { selected: true } );
                     // if (rows.count() <= 5){
-                        const ids = rows.data().map(i=>i.id).join(",")
+                        const ids = checkboxes.join(",")
                         window.location.href = overlap_url + "/" + ids
                     // }else{
                     //     $('#overlapModalText').text("Max five rows")
@@ -166,6 +168,20 @@ function gs_drawTable(url, reviewed, overlap_url) {
         order: [[ 1, 'asc' ]]
     });
     table.columns.adjust().draw();
+    table.on( 'select', function ( e, dt, type, indexes ) {
+        if ( type === 'row' ) {
+            var data = table.rows( indexes ).data().pluck( 'id' );
+            checkboxes.push(data[0])
+            // do something with the ID of the selected items
+        }
+    });
+    table.on( 'deselect', function ( e, dt, type, indexes ) {
+        if ( type === 'row' ) {
+            var data = table.rows( indexes ).data().pluck( 'id' );
+            checkboxes = checkboxes.filter(i=>i!==data[0])
+            // do something with the ID of the selected items
+        }
+    });
 }
 
 $(document).ready(function () {
