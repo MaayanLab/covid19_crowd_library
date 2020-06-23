@@ -1,6 +1,9 @@
 // Even though this file is nearly identical to geneset.js, I deliberately keep them separated,
 // as I expect them to diverge further on.
 
+//Array to hold the checked ids
+var drug_checkboxes = []
+
 function renderMeta(meta) {
     let tmp = [];
     for (let m in meta) {
@@ -185,9 +188,8 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
                 text: 'Draw a Venn diagram',
                 className: 'btn btn-outline-primary btn-sm',
                 action: function (e, dt, node, config) {
-                    const rows = dt.rows({selected: true});
                     // if (rows.count() <= 5){
-                    const ids = rows.data().map(i => i.id).join(",")
+                    const ids = drug_checkboxes.join(",")
                     window.location.href = overlap_url + "/" + ids
                     // }else{
                     //     $('#overlapModalText').text("Max five rows")
@@ -204,7 +206,23 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
     // $('#drugset_table').on( 'click', 'tbody tr', function () {
     //     console.log(table.rows( { selected: true } ).data());
     // } );
+    table.on( 'select', function ( e, dt, type, indexes ) {
+        if ( type === 'row' ) {
+            var data = table.rows( indexes ).data().pluck( 'id' );
+            drug_checkboxes.push(data[0])
+            // do something with the ID of the selected items
+        }
+    });
+    table.on( 'deselect', function ( e, dt, type, indexes ) {
+        if ( type === 'row' ) {
+            var data = table.rows( indexes ).data().pluck( 'id' );
+            drug_checkboxes = drug_checkboxes.filter(i=>i!==data[0])
+            // do something with the ID of the selected items
+        }
+    });
 }
+
+
 
 $(document).ready(function () {
     $("#submit_drugSet_button").click(function (e) {
