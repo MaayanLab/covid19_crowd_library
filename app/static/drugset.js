@@ -161,7 +161,8 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
         autoWidth: false,
         responsive: true,
         columns: columns,
-        dom: '<"small row"<"col-sm-12 col-md-3"B><"col-sm-12 col-md-9"f>>rt<"small row"ip>',
+        rowId: 'id',
+        dom: `<"small row"<"col-sm-12 col-md-3"B><"col-sm-12 col-md-9"f>>rt<"#${wrapper}_information.small row table_information"p>`,
         columnDefs: columnDefs,
         language: {
             search: "Search in description, metadata or drugs:",
@@ -169,6 +170,20 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
         },
         drawCallback: function () {
             $('.enrichment-popover-button').popover();
+            var parent = $(`#${wrapper}_information`)
+            var info = table.page.info();
+            const newElem = document.createElement('div');
+            newElem.className = "dataTables_info drug-info"
+            newElem.id = `${wrapper}_info`
+            newElem.textContent = `Showing ${info.start} to ${info.end} of ${info.recordsTotal} entries`
+            if (drug_checkboxes.length > 0){
+                const newStats = document.createElement('span');
+                newStats.className = "select-info drug-select-info"
+                newStats.textContent = `${drug_checkboxes.length} row${drug_checkboxes.length > 1 ? 's':''} selected`
+                newElem.appendChild(newStats)
+            }
+            if ($(`#${wrapper}_info.drug-info`).length === 0) parent.prepend(newElem)
+            else $(`#${wrapper}_info.drug-info`).replaceWith(newElem)
         },
         serverSide: true,
         ajax: {
@@ -184,10 +199,10 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
         },
         buttons: [
             {
-                extend: 'selected',
                 text: 'Draw a Venn diagram',
-                className: 'btn btn-outline-primary btn-sm',
-                action: function (e, dt, node, config) {
+                className: 'btn btn-outline-primary btn-sm drug-venn-button',
+                enabled: drug_checkboxes.length > 1,
+                action: function () {
                     // if (rows.count() <= 5){
                     const ids = drug_checkboxes.join(",")
                     window.location.href = overlap_url + "/" + ids
@@ -207,22 +222,38 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
         }
     });
     table.columns.adjust().draw()
-    // console.log(table.rows( { selected: true } ).data());
-    // $('#drugset_table').on( 'click', 'tbody tr', function () {
-    //     console.log(table.rows( { selected: true } ).data());
-    // } );
     table.on( 'select', function ( e, dt, type, indexes ) {
         if ( type === 'row' ) {
             var data = table.rows( indexes ).data().pluck( 'id' );
             drug_checkboxes.push(data[0])
-            // do something with the ID of the selected items
+            if (drug_checkboxes.length > 1) $('.drug-venn-button').removeClass('disabled');
+            else $('.drug-venn-button').addClass('disabled');
+            // $('.drug-venn-button').removeClass('disabled');
+            var newStats = document.createElement('span');
+            newStats.className = "select-info drug-select-info"
+            newStats.textContent = `${drug_checkboxes.length} row${drug_checkboxes.length > 1 ? 's':''} selected`
+            var element = $('.drug-select-info')
+            if (element.length > 0) $('.drug-select-info').replaceWith(newStats)
+            else {
+                var parent = $('.drug-info')
+                parent.append(newStats)
+            }
         }
     });
     table.on( 'deselect', function ( e, dt, type, indexes ) {
         if ( type === 'row' ) {
             var data = table.rows( indexes ).data().pluck( 'id' );
             drug_checkboxes = drug_checkboxes.filter(i=>i!==data[0])
-            // do something with the ID of the selected items
+            if (drug_checkboxes.length > 0){
+                if (drug_checkboxes.length === 1) $('.drug-venn-button').addClass('disabled');
+                var newStats = document.createElement('span');
+                newStats.className = "select-info drug-select-info"
+                newStats.textContent = `${drug_checkboxes.length} row${drug_checkboxes.length > 1 ? 's':''} selected`
+                $('.drug-select-info').replaceWith(newStats)
+            }else {
+                $('.drug-venn-button').addClass('disabled');
+                $('.drug-select-info').remove()
+            }
         }
     });
 }

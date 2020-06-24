@@ -126,7 +126,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
         width: '100%',
         responsive: true,
         columns: columns,
-        dom: '<"small row"<"col-sm-12 col-md-3"B><"col-sm-12 col-md-9"f>>rt<"small row"ip>',
+        dom: '<"small row"<"col-sm-12 col-md-3"B><"col-sm-12 col-md-9"f>>rt<"#gene_information.small row table_information"p>',
         columnDefs: columnDefs,
         language: {
             search: "Search in description, metadata or genes:",
@@ -135,6 +135,20 @@ function gs_drawTable(url, reviewed, overlap_url) {
         drawCallback: function () {
             // Enriched gene popover
             $('.enrichment-popover-button').popover();
+            var parent = $(`#gene_information`)
+            var info = table.page.info();
+            const newElem = document.createElement('div');
+            newElem.className = "dataTables_info gene-info"
+            newElem.id = `gene_info`
+            newElem.textContent = `Showing ${info.start} to ${info.end} of ${info.recordsTotal} entries`
+            if (gene_checkboxes.length > 0){
+                const newStats = document.createElement('span');
+                newStats.className = "select-info gene-select-info"
+                newStats.textContent = `${gene_checkboxes.length} row${gene_checkboxes.length > 1 ? 's':''} selected`
+                newElem.appendChild(newStats)
+            }
+            if ($(`#gene_info.gene-info`).length === 0) parent.prepend(newElem)
+            else $(`#gene_info.gene-info`).replaceWith(newElem)
         },
         serverSide: true,
         ajax: {
@@ -152,7 +166,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
             {
                 extend: 'selected',
                 text: 'Draw a Venn diagram',
-                className: 'btn btn-outline-primary btn-sm',
+                className: 'btn btn-outline-primary btn-sm gene-venn-button',
                 action: function ( e, dt, node, config ) {
                     // if (rows.count() <= 5){
                         const ids = gene_checkboxes.join(",")
@@ -177,14 +191,33 @@ function gs_drawTable(url, reviewed, overlap_url) {
         if ( type === 'row' ) {
             var data = table.rows( indexes ).data().pluck( 'id' );
             gene_checkboxes.push(data[0])
-            // do something with the ID of the selected items
+            if (gene_checkboxes.length > 1) table.buttons( ['.gene-venn-button'] ).enable()
+            else table.buttons( ['.gene-venn-button'] ).disable()
+            var newStats = document.createElement('span');
+            newStats.className = "select-info gene-select-info"
+            newStats.textContent = `${gene_checkboxes.length} row${gene_checkboxes.length > 1 ? 's':''} selected`
+            var element = $('.gene-select-info')
+            if (element.length > 0) $('.gene-select-info').replaceWith(newStats)
+            else {
+                var parent = $('.gene-info')
+                parent.append(newStats)
+            }
         }
     });
     table.on( 'deselect', function ( e, dt, type, indexes ) {
         if ( type === 'row' ) {
             var data = table.rows( indexes ).data().pluck( 'id' );
             gene_checkboxes = gene_checkboxes.filter(i=>i!==data[0])
-            // do something with the ID of the selected items
+            if (gene_checkboxes.length > 0){
+                if (gene_checkboxes.length === 1) table.buttons( ['.gene-venn-button'] ).disable();
+                var newStats = document.createElement('span');
+                newStats.className = "select-info gene-select-info"
+                newStats.textContent = `${gene_checkboxes.length} row${gene_checkboxes.length > 1 ? 's':''} selected`
+                $('.gene-select-info').replaceWith(newStats)
+            }else {
+                table.buttons( ['.gene-venn-button'] ).disable();
+                $('.gene-select-info').remove()
+            }
         }
     });
 }
