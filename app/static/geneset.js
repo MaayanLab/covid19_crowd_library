@@ -165,7 +165,12 @@ function gs_drawTable(url, reviewed, overlap_url) {
                 }
             }
         ],
-        order: [[ 1, 'asc' ]]
+        order: [[ 1, 'asc' ]],
+        rowCallback: function( row, data ) {
+            if ( $.inArray(data.id, gene_checkboxes) !== -1 ) {
+                $(row).addClass('selected');
+            }
+        }
     });
     table.columns.adjust().draw();
     table.on( 'select', function ( e, dt, type, indexes ) {

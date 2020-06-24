@@ -199,7 +199,12 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
                 }
             }
         ],
-        order: [[1, 'asc']]
+        order: [[1, 'asc']],
+        rowCallback: function( row, data ) {
+            if ( $.inArray(data.id, drug_checkboxes) !== -1 ) {
+                $(row).addClass('selected');
+            }
+        }
     });
     table.columns.adjust().draw()
     // console.log(table.rows( { selected: true } ).data());
