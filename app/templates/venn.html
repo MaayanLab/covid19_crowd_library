@@ -3,7 +3,7 @@
 {% block og %}
     <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/genesets/{{ ','.join(ids) }}"/>
     <meta property="og:title"
-          content="{{ type }} Overlap - COVID-19 Crowd Generated Gene and Drug Set Library"/>
+          content="{{ type }} Overlap - The COVID-19 Drug and Gene Set Library"/>
     <meta property="og:description" content="{{ type }}"/>
 {% endblock %}
 
@@ -17,7 +17,7 @@
             <div class="d-flex align-items-start">
                 <img style="width: 30%; max-width: 40px" src="{{ url_for('static', filename='logo.png') }}">
                 <a style="color: #212529" href={{ url_for("route_index") }}>
-                    <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
+                    <h1 class="display-5">The COVID-19 Drug and Gene Set Library</h1></a>
             </div>
             <p class="text-center">A collection of drugs and gene sets related to COVID-19 research contributed by the
                 community</p>
@@ -168,7 +168,7 @@
         <div class="row my-2 ml-2">
             <!-- Twitted share button -->
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
-               data-text="{{ type }} overlaps of {{ ', '.join(labels) }} from COVID-19 Crowd Generated Gene and Drug Set Library"
+               data-text="{{ type }} overlaps of {{ ', '.join(labels) }} from The COVID-19 Drug and Gene Set Library"
                data-url="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}" data-via="MaayanLab"
                data-hashtags="COVID, COVID19"
                data-show-count="false">Tweet</a>

@@ -1222,7 +1222,7 @@
 
     function VennDiagram() {
         let width = 900,
-            height = 500,
+            height = 700,
             padding = 15,
             duration = 1000,
             orientation = Math.PI / 2,

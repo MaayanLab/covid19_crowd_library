@@ -3,7 +3,7 @@
 {% block og %}
     <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drugset['id'] }}"/>
     <meta property="og:title"
-          content="{{ drugset['descrShort'] }} - COVID-19 Crowd Generated Gene and Drug Set Library"/>
+          content="{{ drugset['descrShort'] }} - The COVID-19 Drug and Gene Set Library"/>
     <meta property="og:description" content="{{ drugset['descrFull'] }}"/>
 {% endblock %}
 
@@ -19,7 +19,7 @@
                 <a href={{ url_for("route_index") }}>
                     <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}"></a>
                 <a style="color: #212529" href={{ url_for("route_index") }}>
-                    <h1 class="display-5">COVID-19 Crowd Generated Gene and Drug Set Library</h1></a>
+                    <h1 class="display-5">The COVID-19 Drug and Gene Set Library</h1></a>
             </div>
             <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
         </div>
@@ -142,7 +142,7 @@
         <div class="row my-2 ml-2">
             <!-- Twitted share button -->
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
-               data-text="{{ drugset['descrShort'] }} from COVID-19 Crowd Generated Gene and Drug Set Library"
+               data-text="{{ drugset['descrShort'] }} from The COVID-19 Drug and Gene Set Library"
                data-url="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drugset['id'] }}" data-via="MaayanLab"
                data-hashtags="COVID, COVID19"
                data-show-count="false">Tweet</a>
