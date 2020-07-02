@@ -10,3 +10,5 @@ venv
 dump\.sql
 
 remote_data\.dump
+
+app/__init__\.pyc
