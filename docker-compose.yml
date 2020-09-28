@@ -2,10 +2,11 @@ version: '3'
 services:
   app:
     build: .
-    image: maayanlab/covid19:latest
+    image: maayanlab/covid19:latest.cloud
     environment:
       - ROOT_PATH=/covid19/
       - DB_URI=mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database/${MYSQL_DATABASE}
+      - BASE_PATH=https://maayanalab.cloud
       - DEBUG=true
     ports:
       - 8080:80

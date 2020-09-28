@@ -5,6 +5,7 @@ import datetime
 from app import database, geneset, drugset, download, statistics
 
 ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
+BASE_PATH = os.environ.get('BASE_PATH', 'maayanlab.cloud')
 # Load any additional configuration parameters via
 #  environment variables--`../.env` can be used
 #  for sensitive information!
@@ -15,7 +16,7 @@ app.before_first_request(database.init)
 
 @app.route(ROOT_PATH, methods=['GET'])
 def route_index():
-    return flask.render_template('index.html', stats=statistics.stats())
+    return flask.render_template('index.html', stats=statistics.stats(), base_path=BASE_PATH)
 
 
 @app.route(ROOT_PATH + 'genesets_table', methods=['POST'])
@@ -56,7 +57,7 @@ def route_drugs():
 @app.route(ROOT_PATH + 'review', methods=['GET', 'POST'])
 def route_review():
     if flask.request.method == 'GET':
-        return flask.render_template('review.html')
+        return flask.render_template('review.html', base_path=BASE_PATH)
     elif flask.request.method == 'POST':
         form = flask.request.form
         if form['set_type'] == 'geneset':
@@ -71,19 +72,19 @@ def route_review():
 @app.route(ROOT_PATH + 'genesets/<geneset_id>', methods=['GET'])
 def route_geneset(geneset_id):
     json_geneset = json.loads(geneset.get_geneset(geneset_id)[0])
-    return flask.render_template('geneset.html', geneset=json_geneset)
+    return flask.render_template('geneset.html', geneset=json_geneset, base_path=BASE_PATH)
 
 
 @app.route(ROOT_PATH + 'drugsets/<drugset_id>', methods=['GET'])
 def route_drugset(drugset_id):
     json_drugset = json.loads(drugset.get_drugset(drugset_id)[0])
-    return flask.render_template('drugset.html', drugset=json_drugset)
+    return flask.render_template('drugset.html', drugset=json_drugset, base_path=BASE_PATH)
 
 
 @app.route(ROOT_PATH + 'genes/<gene_name>', methods=['GET'])
 def route_gene(gene_name):
     json_geneset = json.loads(geneset.get_gene(gene_name)[0])
-    return flask.render_template('gene.html', gene=json_geneset)
+    return flask.render_template('gene.html', gene=json_geneset, base_path=BASE_PATH)
 
 
 @app.route(ROOT_PATH + 'drugs/<drug_name>', methods=['GET'])
@@ -99,7 +100,7 @@ def route_drug(drug_name):
         s = datetime.datetime(int(y), int(m), int(d))
         start = s.strftime("%b %d")
         json_drugset['start'] = start
-    return flask.render_template('drug.html', drug=json_drugset)
+    return flask.render_template('drug.html', drug=json_drugset, base_path=BASE_PATH)
 
 
 @app.route(ROOT_PATH + 'stats/drugs/<drug_name>/twitter', methods=['GET'])
@@ -109,7 +110,7 @@ def route_drug_twitter_submissions(drug_name):
 
 @app.route(ROOT_PATH + 'stats')
 def route_stats():
-    return flask.render_template('stats.html', stats=statistics.stats())
+    return flask.render_template('stats.html', stats=statistics.stats(), base_path=BASE_PATH)
 
 
 @app.route(ROOT_PATH + 'top_genes', methods=['GET', 'POST'])
@@ -178,9 +179,10 @@ def route_overlap_genesets(ids=None):
                                      labels=intersection["labels"],
                                      type="Gene Set",
                                      elements="genes",
-                                     website="https://amp.pharm.mssm.edu/Harmonizome/gene/",
+                                     website="https://maayanlab.cloud/Harmonizome/gene/",
                                      className="enriched-gene-link",
-                                     ids={ids})
+                                     ids={ids},
+                                     base_path=BASE_PATH)
     else:
         ids = flask.request.values.getlist("id")
         return flask.jsonify(geneset.get_intersection(ids))
@@ -202,7 +204,8 @@ def route_overlap_drugsets(ids=None):
                                      elements="drugs",
                                      website="https://www.drugbank.ca/unearth/q?utf8=✓&searcher=drugs&query=",
                                      className="drug-link",
-                                     ids={ids})
+                                     ids={ids},
+                                     base_path=BASE_PATH)
     else:
         ids = flask.request.values.getlist("id")
         return flask.jsonify(drugset.get_intersection(ids))

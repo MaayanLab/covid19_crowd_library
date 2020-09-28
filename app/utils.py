@@ -17,7 +17,7 @@ def enrichr_submit(geneset, short_description, url):
         'list': (None, '\n'.join(geneset)),
         'description': (None, short_description)
     }
-    response = requests.post('http://amp.pharm.mssm.edu/{0}/addList'.format(url), files=payload)
+    response = requests.post('http://maayanlab.cloud/{0}/addList'.format(url), files=payload)
     if not response.ok:
         raise Exception('Error analyzing gene list')
     return json.loads(response.text)

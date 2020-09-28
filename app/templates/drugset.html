@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block og %}
-    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drugset['id'] }}"/>
+    <meta property="og:url" content="https://{{ base_path }}/covid19/drugsets/{{ drugset['id'] }}"/>
     <meta property="og:title"
           content="{{ drugset['descrShort'] }} - The COVID-19 Drug and Gene Set Library"/>
     <meta property="og:description" content="{{ drugset['descrFull'] }}"/>
@@ -91,7 +91,7 @@
                                     style='color: #ff3581;'>rich</span><span style='color: dodgerblue;'>r</span> link
                             </h6>
                             <span class="text-muted wrapped">
-                                <a href="https://amp.pharm.mssm.edu/DrugEnrichr/enrich?dataset={{ drugset['enrichrShortId'] }}">
+                                <a href="https://{{ base_path }}/DrugEnrichr/enrich?dataset={{ drugset['enrichrShortId'] }}">
                                     <i class="fas fa-external-link-alt"></i>
                                 </a>
                             </span>
@@ -128,7 +128,7 @@
                 <div class="mb-3">
                     {% for drug in drugset['drugs']|sort %}
                         <a class="drug-link"
-                           href="https://amp.pharm.mssm.edu/covid19/drugs/{{ drug }}"
+                           href="https://{{ base_path }}/covid19/drugs/{{ drug }}"
                            target="_blank">{{ drug }}</a>
                     {% endfor %}
                 </div>
@@ -143,23 +143,23 @@
             <!-- Twitted share button -->
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
                data-text="{{ drugset['descrShort'] }} from The COVID-19 Drug and Gene Set Library"
-               data-url="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drugset['id'] }}" data-via="MaayanLab"
+               data-url="https://{{ base_path }}/covid19/drugsets/{{ drugset['id'] }}" data-via="MaayanLab"
                data-hashtags="COVID, COVID19"
                data-show-count="false">Tweet</a>
         </div>
         <div class="row my-2 ml-2">
             <!-- LinkedIn share button -->
-            <script type="IN/Share" data-url="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drugset['id'] }}"></script>
+            <script type="IN/Share" data-url="https://{{ base_path }}/covid19/drugsets/{{ drugset['id'] }}"></script>
         </div>
         <!-- Facebook share button -->
         <div class="row my-2 ml-2">
-            <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drugset['id'] }}"
+            <div class="fb-share-button" data-href="https://{{ base_path }}/covid19/drugsets/{{ drugset['id'] }}"
                  data-layout="button" data-size="small">
-                <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drugset['id'] }}"
+                <div class="fb-share-button" data-href="https://{{ base_path }}/covid19/drugsets/{{ drugset['id'] }}"
                      data-layout="button"
                      data-size="small">
                     <a target="_blank"
-                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Famp.pharm.mssm.edu%2Fcovid19%2Fdrugsets%2F{{ drugset['id'] }}&amp;src=sdkpreparse"
+                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F{{ base_path }}%2Fcovid19%2Fdrugsets%2F{{ drugset['id'] }}&amp;src=sdkpreparse"
                        class="fb-xfbml-parse-ignore">Share</a></div>
             </div>
         </div>
@@ -174,6 +174,6 @@
             if ((location.protocol !== 'https:') && (location.hostname !== '0.0.0.0')) {
                 location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
             }
-            let url_prefix = 'https://amp.pharm.mssm.edu/covid19'
+            let url_prefix = 'https://{{ base_path }}/covid19'
         }
 {% endblock %}

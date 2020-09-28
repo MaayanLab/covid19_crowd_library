@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block og %}
-    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/drugs/{{ drug['id'] }}"/>
+    <meta property="og:url" content="https://{{ base_path }}/covid19/drugs/{{ drug['id'] }}"/>
     <meta property="og:title"
           content="{{ drug['name'] }} - The COVID-19 Drug and Gene Set Library"/>
 {% endblock %}
@@ -51,7 +51,7 @@
                 <div class="mb-3">
                     {% for drugset in drug['sets'] %}
                         <a class="drug-link"
-                           href="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drugset['id'] }}"
+                           href="https://{{ base_path }}/covid19/drugsets/{{ drugset['id'] }}"
                            target="_blank">{{ drugset['name'] }}</a>
                     {% endfor %}
                 </div>
@@ -66,23 +66,23 @@
             <!-- Twitted share button -->
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
                data-text="{{ drug['name'] }} from The COVID-19 Drug and Gene Set Library"
-               data-url="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drug['id'] }}" data-via="MaayanLab"
+               data-url="https://{{ base_path }}/covid19/drugsets/{{ drug['id'] }}" data-via="MaayanLab"
                data-hashtags="COVID, COVID19"
                data-show-count="false">Tweet</a>
         </div>
         <div class="row my-2 ml-2">
             <!-- LinkedIn share button -->
-            <script type="IN/Share" data-url="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drug['id'] }}"></script>
+            <script type="IN/Share" data-url="https://{{ base_path }}/covid19/drugsets/{{ drug['id'] }}"></script>
         </div>
         <!-- Facebook share button -->
         <div class="row my-2 ml-2">
-            <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drug['id'] }}"
+            <div class="fb-share-button" data-href="https://{{ base_path }}/covid19/drugsets/{{ drug['id'] }}"
                  data-layout="button" data-size="small">
-                <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/drugsets/{{ drug['id'] }}"
+                <div class="fb-share-button" data-href="https://{{ base_path }}/covid19/drugsets/{{ drug['id'] }}"
                      data-layout="button"
                      data-size="small">
                     <a target="_blank"
-                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Famp.pharm.mssm.edu%2Fcovid19%2Fdrugsets%2F{{ drug['id'] }}&amp;src=sdkpreparse"
+                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F{{ base_path }}%2Fcovid19%2Fdrugsets%2F{{ drug['id'] }}&amp;src=sdkpreparse"
                        class="fb-xfbml-parse-ignore">Share</a></div>
             </div>
         </div>

@@ -92,7 +92,7 @@ class Geneset(Base):
         ])
 
     def submit_to_enrichr(self):
-        ENRICHR_URL = 'http://amp.pharm.mssm.edu/Enrichr/addList'
+        ENRICHR_URL = 'http://maayanlab.cloud/Enrichr/addList'
         genes_str = '\n'.join(*[
             gene.symbol
             for gene in self.genes
@@ -207,7 +207,7 @@ class Drugset(Base):
         ])
 
     def submit_to_enrichr(self):
-        ENRICHR_URL = 'http://amp.pharm.mssm.edu/DrugEnrichr/addList'
+        ENRICHR_URL = 'http://maayanlab.cloud/DrugEnrichr/addList'
         drugs_str = '\n'.join(*[
             gene.symbol
             for gene in self.drugs

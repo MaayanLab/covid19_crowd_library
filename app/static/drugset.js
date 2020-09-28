@@ -84,7 +84,7 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
             render: function (data, type, row) {
                 let drugLinks = [];
                 $.each(row['drugs'].sort(), function (index, drug) {
-                    drugLinks.push(`<a class="drug-link" href="https://amp.pharm.mssm.edu/covid19/drugs/${drug}" target="_blank">${drug}</a>`);
+                    drugLinks.push(`<a class="drug-link" href="https://maayanlab.cloud/covid19/drugs/${drug}" target="_blank">${drug}</a>`);
                 });
                 return $('<div>', {
                     'class': 'enrichment-popover-button',
@@ -109,7 +109,7 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
             width: '15%',
             render: function (data, type, row) {
                 return $('<a>', {
-                    'href': `https://amp.pharm.mssm.edu/DrugEnrichr/enrich?dataset=${row['enrichrShortId']}`,
+                    'href': `https://maayanlab.cloud/DrugEnrichr/enrich?dataset=${row['enrichrShortId']}`,
                     'target': '_blank'
                 })
                     .append('<i class="fas fa-external-link-alt ml-1" style="font-size: 0.9rem;"></i>')

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block og %}
-    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/genesets/{{ geneset['id'] }}"/>
+    <meta property="og:url" content="https://{{ base_path }}/covid19/genesets/{{ geneset['id'] }}"/>
     <meta property="og:title"
           content="{{ geneset['descrShort'] }} - The COVID-19 Drug and Gene Set Library"/>
     <meta property="og:description" content="{{ geneset['descrFull'] }}"/>
@@ -87,7 +87,7 @@
                         <div>
                             <h6 class="my-0">En<span style="color:red">rich</span>r link</h6>
                             <span><a
-                                    href="https://amp.pharm.mssm.edu/Enrichr/enrich?dataset={{ geneset['enrichrShortId'] }}">
+                                    href="https://{{ base_path }}/Enrichr/enrich?dataset={{ geneset['enrichrShortId'] }}">
                                 <i class="fas fa-external-link-alt ml-1" style="font-size: 0.9rem;"></i>
                             </a>
                             </span>
@@ -107,7 +107,7 @@
                 </h4>
                 <div class="mb-3">
                     {% for gene in geneset['genes']|sort %}
-                        <a class="enriched-gene-link" href="https://amp.pharm.mssm.edu/covid19/genes/{{ gene }}"
+                        <a class="enriched-gene-link" href="https://{{ base_path }}/covid19/genes/{{ gene }}"
                            target="_blank">{{ gene }}</a>
                     {% endfor %}
 
@@ -123,23 +123,23 @@
             <!-- Twitted share button -->
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
                data-text="{{ geneset['descrShort'] }} from The COVID-19 Drug and Gene Set Library"
-               data-url="https://amp.pharm.mssm.edu/covid19/genesets/{{ geneset['id'] }}" data-via="MaayanLab"
+               data-url="https://{{ base_path }}/covid19/genesets/{{ geneset['id'] }}" data-via="MaayanLab"
                data-hashtags="COVID, COVID19"
                data-show-count="false">Tweet</a>
         </div>
         <div class="row my-2 ml-2">
             <!-- LinkedIn share button -->
-            <script type="IN/Share" data-url="https://amp.pharm.mssm.edu/covid19/genesets/{{ geneset['id'] }}"></script>
+            <script type="IN/Share" data-url="https://{{ base_path }}/covid19/genesets/{{ geneset['id'] }}"></script>
         </div>
         <!-- Facebook share button -->
         <div class="row my-2 ml-2">
-            <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/genesets/{{ geneset['id'] }}"
+            <div class="fb-share-button" data-href="https://{{ base_path }}/covid19/genesets/{{ geneset['id'] }}"
                  data-layout="button" data-size="small">
-                <div class="fb-share-button" data-href="https://amp.pharm.mssm.edu/covid19/genesets/{{ geneset['id'] }}"
+                <div class="fb-share-button" data-href="https://{{ base_path }}/covid19/genesets/{{ geneset['id'] }}"
                      data-layout="button"
                      data-size="small">
                     <a target="_blank"
-                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Famp.pharm.mssm.edu%2Fcovid19%2Fgenesets%2F{{ geneset['id'] }}&amp;src=sdkpreparse"
+                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F{{ base_path }}%2Fcovid19%2Fgenesets%2F{{ geneset['id'] }}&amp;src=sdkpreparse"
                        class="fb-xfbml-parse-ignore">Share</a></div>
             </div>
         </div>

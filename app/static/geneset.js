@@ -80,7 +80,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
             render: function (data, type, row) {
                 let geneLinks = [];
                 $.each(row['genes'].sort(), function (index, gene) {
-                    geneLinks.push('<a class="enriched-gene-link" href="http://amp.pharm.mssm.edu/covid19/genes/' + gene + '" target="_blank">' + gene + '</a>');
+                    geneLinks.push('<a class="enriched-gene-link" href="http://maayanlab.cloud/covid19/genes/' + gene + '" target="_blank">' + gene + '</a>');
                 });
                 return $('<div>', {
                     'class': 'enrichment-popover-button',
@@ -102,7 +102,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
             width: '15%',
             render: function (data, type, row) {
                 return $('<a>', {
-                    'href': `https://amp.pharm.mssm.edu/Enrichr/enrich?dataset=${row['enrichrShortId']}`,
+                    'href': `https://maayanlab.cloud/Enrichr/enrich?dataset=${row['enrichrShortId']}`,
                     'target': '_blank'
                 })
                     .append('<i class="fas fa-external-link-alt ml-1" style="font-size: 0.9rem;"></i>')

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block og %}
-    <meta property="og:url" content="https://amp.pharm.mssm.edu/covid19/genesets/{{ ','.join(ids) }}"/>
+    <meta property="og:url" content="https://{{ base_path }}/covid19/genesets/{{ ','.join(ids) }}"/>
     <meta property="og:title"
           content="{{ type }} Overlap - The COVID-19 Drug and Gene Set Library"/>
     <meta property="og:description" content="{{ type }}"/>
@@ -169,26 +169,26 @@
             <!-- Twitted share button -->
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
                data-text="{{ type }} overlaps of {{ ', '.join(labels) }} from The COVID-19 Drug and Gene Set Library"
-               data-url="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}" data-via="MaayanLab"
+               data-url="https://{{ base_path }}/covid19/genesets/overlap/{{ ','.join(ids) }}" data-via="MaayanLab"
                data-hashtags="COVID, COVID19"
                data-show-count="false">Tweet</a>
         </div>
         <div class="row my-2 ml-2">
             <!-- LinkedIn share button -->
             <script type="IN/Share"
-                    data-url="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"></script>
+                    data-url="https://{{ base_path }}/covid19/genesets/overlap/{{ ','.join(ids) }}"></script>
         </div>
         <!-- Facebook share button -->
         <div class="row my-2 ml-2">
             <div class="fb-share-button"
-                 data-href="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"
+                 data-href="https://{{ base_path }}/covid19/genesets/overlap/{{ ','.join(ids) }}"
                  data-layout="button" data-size="small">
                 <div class="fb-share-button"
-                     data-href="https://amp.pharm.mssm.edu/covid19/genesets/overlap/{{ ','.join(ids) }}"
+                     data-href="https://{{ base_path }}/covid19/genesets/overlap/{{ ','.join(ids) }}"
                      data-layout="button"
                      data-size="small">
                     <a target="_blank"
-                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Famp.pharm.mssm.edu%2Fcovid19&amp;src=sdkpreparse"
+                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F{{ base_path }}%2Fcovid19&amp;src=sdkpreparse"
                        class="fb-xfbml-parse-ignore">Share</a></div>
             </div>
         </div>
