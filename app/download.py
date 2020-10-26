@@ -2,10 +2,15 @@ from app.database import Session
 from app.models import Geneset, Drugset
 
 
-def genesets():
+def genesets(category=0):
     sess = Session()
-    for geneset in sess.query(Geneset).filter(Geneset.reviewed == 1):
-        yield geneset.to_gmt() + '\n'
+    if category:
+        for geneset in sess.query(Geneset).filter(Geneset.reviewed == 1).filter(Geneset.category == category):
+            yield geneset.to_gmt() + '\n'
+    else:
+        for geneset in sess.query(Geneset).filter(Geneset.reviewed == 1):
+            yield geneset.to_gmt() + '\n'
+
     sess.close()
 
 
