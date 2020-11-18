@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block og %}
+    <meta property="og:url" content="https://{{ base_path }}/covid19/collections/{{ collection['id'] }}"/>
+    <meta property="og:title"
+          content="{{ collection['name'] }} - The COVID-19 Drug and Gene Set Library"/>
+    <meta property="og:description" content="{{ collection['description'] }}"/>
+{% endblock %}
+
+{% block head %}
+    <title>{{ collection['name'] }}</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center mt-4 mb-2">
+            <div class="d-flex align-items-start">
+
+                <a href={{ url_for("route_index") }}>
+                    <img style="width: 2.5rem" src="{{ url_for('static', filename='logo.png') }}"></a>
+                <a style="color: #212529" href={{ url_for("route_index") }}>
+                    <h1 class="display-5">The COVID-19 Drug and Gene Set Library</h1></a>
+            </div>
+            <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
+        </div>
+        <div class="py-5 text-center">
+            <h2>{{ collection['name'] }}</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">{{ collection['name'] }}</h6>
+                            <span class="text-muted wrapped">{{ collection['description'] }}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-8 order-md-1">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge badge-secondary badge-pill">{{ collection['sets']|length }} sets</span>
+                </h4>
+                <div class="mb-3">
+                {% if collection['sets']['genesets'] %}
+                    {% for set in collection['sets']['genesets']|sort %}
+                        <a class="enriched-set-link" href="https://{{ base_path }}/covid19/genesets/{{ set }}"
+                           target="_blank">{{ set }}</a>
+                    {% endfor %}
+                {% endif %}
+                {% if collection['sets']['drugsets'] %}
+                    {% for set in collection['sets']['drugsets']|sort %}
+                        <a class="drug-link" href="https://{{ base_path }}/covid19/drugsets/{{ set }}"
+                           target="_blank">{{ set }}</a>
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block socialbuttons %}
+    <div class="col-md-2 col-sm">
+        <div class="row my-2 ml-2">
+            <!-- Twitted share button -->
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+               data-text="{{ collection['name'] }} data sets collection from The COVID-19 Drug and Gene Set Library"
+               data-url="https://{{ base_path }}/covid19/collections/{{ collection['id'] }}" data-via="MaayanLab"
+               data-hashtags="COVID, COVID19"
+               data-show-count="false">Tweet</a>
+        </div>
+        <div class="row my-2 ml-2">
+            <!-- LinkedIn share button -->
+            <script type="IN/Share" data-url="https://{{ base_path }}/covid19/collections/{{ collection['id'] }}"></script>
+        </div>
+        <!-- Facebook share button -->
+        <div class="row my-2 ml-2">
+            <div class="fb-share-button" data-href="https://{{ base_path }}/covid19/collections/{{ collection['id'] }}"
+                 data-layout="button" data-size="small">
+                <div class="fb-share-button" data-href="https://{{ base_path }}/covid19/collections/{{ collection['id'] }}"
+                     data-layout="button"
+                     data-size="small">
+                    <a target="_blank"
+                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F{{ base_path }}%2Fcovid19%2Fcollections%2F{{ collection['id'] }}&amp;src=sdkpreparse"
+                       class="fb-xfbml-parse-ignore">Share</a></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

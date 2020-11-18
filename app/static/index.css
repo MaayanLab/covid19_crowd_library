@@ -65,3 +65,21 @@ a {
 table.dataTable thead tr th {
   font-weight: 500;
 }
+
+.border-gene {
+    border-color: rgba(162, 205, 255, 0.42) !important;
+}
+
+.border-drug {
+    border-color: rgba(255, 137, 156, 0.47) !important;
+}
+
+.footer-gene {
+    background-color: rgba(99, 136, 244, 0.05) !important;
+    border-color: rgba(162, 205, 255, 0.42) !important;
+}
+
+.footer-drug {
+    background-color: rgba(255, 105, 105, 0.03) !important;
+    border-color: rgba(255, 137, 156, 0.47) !important;
+}
