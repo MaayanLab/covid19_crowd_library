@@ -85,6 +85,7 @@
                    href="{{ url_for('route_stats') }}#nav-genes-table">{{ stats.n_unique_genes }} unique genes</a>
             </div>
         </div>
+        {% include 'collections_dashboard.html' %}
         <div class="row justify-content-center my-5">
             <div class="col-md-10 col-sm">
                 <nav>
@@ -197,8 +198,6 @@
 
             </div>
         </div>
-
-        {% include 'collections_dashboard.html' %}
 
         <div class="row justify-content-center my-5">
             <div class="col-md-10 col-sm">
