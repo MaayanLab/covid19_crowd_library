@@ -276,6 +276,9 @@
     <script type="text/javascript" src="{{ url_for('static', filename='submissions.js') }}"></script>
     <script>
         $(document).ready(function () {
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
             window.drugSetMetaCounter = counter(0);
             window.geneSetMetaCounter = counter(0);
             $.get('genesets/submissions', function (data) {
