@@ -265,25 +265,25 @@
 
         $(document).ready(function () {
             navTabsSync('#nav-drugs-table')
-            let url_prefix = 'https://{{ base_path }}/covid19'
+            {#let url_prefix = 'https://{{ base_path }}/covid19'#}
 
-            $.get(`${url_prefix}/top_genes`, function (data) {
+            $.get('top_genes', function (data) {
                 chart(JSON.parse(data)['data'], 'genes', 20, "#3e8cd6");
             });
 
-            $.get(`${url_prefix}/top_drugs`, function (data) {
+            $.get('top_drugs', function (data) {
                 chart(JSON.parse(data)['data'], 'drugs_all', 20, "#ff8080");
             });
 
-            $.get(`${url_prefix}/top_drugs/2`, function (data) {
+            $.get('top_drugs/2', function (data) {
                 chart(JSON.parse(data)['data'], 'drugs_experimental', 20, "#ff8080");
             });
 
-            $.get(`${url_prefix}/top_drugs/3`, function (data) {
+            $.get('top_drugs/3', function (data) {
                 chart(JSON.parse(data)['data'], 'drugs_computational', 20, "#ff8080");
             });
 
-            $.get(`${url_prefix}/top_drugs/4`, function (data) {
+            $.get('top_drugs/4', function (data) {
                 chart(JSON.parse(data)['data'], 'drugs_twitter', 20, "#ff8080");
             });
 
