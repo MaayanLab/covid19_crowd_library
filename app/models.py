@@ -274,3 +274,4 @@ class SetsCollections(Base):
     # set_id = Column('setId', String(255), ForeignKey('geneset.enrichrShortId'), primary_key=True)
     set_id = Column('setId', String(255))
     collection_id = Column('collectionId', Integer, ForeignKey('collections.id'))
+    type = Column('type', Integer)
