@@ -272,6 +272,6 @@ class SetsCollections(Base):
     # we have make 'enrichrShortId's unique and drop nulls
     # set_id = Column('setId', String(255), ForeignKey('drugset.enrichrShortId'), primary_key=True)
     # set_id = Column('setId', String(255), ForeignKey('geneset.enrichrShortId'), primary_key=True)
-    set_id = Column('setId', String(255))
+    set_id = Column('setId', Integer)
     collection_id = Column('collectionId', Integer, ForeignKey('collections.id'))
     type = Column('type', Integer)

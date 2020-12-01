@@ -5,16 +5,15 @@ import sqlalchemy as sa
 from app.database import Session
 from app.models import SetsCollections, Drugset, Geneset
 from app.datatables import serve_datatable
-from app.utils import match_meta, enrichr_submit
 
 
 def get_collection(id):
     try:
         sess = Session()
         drugset_ids = sess.query(SetsCollections).filter(SetsCollections.collection_id == id).filter(SetsCollections.type == 0).first().jsonify()
-        drugsets = [sess.query(Drugset).filter(Drugset.enrichrShortId == id)[0].jsonify() for id in drugset_ids]
+        drugsets = [sess.query(Drugset).filter(Drugset.id == id)[0].jsonify() for id in drugset_ids]
         geneset_ids = sess.query(SetsCollections).filter(SetsCollections.collection_id == id).filter(SetsCollections.type == 1).first().jsonify()
-        genesets = [sess.query(Geneset).filter(Geneset.enrichrShortId == id)[0].jsonify() for id in geneset_ids]
+        genesets = [sess.query(Geneset).filter(Geneset.id == id)[0].jsonify() for id in geneset_ids]
 
         sess.close()
         r = drugsets.append(genesets)
