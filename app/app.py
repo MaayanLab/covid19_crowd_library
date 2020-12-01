@@ -2,7 +2,7 @@ import os
 import json
 import flask
 import datetime
-from app import database, geneset, drugset, download, statistics
+from app import database, geneset, drugset, download, statistics, collection
 
 ROOT_PATH = os.environ.get('ROOT_PATH', '/covid19/')
 BASE_PATH = os.environ.get('BASE_PATH', 'maayanlab.cloud')
@@ -221,3 +221,9 @@ def route_genesets_submissions():
 def route_drugsets_submissions():
     return json.dumps({'success': True, 'data': statistics.drugsets_submissions()}), 200, {
         'ContentType': 'application/json'}
+
+
+@app.route(ROOT_PATH + 'collection/<collection_id>', methods=['GET'])
+def route_collection(collection_id):
+    json_collection = json.loads(collection.get_collection(collection_id))
+    return flask.render_template('collection.html', drugset=json_collection, base_path=BASE_PATH)

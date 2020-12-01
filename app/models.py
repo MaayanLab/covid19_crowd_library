@@ -254,3 +254,23 @@ class Categories(Base):
 
     id = Column('id', Integer, primary_key=True)
     name = Column('name', String(255), nullable=False, default='all')
+
+
+class Collections(Base):
+    __tablename__ = 'collections'
+
+    id = Column('id', Integer, primary_key=True)
+    name = Column('name', String(255), nullable=False, default='all')
+    description = Column('description', Text, nullable=False)
+
+
+class SetsCollections(Base):
+    __tablename__ = 'sets_collections'
+
+    id = Column('id', Integer, primary_key=True)
+    # Ideally it should be like the following, but this way
+    # we have make 'enrichrShortId's unique and drop nulls
+    # set_id = Column('setId', String(255), ForeignKey('drugset.enrichrShortId'), primary_key=True)
+    # set_id = Column('setId', String(255), ForeignKey('geneset.enrichrShortId'), primary_key=True)
+    set_id = Column('setId', String(255))
+    collection_id = Column('collectionId', Integer, ForeignKey('collections.id'))
