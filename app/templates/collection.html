@@ -3,12 +3,12 @@
 {% block og %}
     <meta property="og:url" content="https://{{ base_path }}/covid19/collections/{{ collection['id'] }}"/>
     <meta property="og:title"
-          content="{{ collection['name'] }} - The COVID-19 Drug and Gene Set Library"/>
+          content="{{ collection['sets']['drugsets']|length + collection['sets']['genesets']|length }} {{ collection['name'] }} - The COVID-19 Drug and Gene Set Library"/>
     <meta property="og:description" content="{{ collection['description'] }}"/>
 {% endblock %}
 
 {% block head %}
-    <title>{{ collection['name'] }}</title>
+    <title>{{ collection['sets']['drugsets']|length + collection['sets']['genesets']|length }} {{ collection['name'] }}</title>
 {% endblock %}
 
 {% block body %}
@@ -24,35 +24,38 @@
             <p>A collection of gene and drug sets related to COVID-19 research contributed by the community</p>
         </div>
         <div class="py-5 text-center">
-            <h2>{{ collection['name'] }}</h2>
+            <h2>{{ collection['sets']['drugsets']|length + collection['sets']['genesets']|length }} {{ collection['name'] }}</h2>
         </div>
         <div class="row">
             <div class="col-md-4 mb-4">
                 <ul class="list-group mb-3">
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
-                            <h6 class="my-0">{{ collection['name'] }}</h6>
+                            <h6 class="my-0">{{ collection['sets']['drugsets']|length + collection['sets']['genesets']|length }} {{ collection['name'] }}</h6>
                             <span class="text-muted wrapped">{{ collection['description'] }}</span>
                         </div>
                     </li>
                 </ul>
             </div>
             <div class="col-md-8 order-md-1">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="badge badge-secondary badge-pill">{{ collection['sets']|length }} sets</span>
-                </h4>
                 <div class="mb-3">
                 {% if collection['sets']['genesets'] %}
-                    {% for set in collection['sets']['genesets']|sort %}
+                    {% for set in collection['sets']['genesets'] %}
                         <a class="enriched-set-link" href="https://{{ base_path }}/covid19/genesets/{{ set }}"
                            target="_blank">{{ set }}</a>
                     {% endfor %}
                 {% endif %}
                 {% if collection['sets']['drugsets'] %}
-                    {% for set in collection['sets']['drugsets']|sort %}
-                        <a class="drug-link" href="https://{{ base_path }}/covid19/drugsets/{{ set }}"
-                           target="_blank">{{ set }}</a>
-                    {% endfor %}
+                    <div class="container-fluid" style="display: block">
+                        <table id="collection_drugset_table" class="table compact hover order-column row-border" style="width:100%">
+                        </table>
+                    </div>
+
+{#                    {% for set in collection['sets']['drugsets'] %}#}
+{#                        <a class="drug-link" href="https://{{ base_path }}/covid19/drugsets/{{ set }}"#}
+{#                           target="_blank">{{ set }}</a>#}
+{#                    {% endfor %}#}
+
                 {% endif %}
                 </div>
             </div>
@@ -87,4 +90,12 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            ds_drawTable('{{ url_for("route_collection_drugsets_table") }}', 'collection_drugset_table', 1, '{{ url_for("route_overlap_drugsets") }}');
+        });
+    </script>
 {% endblock %}
