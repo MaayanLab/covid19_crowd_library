@@ -18,7 +18,7 @@ function urlfy(source) {
     return source.replace(r, '<a href="$1" target="_blank">$1</a>')
 }
 
-function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
+function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0, collection = 0) {
     let columns = [
         {
             data: null,
@@ -190,7 +190,7 @@ function ds_drawTable(url, wrapper, reviewed, overlap_url, category = 0) {
             url: url,
             type: 'POST',
             data: function (args) {
-                return {body: JSON.stringify(args), reviewed: reviewed, category: category};
+                return {body: JSON.stringify(args), reviewed: reviewed, category: category, collection: collection};
             }
         },
         select: {

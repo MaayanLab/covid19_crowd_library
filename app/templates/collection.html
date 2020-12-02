@@ -95,7 +95,7 @@
 {% block script %}
     <script>
         $(document).ready(function () {
-            ds_drawTable('{{ url_for("route_collection_drugsets_table") }}', 'collection_drugset_table', 1, '{{ url_for("route_overlap_drugsets") }}');
+            ds_drawTable('{{ url_for("route_collection_drugsets_table") }}', 'collection_drugset_table', 1, '{{ url_for("route_overlap_drugsets") }}', 0, 5);
         });
     </script>
 {% endblock %}

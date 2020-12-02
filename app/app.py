@@ -234,6 +234,7 @@ def route_collection(collection_id):
 @app.route(ROOT_PATH + 'collection_drugsets_table', methods=['POST'])
 def route_collection_drugsets_table():
     collection_id = int(flask.request.values.get('collection', default=0))
+    print()
     if collection:
         return collection.serve_collection_drugset_filtered_datatable(collection_id)(
             **json.loads(flask.request.values.get('body')))
