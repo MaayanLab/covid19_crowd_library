@@ -27,7 +27,7 @@
             <h2>{{ collection['sets']['drugsets']|length + collection['sets']['genesets']|length }} {{ collection['name'] }}</h2>
         </div>
         <div class="row">
-            <div class="col-md-4 mb-4">
+            <div class="col-md-3 mb-4">
                 <ul class="list-group mb-3">
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
@@ -37,7 +37,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-8 order-md-1">
+            <div class="col-md-9 order-md-1">
                 <div class="mb-3">
                 {% if collection['sets']['genesets'] %}
                     {% for set in collection['sets']['genesets'] %}
