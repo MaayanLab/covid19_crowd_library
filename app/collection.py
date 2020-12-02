@@ -12,24 +12,16 @@ def get_collection(id):
     try:
         sess = Session()
         r = {'sets': {'drugsets': [], 'genesets': []}}
-        drugsets = []
-        dsids_q = sess.query(SetsCollections).filter(SetsCollections.collection_id == id).filter(
-            SetsCollections.type == 0)
-        drugset_ids = [ds.set_id for ds in dsids_q if dsids_q.first() != None]
-        if drugset_ids:
-            drugsets = [sess.query(Drugset).filter(Drugset.id == drugset_id).first().jsonify() for drugset_id in drugset_ids]
-        genesets = []
-        gsids_q = sess.query(SetsCollections).filter(SetsCollections.collection_id == id).filter(
-            SetsCollections.type == 1)
-        geneset_ids = [gs.set_id for gs in gsids_q if gsids_q.first() != None]
-        if geneset_ids:
-            genesets = [sess.query(Geneset).filter(Geneset.id == geneset_id).first().jsonify() for geneset_id in geneset_ids]
 
+        r['sets']['drugsets'] = [ds.jsonify() for ds in
+                    sess.query(Drugset).join(SetsCollections, Drugset.id == SetsCollections.set_id).filter(
+                        SetsCollections.type == 0).filter(SetsCollections.collection_id == id)]
+        r['sets']['genesets'] = [gs.jsonify() for gs in
+                    sess.query(Geneset).join(SetsCollections, Geneset.id == SetsCollections.set_id).filter(
+                        SetsCollections.type == 1).filter(SetsCollections.collection_id == id)]
         r['name'] = sess.query(Collections).filter(Collections.id == id).first().name
         r['description'] = sess.query(Collections).filter(Collections.id == id).first().description
         sess.close()
-        r['sets']['drugsets'] = drugsets
-        r['sets']['genesets'] = genesets
         return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
     except Exception as e:
         traceback.print_exc()
