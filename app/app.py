@@ -227,6 +227,6 @@ def route_drugsets_submissions():
 def route_collection(collection_id):
     collections = collection.get_collection(int(collection_id))
     if collections[1] == 200:
-        return flask.render_template('collection.html', drugset=json.loads(collections[0]), base_path=BASE_PATH)
+        return flask.render_template('collection.html', collection=json.loads(collections[0]), base_path=BASE_PATH)
     else:
-        return flask.render_template('collection.html', error=collections[2])
+        return flask.render_template('404.html', error=collections[2])

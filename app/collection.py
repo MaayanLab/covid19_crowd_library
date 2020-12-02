@@ -3,14 +3,14 @@ import traceback
 from itertools import combinations
 import sqlalchemy as sa
 from app.database import Session
-from app.models import SetsCollections, Drugset, Geneset
+from app.models import Collections, SetsCollections, Drugset, Geneset
 from app.datatables import serve_datatable
 
 
 def get_collection(id):
     try:
         sess = Session()
-        r = []
+        r = {'sets': []}
         drugsets = []
         dsids_q = sess.query(SetsCollections).filter(SetsCollections.collection_id == id).filter(
             SetsCollections.type == 0)
@@ -24,9 +24,11 @@ def get_collection(id):
         if geneset_ids:
             genesets = [sess.query(Geneset).filter(Geneset.id == geneset_id).first().jsonify() for geneset_id in geneset_ids]
 
+        r['size'] = len(genesets) + len(drugsets)
+        r['desc'] = sess.query(Collections).filter(Collections.id == id).first().description
         sess.close()
-        r.extend(drugsets)
-        r.extend(genesets)
+        r['sets'].extend(drugsets)
+        r['sets'].extend(genesets)
         return json.dumps(r, default=str), 200, {'ContentType': 'application/json'}
     except Exception as e:
         traceback.print_exc()

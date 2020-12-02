@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>404</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block og %}
+    <meta property="og:url" content="https://{{ base_path }}/covid19"/>
+    <meta property="og:title" content="The COVID-19 Drug and Gene Set Library"/>
+    <meta property="og:description"
+          content="A collection of drug and gene sets related to COVID-19 research contributed by the community"/>
+{% endblock %}
+{% block head %}
+    <title>The COVID-19 Drug and Gene Set Library</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <p>{{ error }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
