@@ -40,22 +40,16 @@
             <div class="col-md-9 order-md-1">
                 <div class="mb-3">
                 {% if collection['sets']['genesets'] %}
-                    {% for set in collection['sets']['genesets'] %}
-                        <a class="enriched-set-link" href="https://{{ base_path }}/covid19/genesets/{{ set }}"
-                           target="_blank">{{ set }}</a>
-                    {% endfor %}
+                    <div class="container-fluid" style="display: block">
+                        <table id="collection_geneset_table" class="table compact hover order-column row-border" style="width:100%">
+                        </table>
+                    </div>
                 {% endif %}
                 {% if collection['sets']['drugsets'] %}
                     <div class="container-fluid" style="display: block">
                         <table id="collection_drugset_table" class="table compact hover order-column row-border" style="width:100%">
                         </table>
                     </div>
-
-{#                    {% for set in collection['sets']['drugsets'] %}#}
-{#                        <a class="drug-link" href="https://{{ base_path }}/covid19/drugsets/{{ set }}"#}
-{#                           target="_blank">{{ set }}</a>#}
-{#                    {% endfor %}#}
-
                 {% endif %}
                 </div>
             </div>
@@ -96,6 +90,7 @@
     <script>
         $(document).ready(function () {
             ds_drawTable('{{ url_for("route_collection_drugsets_table") }}', 'collection_drugset_table', 1, '{{ url_for("route_overlap_drugsets") }}', 0, 5);
+            gs_drawTable('{{ url_for("route_collection_genesets_table") }}', 1, '{{ url_for("route_overlap_genesets") }}', 'collection_geneset_table', 6);
         });
     </script>
 {% endblock %}

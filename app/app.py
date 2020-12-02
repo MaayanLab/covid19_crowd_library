@@ -231,13 +231,24 @@ def route_collection(collection_id):
     else:
         return flask.render_template('404.html', error=collections[2])
 
+
 @app.route(ROOT_PATH + 'collection_drugsets_table', methods=['POST'])
 def route_collection_drugsets_table():
     collection_id = int(flask.request.values.get('collection', default=0))
-    print()
     if collection:
         return collection.serve_collection_drugset_filtered_datatable(collection_id)(
             **json.loads(flask.request.values.get('body')))
     else:
         return collection.serve_collection_drugset_datatable(collection_id)(
+            **json.loads(flask.request.values.get('body')))
+
+
+@app.route(ROOT_PATH + 'collection_genesets_table', methods=['POST'])
+def route_collection_genesets_table():
+    collection_id = int(flask.request.values.get('collection', default=0))
+    if collection:
+        return collection.serve_collection_geneset_filtered_datatable(collection_id)(
+            **json.loads(flask.request.values.get('body')))
+    else:
+        return collection.serve_collection_geneset_datatable(collection_id)(
             **json.loads(flask.request.values.get('body')))

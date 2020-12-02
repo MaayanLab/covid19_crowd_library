@@ -145,3 +145,121 @@ serve_collection_drugset_filtered_datatable = lambda collection_id: serve_datata
         for record in qs
     ]
 )
+
+serve_collection_geneset_datatable = lambda collection_id: serve_datatable(
+    lambda sess, collection_id=collection_id: sess.query(Geneset).join(SetsCollections, Geneset.id == SetsCollections.set_id).filter(SetsCollections.type == 0).filter(SetsCollections.collection_id == collection_id),
+    [
+        (Geneset.id, 'id'),
+        (Geneset.enrichrShortId, 'enrichrShortId'),
+        (Geneset.enrichrUserListId, 'enrichrUserListId'),
+        (Geneset.descrShort, 'descrShort'),
+        (Geneset.descrFull, 'descrFull'),
+        (Geneset.genes, 'gene'),
+        (Geneset.authorName, 'authorName'),
+        (Geneset.authorAffiliation, 'authorAffiliation'),
+        (Geneset.authorEmail, 'authorEmail'),
+        (Geneset.source, 'source'),
+        (Geneset.date, 'date'),
+        (Geneset.showContacts, 'showContacts'),
+        (Geneset.meta, 'meta'),
+        (Geneset.category, 'category'),
+    ],
+    lambda sess, s: sa.or_(
+        Geneset.id.in_(
+            sess.query(GenesetGene.geneset) \
+                .join(Gene, Gene.id == GenesetGene.gene) \
+                .filter(Gene.symbol.like(f'{s}%'))
+        ),
+        Geneset.descrShort.like(f'%{s}%'),
+        Geneset.descrFull.like(f'%{s}%'),
+        Geneset.source.like(f'%{s}%'),
+        Geneset.meta.like(f'%{s}%'),
+        Geneset.date.like(f'%{s}%'),
+        sa.and_(
+            Geneset.showContacts == 1,
+            sa.or_(
+                Geneset.authorName.like(f'%{s}%'),
+                Geneset.authorAffiliation.like(f'%{s}%'),
+                Geneset.authorEmail.like(f'%{s}%'),
+            ),
+        ),
+    ),
+    lambda qs: [
+        {
+            'id': record.id,
+            'enrichrShortId': record.enrichrShortId,
+            'enrichrUserListId': record.enrichrUserListId,
+            'descrShort': record.descrShort,
+            'descrFull': record.descrFull,
+            'genes': [gene.symbol for gene in record.genes],
+            'authorName': record.authorName if record.showContacts else '',
+            'authorAffiliation': record.authorAffiliation if record.showContacts else '',
+            'authorEmail': record.authorEmail if record.showContacts else '',
+            'source': record.source,
+            'date': record.date,
+            'showContacts': record.showContacts,
+            'meta': record.meta,
+            'category': record.category,
+        }
+        for record in qs
+    ]
+)
+
+serve_collection_geneset_filtered_datatable = lambda collection_id: serve_datatable(
+    lambda sess, collection_id=collection_id: sess.query(Geneset).join(SetsCollections, Geneset.id == SetsCollections.set_id).filter(SetsCollections.type == 0).filter(SetsCollections.collection_id == collection_id),
+    [
+        (Geneset.id, 'id'),
+        (Geneset.enrichrShortId, 'enrichrShortId'),
+        (Geneset.enrichrUserListId, 'enrichrUserListId'),
+        (Geneset.descrShort, 'descrShort'),
+        (Geneset.descrFull, 'descrFull'),
+        (Geneset.genes, 'genes'),
+        (Geneset.authorName, 'authorName'),
+        (Geneset.authorAffiliation, 'authorAffiliation'),
+        (Geneset.authorEmail, 'authorEmail'),
+        (Geneset.source, 'source'),
+        (Geneset.date, 'date'),
+        (Geneset.showContacts, 'showContacts'),
+        (Geneset.meta, 'meta'),
+        (Geneset.category, 'category'),
+    ],
+    lambda sess, s: sa.or_(
+        Geneset.id.in_(
+            sess.query(GenesetGene.geneset) \
+                .join(Gene, Gene.id == GenesetGene.gene) \
+                .filter(Gene.symbol.like(f'{s}%'))
+        ),
+        Geneset.descrShort.like(f'%{s}%'),
+        Geneset.descrFull.like(f'%{s}%'),
+        Geneset.source.like(f'%{s}%'),
+        Geneset.meta.like(f'%{s}%'),
+        Geneset.date.like(f'%{s}%'),
+        sa.and_(
+            Geneset.showContacts == 1,
+            sa.or_(
+                Geneset.authorName.like(f'%{s}%'),
+                Geneset.authorAffiliation.like(f'%{s}%'),
+                Geneset.authorEmail.like(f'%{s}%'),
+            ),
+        ),
+    ),
+    lambda qs: [
+        {
+            'id': record.id,
+            'enrichrShortId': record.enrichrShortId,
+            'enrichrUserListId': record.enrichrUserListId,
+            'descrShort': record.descrShort,
+            'descrFull': record.descrFull,
+            'genes': [gene.symbol for gene in record.genes],
+            'authorName': record.authorName if record.showContacts else '',
+            'authorAffiliation': record.authorAffiliation if record.showContacts else '',
+            'authorEmail': record.authorEmail if record.showContacts else '',
+            'source': record.source,
+            'date': record.date,
+            'showContacts': record.showContacts,
+            'meta': record.meta,
+            'category': record.category,
+        }
+        for record in qs
+    ]
+)

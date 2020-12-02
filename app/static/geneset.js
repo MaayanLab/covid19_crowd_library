@@ -18,7 +18,7 @@ function urlfy(source) {
     return source.replace(r, '<a href="$&" target="_blank">$&</a>')
 }
 
-function gs_drawTable(url, reviewed, overlap_url) {
+function gs_drawTable(url, reviewed, overlap_url, wrapper='geneset_table', collection = 0) {
     let columns = [
         {
             data: null,
@@ -121,7 +121,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
     }
 
 
-    let table = $('#geneset_table').DataTable({
+    let table = $(`#${wrapper}`).DataTable({
         autoWidth: false,
         width: '100%',
         responsive: true,
@@ -155,7 +155,7 @@ function gs_drawTable(url, reviewed, overlap_url) {
             url: url,
             type: 'POST',
             data: function (args) {
-                return { body: JSON.stringify(args), reviewed: reviewed };
+                return { body: JSON.stringify(args), reviewed: reviewed, collection: collection };
             }
         },
         select: {
