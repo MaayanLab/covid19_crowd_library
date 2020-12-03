@@ -162,7 +162,6 @@ serve_geneset_datatable = lambda reviewed: serve_datatable(
 
 
 def get_intersection(ids=[]):
-    print(ids)
     genesets = []
     labels = []
     for geneset_id in ids:

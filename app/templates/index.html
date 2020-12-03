@@ -282,7 +282,6 @@
             window.drugSetMetaCounter = counter(0);
             window.geneSetMetaCounter = counter(0);
             $.get('genesets/submissions', function (data) {
-                console.log(data);
                 spark(cumulative_sum(JSON.parse(data)['data']), '#genesets_spark_total', 'total');
                 spark(JSON.parse(data)['data'], '#genesets_spark_daily', 'today');
                 $('#genesets_spark_daily').hide();

@@ -298,7 +298,6 @@ def get_intersection(ids=[]):
             data = {
                 "sets": []
             }
-            print(c)
             for d in c:
                 data["sets"].append(d["descrShort"])
                 if not "intersection" in data:

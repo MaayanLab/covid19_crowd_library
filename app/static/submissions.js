@@ -69,8 +69,6 @@ spark = (data, wrapper, label, dim = {width: 100, height: 30}) => {
         .style("fill", style.circle.fill)
         .style("stroke", style.circle.stroke);
 
-    console.log(data[data.length-1])
-
     if (label === 'today') {
         let today = new Date()
         today.setTime(today.getTime() + today.getTimezoneOffset()*60*1000)

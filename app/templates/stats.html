@@ -272,7 +272,6 @@
             });
 
             $.get('top_drugs', function (data) {
-                console.log(JSON.parse(data)['data'])
                 chart(JSON.parse(data)['data'], 'drugs_all', 20, "#ff8080");
             });
 

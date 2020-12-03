@@ -147,14 +147,14 @@ serve_collection_drugset_filtered_datatable = lambda collection_id: serve_datata
 )
 
 serve_collection_geneset_datatable = lambda collection_id: serve_datatable(
-    lambda sess, collection_id=collection_id: sess.query(Geneset).join(SetsCollections, Geneset.id == SetsCollections.set_id).filter(SetsCollections.type == 0).filter(SetsCollections.collection_id == collection_id),
+    lambda sess, collection_id=collection_id: sess.query(Geneset).join(SetsCollections, Geneset.id == SetsCollections.set_id).filter(SetsCollections.type == 1).filter(SetsCollections.collection_id == collection_id),
     [
         (Geneset.id, 'id'),
         (Geneset.enrichrShortId, 'enrichrShortId'),
         (Geneset.enrichrUserListId, 'enrichrUserListId'),
         (Geneset.descrShort, 'descrShort'),
         (Geneset.descrFull, 'descrFull'),
-        (Geneset.genes, 'gene'),
+        (Geneset.genes, 'genes'),
         (Geneset.authorName, 'authorName'),
         (Geneset.authorAffiliation, 'authorAffiliation'),
         (Geneset.authorEmail, 'authorEmail'),
@@ -206,7 +206,7 @@ serve_collection_geneset_datatable = lambda collection_id: serve_datatable(
 )
 
 serve_collection_geneset_filtered_datatable = lambda collection_id: serve_datatable(
-    lambda sess, collection_id=collection_id: sess.query(Geneset).join(SetsCollections, Geneset.id == SetsCollections.set_id).filter(SetsCollections.type == 0).filter(SetsCollections.collection_id == collection_id),
+    lambda sess, collection_id=collection_id: sess.query(Geneset).join(SetsCollections, Geneset.id == SetsCollections.set_id).filter(SetsCollections.type == 1).filter(SetsCollections.collection_id == collection_id),
     [
         (Geneset.id, 'id'),
         (Geneset.enrichrShortId, 'enrichrShortId'),

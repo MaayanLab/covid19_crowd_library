@@ -169,7 +169,6 @@ def download_twitter():
 @app.route(ROOT_PATH + 'genesets/overlap/<ids>')
 def route_overlap_genesets(ids=None):
     if ids:
-        print(len(ids.split(",")))
         # if len(ids.split(",")) > 5:
         #     return flask.render_template('venn.html', type="Gene set", maxError=True)
         # else:
@@ -192,7 +191,6 @@ def route_overlap_genesets(ids=None):
 @app.route(ROOT_PATH + 'drugsets/overlap/<ids>')
 def route_overlap_drugsets(ids=None):
     if ids:
-        # print(len(ids.split(",")))
         # if len(ids.split(",")) > 5:
         #     return flask.render_template('venn.html', type="Drug-set", maxError=True)
         # else:
