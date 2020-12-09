@@ -250,3 +250,10 @@ def route_collection_genesets_table():
     else:
         return collection.serve_collection_geneset_datatable(collection_id)(
             **json.loads(flask.request.values.get('body')))
+
+@app.route(ROOT_PATH + 'top_coll', methods=['GET'])
+@app.route(ROOT_PATH + 'top_coll/<collection_id>', methods=['GET'])
+def route_top_coll(collection_id):
+    if collection_id:
+        return json.dumps({'success': True, 'data': statistics.top_coll(collection_id)}), 200, {
+            'ContentType': 'application/json'}

@@ -1,7 +1,10 @@
+from collections import Counter
+
 import sqlalchemy as sa
+
 from app.database import Session
-from app.models import Geneset, GenesetGene, Gene, Drugset, DrugsetDrug, Drug
 from app.datatables import serve_datatable
+from app.models import SetsCollections, Gene, Geneset, GenesetGene, Drug, Drugset, DrugsetDrug
 
 gene_count = sa.func.count(Gene.id)
 drug_count = sa.func.count(Drug.id)
@@ -109,13 +112,35 @@ def top_drugs_categories(category, post):
 
 def genesets_submissions():
     sess = Session()
-    q = sess.query(sa.cast(Geneset.date, sa.Date).label('date'), sa.func.count(sa.cast(Geneset.date, sa.Date)).label('count')).group_by(sa.cast(Geneset.date, sa.Date)).filter(Geneset.reviewed == 1)
+    q = sess.query(sa.cast(Geneset.date, sa.Date).label('date'),
+                   sa.func.count(sa.cast(Geneset.date, sa.Date)).label('count')).group_by(
+        sa.cast(Geneset.date, sa.Date)).filter(Geneset.reviewed == 1)
     sess.close()
     return list(map(lambda x: {'date': str(x), 'count': dict(q)[x]}, dict(q)))
 
 
 def drugsets_submissions():
     sess = Session()
-    q = sess.query(sa.cast(Drugset.date, sa.Date).label('date'), sa.func.count(sa.cast(Drugset.date, sa.Date)).label('count')).group_by(sa.cast(Drugset.date, sa.Date)).filter(Drugset.reviewed == 1)
+    q = sess.query(sa.cast(Drugset.date, sa.Date).label('date'),
+                   sa.func.count(sa.cast(Drugset.date, sa.Date)).label('count')).group_by(
+        sa.cast(Drugset.date, sa.Date)).filter(Drugset.reviewed == 1)
     sess.close()
     return list(map(lambda x: {'date': str(x), 'count': dict(q)[x]}, dict(q)))
+
+
+def top_coll(collection_id):
+    sess = Session()
+    drugs = sess.query(Drug.symbol).join(DrugsetDrug, Drug.id == DrugsetDrug.drug).join(Drugset,
+                                                                                        Drugset.id == DrugsetDrug.drugset).join(
+        SetsCollections, Drugset.id == SetsCollections.set_id).filter(
+        SetsCollections.type == 0).filter(SetsCollections.collection_id == collection_id)
+
+    # Use Python's counter cause SQLs counter in SQLAlchemy is slow
+    drugs_freq = [{'symbol': t[0], 'count': t[1]} for t in Counter(drugs).most_common()[:20]]
+    genes = sess.query(Gene.symbol).join(GenesetGene, Gene.id == GenesetGene.gene).join(Geneset,
+                                                                                        Geneset.id == GenesetGene.geneset).join(
+        SetsCollections, Geneset.id == SetsCollections.set_id).filter(
+        SetsCollections.type == 1).filter(SetsCollections.collection_id == collection_id)
+    genes_freq = [{'symbol': t[0], 'count': t[1]} for t in Counter(genes).most_common()[:20]]
+    sess.close()
+    return {'top_drugs': drugs_freq, 'top_genes': genes_freq}

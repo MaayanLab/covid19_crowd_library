@@ -1,11 +1,10 @@
-function chart(data, type, numBar, fill) {
+function chart(data, type, numBar, fill, width = 600) {
     const svg_wrapper = `#${type}_bargraph`
     data = data.sort((a, b) => d3.descending(a.count, b.count)).slice(0, numBar);
     data.format = "d"
     const margin = ({top: 20, right: 30, bottom: 20, left: 100})
     const barHeight = 16
-    const width = 600;
-    const height = Math.ceil((data.length + 0.1) * barHeight) + margin.top + margin.bottom
+    height = Math.ceil((data.length + 0.1) * barHeight) + margin.top + margin.bottom
 
     const x = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.count)])

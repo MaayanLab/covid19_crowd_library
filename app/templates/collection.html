@@ -36,27 +36,41 @@
                         </div>
                     </li>
                 </ul>
+
+                {% if collection['sets']['genesets'] %}
+                    <h5 class="mb-4">Top 10 genes</h5>
+                    <svg id="top_genes_coll_bargraph"></svg>
+                {% endif %}
+
+                {% if collection['sets']['drugsets'] %}
+                    <h5 class="mb-4">Top 10 drugs</h5>
+                    <svg id="top_drugs_coll_bargraph"></svg>
+                {% endif %}
+
+
             </div>
             <div class="col-md-9 order-md-1">
                 <div class="mb-3">
-                {% if collection['sets']['genesets'] %}
-                    {% if collection['sets']['drugsets'] and collection['sets']['drugsets'] %}
-                        <h4 class="mb-4">Gene sets</h4>
+                    {% if collection['sets']['genesets'] %}
+                        {% if collection['sets']['drugsets'] %}
+                            <h4 class="mb-4">Gene sets</h4>
+                        {% endif %}
+                        <div class="container-fluid" style="display: block">
+                            <table id="collection_geneset_table" class="table compact hover order-column row-border"
+                                   style="width:100%">
+                            </table>
+                        </div>
                     {% endif %}
-                    <div class="container-fluid" style="display: block">
-                        <table id="collection_geneset_table" class="table compact hover order-column row-border" style="width:100%">
-                        </table>
-                    </div>
-                {% endif %}
-                {% if collection['sets']['drugsets'] %}
-                    {% if collection['sets']['drugsets'] and collection['sets']['drugsets'] %}
-                        <h4 class="mb-4">Drug sets</h4>
+                    {% if collection['sets']['drugsets'] %}
+                        {% if collection['sets']['genesets'] %}
+                            <h4 class="mb-4">Drug sets</h4>
+                        {% endif %}
+                        <div class="container-fluid" style="display: block">
+                            <table id="collection_drugset_table" class="table compact hover order-column row-border"
+                                   style="width:100%">
+                            </table>
+                        </div>
                     {% endif %}
-                    <div class="container-fluid" style="display: block">
-                        <table id="collection_drugset_table" class="table compact hover order-column row-border" style="width:100%">
-                        </table>
-                    </div>
-                {% endif %}
                 </div>
             </div>
         </div>
@@ -75,13 +89,15 @@
         </div>
         <div class="row my-2 ml-2">
             <!-- LinkedIn share button -->
-            <script type="IN/Share" data-url="https://{{ base_path }}/covid19/collections/{{ collection['id'] }}"></script>
+            <script type="IN/Share"
+                    data-url="https://{{ base_path }}/covid19/collections/{{ collection['id'] }}"></script>
         </div>
         <!-- Facebook share button -->
         <div class="row my-2 ml-2">
             <div class="fb-share-button" data-href="https://{{ base_path }}/covid19/collections/{{ collection['id'] }}"
                  data-layout="button" data-size="small">
-                <div class="fb-share-button" data-href="https://{{ base_path }}/covid19/collections/{{ collection['id'] }}"
+                <div class="fb-share-button"
+                     data-href="https://{{ base_path }}/covid19/collections/{{ collection['id'] }}"
                      data-layout="button"
                      data-size="small">
                     <a target="_blank"
@@ -93,10 +109,15 @@
 {% endblock %}
 
 {% block script %}
+    <script type="text/javascript" src="{{ url_for('static', filename='bargraph.js') }}"></script>
     <script>
         $(document).ready(function () {
             ds_drawTable('{{ url_for("route_collection_drugsets_table") }}', 'collection_drugset_table', 1, '{{ url_for("route_overlap_drugsets") }}', 0, {{ collection['id'] }});
             gs_drawTable('{{ url_for("route_collection_genesets_table") }}', 1, '{{ url_for("route_overlap_genesets") }}', 'collection_geneset_table', {{ collection['id'] }});
+            $.get(`{{ url_for("route_top_coll") }}/{{ collection['id'] }}`, function (data) {
+                chart(JSON.parse(data)['data']['top_genes'], 'top_genes_coll', 10, "#3e8cd6", 250);
+                chart(JSON.parse(data)['data']['top_drugs'], 'top_drugs_coll', 10, "#ff8080", 250);
+            });
         });
     </script>
 {% endblock %}
