@@ -29,6 +29,14 @@ def get_collection(id):
         return json.dumps({'error': str(e)}), 404, {'ContentType': 'application/json'}
 
 
+def get_collections_sizes():
+    # It's a draft/idae. It doesn't work
+    sess = Session()
+    collections = sess.query(Collections)
+    for collection in collections:
+        coll_size = sess.query(SetsCollections).filter(SetsCollections.collection_id == collection.id)
+    return None
+
 serve_collection_drugset_datatable = lambda collection_id: serve_datatable(
     lambda sess, collection_id=collection_id: sess.query(Drugset).filter(SetsCollections.type == 0).filter(SetsCollections.collection_id == collection_id).join(SetsCollections, Drugset.id == SetsCollections.set_id),
     [
