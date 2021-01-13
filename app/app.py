@@ -16,7 +16,11 @@ app.before_first_request(database.init)
 
 @app.route(ROOT_PATH, methods=['GET'])
 def route_index():
-    return flask.render_template('index.html', stats=statistics.stats(), base_path=BASE_PATH)
+    drug_coll_size = len(json.loads(collection.get_collection(5)[0])['sets']['drugsets'])
+    deg_coll_size = len(json.loads(collection.get_collection(7)[0])['sets']['genesets'])
+    crispr_coll_size = len(json.loads(collection.get_collection(6)[0])['sets']['genesets'])
+    return flask.render_template('index.html', stats=statistics.stats(),
+                                 collections=[drug_coll_size, deg_coll_size, crispr_coll_size], base_path=BASE_PATH)
 
 
 @app.route(ROOT_PATH + 'genesets_table', methods=['POST'])
@@ -250,6 +254,7 @@ def route_collection_genesets_table():
     else:
         return collection.serve_collection_geneset_datatable(collection_id)(
             **json.loads(flask.request.values.get('body')))
+
 
 @app.route(ROOT_PATH + 'top_coll', methods=['GET'])
 @app.route(ROOT_PATH + 'top_coll/<collection_id>', methods=['GET'])
