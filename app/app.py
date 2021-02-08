@@ -16,6 +16,7 @@ app.before_first_request(database.init)
 
 @app.route(ROOT_PATH, methods=['GET'])
 def route_index():
+    # TODO add collection size from a separate function
     # drug_coll_size = len(json.loads(collection.get_collection(5)[0])['sets']['drugsets'])
     # deg_coll_size = len(json.loads(collection.get_collection(7)[0])['sets']['genesets'])
     # crispr_coll_size = len(json.loads(collection.get_collection(6)[0])['sets']['genesets'])

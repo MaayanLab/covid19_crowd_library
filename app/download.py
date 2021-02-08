@@ -1,6 +1,8 @@
 from app.database import Session
 from app.models import Geneset, Drugset
 
+# TODO add dowlnoads for collections
+
 
 def genesets(category=0):
     sess = Session()
