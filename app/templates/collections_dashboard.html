@@ -1,58 +1,251 @@
 {% block collections %}
-    <div class="row justify-content-center m-3">
+    <div class="row justify-content-center mt-3 mb-5">
         <div class="col-10">
+            {#            <div class="row">#}
+            {#                <div class="card-deck">#}
+            {#                    <div class="card border-drug h-100">#}
+            {#                        <div class="card-body">#}
+            {#                            <a href="collection/5"><span class="h4">16 </span><span class="h5">in-vitro drug screen drug sets</span></a>#}
+            {#                            <p class="card-text mt-3">In-vitro drug screens to identify compounds that block SARS-CoV-2#}
+            {#                                replication in cell-based reporter assays.</p>#}
+            {#                        </div>#}
+            {#                        <div class="card-footer footer-drug">#}
+            {#                            <a data-toggle="tooltip" title="Open Drugmonizome Consensus Terms appyter"#}
+            {#                               href="https://appyters.maayanlab.cloud/Drugmonizome_Consensus_Terms/f897f1cb-c9cf-4976-bff0-c5c748ee9361/"#}
+            {#                               class="card-link" target="_blank"><i class="fas fa-book"></i></a>#}
+            {#                            <a data-toggle="tooltip" title="Download a .gmt file"#}
+            {#                               href="static/SARS-CoV-2_In-Vitro_Drug_Screens_v2_02-08-21.gmt"#}
+            {#                               download="static/SARS-CoV-2_In-Vitro_Drug_Screens_v1_11-09-20.gmt" class="card-link"><i#}
+            {#                                    class="fas fa-download"></i></a>#}
+            {#                            <a data-toggle="tooltip" title="Open a spreadsheet with metadata"#}
+            {#                               href="https://docs.google.com/spreadsheets/d/16Vt40I8nZgaPhIXYwsJp4iZ-T0jdYukBMb5bNp_2VwA/edit#gid=0"#}
+            {#                               class="card-link">#}
+            {#                                <i class="fas fa-table"></i></a>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                    <div class="card border-gene h-100">#}
+            {#                        <div class="card-body">#}
+            {#                            <a href="collection/7"><span class="h4">106 </span><span class="h5">differential expression signatures gene sets</span></a>#}
+            {#                            <p class="card-text mt-3">Genome-wide differentially expressed genes in cells and tissues due to#}
+            {#                                SARS-CoV-2 infection profiled with RNA-seq.</p>#}
+            {#                        </div>#}
+            {#                        <div class="card-footer footer-gene">#}
+            {#                            <a data-toggle="tooltip" title="Open Enrichr Consensus Terms appyter"#}
+            {#                               href="https://appyters.maayanlab.cloud/Enrichr_Consensus_Terms/831b6368-2f38-49d2-ae00-4cb9ed5851d7/"#}
+            {#                               class="card-link" target="_blank"><i#}
+            {#                                    class="fas fa-book"></i></a>#}
+            {#                            <a data-toggle="tooltip" title="Open L1000FWD Consensus Drugs appyter"#}
+            {#                               href="https://appyters.maayanlab.cloud/L1000FWD_Consensus_Drugs/a61b19548571cb49512e9e28355adc6d382597dd/"#}
+            {#                               class="card-link" target="_blank"><i#}
+            {#                                    class="fas fa-book"></i></a>#}
+            {#                            <a data-toggle="tooltip" title="Download a .gmt file"#}
+            {#                               href="static/SARS-CoV-2_RNAseq_Datasets_v3_11-09-20.gmt"#}
+            {#                               download="static/SARS-CoV-2_RNAseq_Datasets_v3_11-09-20.gmt" class="card-link"><i#}
+            {#                                    class="fas fa-download"></i></a>#}
+            {#                            <a data-toggle="tooltip" title="Open a spreadsheet with metadata"#}
+            {#                               href="https://docs.google.com/spreadsheets/d/115J_ALPIpdL80HNKFSl7eUk44MuEerBX-FFuZYIKejs/edit#gid=266904314"#}
+            {#                               class="card-link">#}
+            {#                                <i class="fas fa-table"></i></a>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                    <div class="card border-gene h-100">#}
+            {#                        <div class="card-body">#}
+            {#                            <a href="collection/6"><span class="h4">17 </span><span#}
+            {#                                    class="h5">CRISPR screen gene sets</span></a>#}
+            {#                            <p class="card-text mt-3">Genome-wide CRISPR screens to identify hits that increase or decrease#}
+            {#                                SARS-CoV-2 proliferation in cell-based assays.</p>#}
+            {#                        </div>#}
+            {#                        <div class="card-footer footer-gene">#}
+            {#                            <a data-toggle="tooltip" title="Open Enrichr Consensus Terms appyter"#}
+            {#                               href="https://appyters.maayanlab.cloud/Enrichr_Consensus_Terms/b29a835e-e1f2-4fff-816c-972c1f69805b/"#}
+            {#                               class="card-link" target="_blank"><i#}
+            {#                                    class="fas fa-book"></i></a>#}
+            {#                            <a data-toggle="tooltip" title="Download a .gmt file"#}
+            {#                               href="static/GenomeWideCRISPR-Screens_GeneSets_Composite_SARS-CoV-2_v1_10-29-20.gmt"#}
+            {#                               download="static/GenomeWideCRISPR-Screens_GeneSets_Composite_SARS-CoV-2_v1_10-29-20.gmt"#}
+            {#                               class="card-link"><i class="fas fa-download"></i></a>#}
+            {#                            <a data-toggle="tooltip" title="Open a spreadsheet with metadata"#}
+            {#                               href="https://docs.google.com/spreadsheets/d/1LtyZgvoYBONt1lK6oZiQzBrQWXjCBGfedamb0GV93JI/"#}
+            {#                               class="card-link">#}
+            {#                                <i class="fas fa-table"></i></a>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                    <div class="card border-gene h-100">#}
+            {#                        <div class="card-body">#}
+            {#                            <a href="collection/6"><span class="h4">17 </span><span#}
+            {#                                    class="h5">CRISPR screen gene sets</span></a>#}
+            {#                            <p class="card-text mt-3">Genome-wide CRISPR screens to identify hits that increase or decrease#}
+            {#                                SARS-CoV-2 proliferation in cell-based assays.</p>#}
+            {#                        </div>#}
+            {#                        <div class="card-footer footer-gene">#}
+            {#                            <a data-toggle="tooltip" title="Open Enrichr Consensus Terms appyter"#}
+            {#                               href="https://appyters.maayanlab.cloud/Enrichr_Consensus_Terms/b29a835e-e1f2-4fff-816c-972c1f69805b/"#}
+            {#                               class="card-link" target="_blank"><i#}
+            {#                                    class="fas fa-book"></i></a>#}
+            {#                            <a data-toggle="tooltip" title="Download a .gmt file"#}
+            {#                               href="static/GenomeWideCRISPR-Screens_GeneSets_Composite_SARS-CoV-2_v1_10-29-20.gmt"#}
+            {#                               download="static/GenomeWideCRISPR-Screens_GeneSets_Composite_SARS-CoV-2_v1_10-29-20.gmt"#}
+            {#                               class="card-link"><i class="fas fa-download"></i></a>#}
+            {#                            <a data-toggle="tooltip" title="Open a spreadsheet with metadata"#}
+            {#                               href="https://docs.google.com/spreadsheets/d/1LtyZgvoYBONt1lK6oZiQzBrQWXjCBGfedamb0GV93JI/"#}
+            {#                               class="card-link">#}
+            {#                                <i class="fas fa-table"></i></a>#}
+            {#                        </div>#}
+            {#                    </div>                    #}
+            {#                </div>#}
+            {#            </div>#}
             <div class="row">
-                <div class="card-deck">
-                    <div class="card border-drug h-100">
-                        <div class="card-body">
-                            <a href="collection/5"><span class="h4">16 </span><span class="h5">in-vitro drug screen drug sets</span></a>
-                            <p class="card-text">In-vitro drug screens to identify compounds that block SARS-CoV-2
-                                replication in cell-based reporter assays.</p>
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators" style="position: absolute; bottom: -50px">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"
+                            style="background-color: black;"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1"
+                            style="background-color: black;"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <div class="card border-drug h-100">
+                                        <div class="card-body">
+                                            <a href="collection/5"><span class="h4">16 </span><span class="h5">in-vitro drug screen drug sets</span></a>
+                                            <p class="card-text mt-3">In-vitro drug screens to identify compounds that
+                                                block
+                                                SARS-CoV-2
+                                                replication in cell-based reporter assays.</p>
+                                        </div>
+                                        <div class="card-footer footer-drug">
+                                            <a data-toggle="tooltip" title="Open Drugmonizome Consensus Terms appyter"
+                                               href="https://appyters.maayanlab.cloud/Drugmonizome_Consensus_Terms/f897f1cb-c9cf-4976-bff0-c5c748ee9361/"
+                                               class="card-link" target="_blank"><i class="fas fa-book"></i></a>
+                                            <a data-toggle="tooltip" title="Download a .gmt file"
+                                               href="static/SARS-CoV-2_In-Vitro_Drug_Screens_v2_02-08-21.gmt"
+                                               download="static/SARS-CoV-2_In-Vitro_Drug_Screens_v1_11-09-20.gmt"
+                                               class="card-link"><i
+                                                    class="fas fa-download"></i></a>
+                                            <a data-toggle="tooltip" title="Open a spreadsheet with metadata"
+                                               href="https://docs.google.com/spreadsheets/d/16Vt40I8nZgaPhIXYwsJp4iZ-T0jdYukBMb5bNp_2VwA/edit#gid=0"
+                                               class="card-link">
+                                                <i class="fas fa-table"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <div class="card border-gene h-100">
+                                        <div class="card-body">
+                                            <a href="collection/7"><span class="h4">106 </span><span class="h5">differential expression signatures gene sets</span></a>
+                                            <p class="card-text mt-3">Genome-wide differentially expressed genes in
+                                                cells and tissues
+                                                due to
+                                                SARS-CoV-2 infection profiled with RNA-seq.</p>
+                                        </div>
+                                        <div class="card-footer footer-gene">
+                                            <a data-toggle="tooltip" title="Open Enrichr Consensus Terms appyter"
+                                               href="https://appyters.maayanlab.cloud/Enrichr_Consensus_Terms/831b6368-2f38-49d2-ae00-4cb9ed5851d7/"
+                                               class="card-link" target="_blank"><i
+                                                    class="fas fa-book"></i></a>
+                                            <a data-toggle="tooltip" title="Open L1000FWD Consensus Drugs appyter"
+                                               href="https://appyters.maayanlab.cloud/L1000FWD_Consensus_Drugs/a61b19548571cb49512e9e28355adc6d382597dd/"
+                                               class="card-link" target="_blank"><i
+                                                    class="fas fa-book"></i></a>
+                                            <a data-toggle="tooltip" title="Download a .gmt file"
+                                               href="static/SARS-CoV-2_RNAseq_Datasets_v3_11-09-20.gmt"
+                                               download="static/SARS-CoV-2_RNAseq_Datasets_v3_11-09-20.gmt"
+                                               class="card-link"><i
+                                                    class="fas fa-download"></i></a>
+                                            <a data-toggle="tooltip" title="Open a spreadsheet with metadata"
+                                               href="https://docs.google.com/spreadsheets/d/115J_ALPIpdL80HNKFSl7eUk44MuEerBX-FFuZYIKejs/edit#gid=266904314"
+                                               class="card-link">
+                                                <i class="fas fa-table"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <div class="card border-gene h-100">
+                                        <div class="card-body">
+                                            <a href="collection/6"><span class="h4">17 </span><span class="h5">CRISPR screen gene sets</span></a>
+                                            <p class="card-text mt-3">Genome-wide CRISPR screens to identify hits that
+                                                increase or
+                                                decrease
+                                                SARS-CoV-2 proliferation in cell-based assays.</p>
+                                        </div>
+                                        <div class="card-footer footer-gene">
+                                            <a data-toggle="tooltip" title="Open Enrichr Consensus Terms appyter"
+                                               href="https://appyters.maayanlab.cloud/Enrichr_Consensus_Terms/b29a835e-e1f2-4fff-816c-972c1f69805b/"
+                                               class="card-link" target="_blank"><i
+                                                    class="fas fa-book"></i></a>
+                                            <a data-toggle="tooltip" title="Download a .gmt file"
+                                               href="static/GenomeWideCRISPR-Screens_GeneSets_Composite_SARS-CoV-2_v1_10-29-20.gmt"
+                                               download="static/GenomeWideCRISPR-Screens_GeneSets_Composite_SARS-CoV-2_v1_10-29-20.gmt"
+                                               class="card-link"><i class="fas fa-download"></i></a>
+                                            <a data-toggle="tooltip" title="Open a spreadsheet with metadata"
+                                               href="https://docs.google.com/spreadsheets/d/1LtyZgvoYBONt1lK6oZiQzBrQWXjCBGfedamb0GV93JI/"
+                                               class="card-link">
+                                                <i class="fas fa-table"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-footer footer-drug">
-                            <a data-toggle="tooltip" title="Open Drugmonizome Consensus Terms appyter" href="https://appyters.maayanlab.cloud/Drugmonizome_Consensus_Terms/f897f1cb-c9cf-4976-bff0-c5c748ee9361/"
-                               class="card-link" target="_blank"><i class="fas fa-book"></i></a>
-                            <a data-toggle="tooltip" title="Download a .gmt file" href="static/SARS-CoV-2_In-Vitro_Drug_Screens_v2_02-08-21.gmt" download="static/SARS-CoV-2_In-Vitro_Drug_Screens_v1_11-09-20.gmt" class="card-link"><i
-                                    class="fas fa-download"></i></a>
-                            <a data-toggle="tooltip" title="Open a spreadsheet with metadata" href="https://docs.google.com/spreadsheets/d/16Vt40I8nZgaPhIXYwsJp4iZ-T0jdYukBMb5bNp_2VwA/edit#gid=0" class="card-link">
-                                <i class="fas fa-table"></i></a>
+                        <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <div class="card border-gene h-100">
+                                        <div class="card-body">
+                                            <a href="collection/9"><span class="h4">6 </span><span class="h5">host-SARS-CoV-2 interacting protein sets</span></a>
+                                            <p class="card-text mt-3 mb-4">Human proteins that physically interact with
+                                                SARS-CoV-2 proteins.</p>
+                                        </div>
+                                        <div class="card-footer footer-gene">
+{#                                            <a data-toggle="tooltip" title="Open Enrichr Consensus Terms appyter"#}
+{#                                               href="https://appyters.maayanlab.cloud/Enrichr_Consensus_Terms//"#}
+{#                                               class="card-link" target="_blank"><i class="fas fa-book"></i></a>#}
+                                            <a data-toggle="tooltip" title="Download a .gmt file"
+                                               href="static/SARS-CoV-2_human_PPI_v1_02-09-21.gmt"
+                                               download="SARS-CoV-2_human_PPI_v1_02-09-21.gmt"
+                                               class="card-link"><i
+                                                    class="fas fa-download"></i></a>
+                                            {#                                    <a data-toggle="tooltip" title="Open a spreadsheet with metadata"#}
+                                            {#                                       href="https://docs.google.com/spreadsheets/d/16Vt40I8nZgaPhIXYwsJp4iZ-T0jdYukBMb5bNp_2VwA/edit#gid=0"#}
+                                            {#                                       class="card-link">#}
+                                            {#                                        <i class="fas fa-table"></i></a>#}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <div class="card border-gene h-100">
+                                        <div class="card-body">
+                                            <a href="collection/10"><span class="h4">24 </span><span class="h5">differentially phosphorylated protein sets</span></a>
+                                            <p class="card-text mt-3 mb-4">Proteins differentially phosphorylated in
+                                                SARS-CoV-2 infected cells.</p>
+                                        </div>
+                                        <div class="card-footer footer-gene">
+{#                                            <a data-toggle="tooltip" title="Open Enrichr Consensus Terms appyter"#}
+{#                                               href="https://appyters.maayanlab.cloud/Enrichr_Consensus_Terms//"#}
+{#                                               class="card-link" target="_blank"><i class="fas fa-book"></i></a>#}
+                                            <a data-toggle="tooltip" title="Download a .gmt file"
+                                               href="static/Phosphoproteomics_sets_v1_02-02-21.gmt"
+                                               download="static/Phosphoproteomics_sets_v1_02-02-21.gmt"
+                                               class="card-link"><i
+                                                    class="fas fa-download"></i></a>
+                                            {#                                    <a data-toggle="tooltip" title="Open a spreadsheet with metadata"#}
+                                            {#                                       href="https://docs.google.com/spreadsheets/d/16Vt40I8nZgaPhIXYwsJp4iZ-T0jdYukBMb5bNp_2VwA/edit#gid=0"#}
+                                            {#                                       class="card-link">#}
+                                            {#                                        <i class="fas fa-table"></i></a>#}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card border-gene h-100">
-                        <div class="card-body">
-                            <a href="collection/7" ><span class="h4">106 </span><span class="h5">differential expression signatures gene sets</span></a>
-                            <p class="card-text">Genome-wide differentially expressed genes in cells and tissues due to
-                                SARS-CoV-2 infection profiled with RNA-seq.</p>
-                        </div>
-                        <div class="card-footer footer-gene">
-                            <a data-toggle="tooltip" title="Open Enrichr Consensus Terms appyter" href="https://appyters.maayanlab.cloud/Enrichr_Consensus_Terms/831b6368-2f38-49d2-ae00-4cb9ed5851d7/"
-                               class="card-link" target="_blank"><i
-                                    class="fas fa-book"></i></a>
-                            <a data-toggle="tooltip" title="Open L1000FWD Consensus Drugs appyter" href="https://appyters.maayanlab.cloud/L1000FWD_Consensus_Drugs/a61b19548571cb49512e9e28355adc6d382597dd/"
-                               class="card-link" target="_blank"><i
-                                    class="fas fa-book"></i></a>
-                            <a data-toggle="tooltip" title="Download a .gmt file" href="static/SARS-CoV-2_RNAseq_Datasets_v3_11-09-20.gmt" download="static/SARS-CoV-2_RNAseq_Datasets_v3_11-09-20.gmt" class="card-link"><i
-                                    class="fas fa-download"></i></a>
-                            <a data-toggle="tooltip" title="Open a spreadsheet with metadata" href="https://docs.google.com/spreadsheets/d/115J_ALPIpdL80HNKFSl7eUk44MuEerBX-FFuZYIKejs/edit#gid=266904314" class="card-link">
-                                <i class="fas fa-table"></i></a>
-                        </div>
-                    </div>
-                    <div class="card border-gene h-100">
-                        <div class="card-body">
-                            <a href="collection/6" ><span class="h4">17 </span><span class="h5">CRISPR screen gene sets</span></a>
-                            <p class="card-text">Genome-wide CRISPR screens to identify hits that increase or decrease
-                                SARS-CoV-2 proliferation in cell-based assays.</p>
-                        </div>
-                        <div class="card-footer footer-gene">
-                            <a data-toggle="tooltip" title="Open Enrichr Consensus Terms appyter" href="https://appyters.maayanlab.cloud/Enrichr_Consensus_Terms/b29a835e-e1f2-4fff-816c-972c1f69805b/"
-                               class="card-link" target="_blank"><i
-                                    class="fas fa-book"></i></a>
-                            <a data-toggle="tooltip" title="Download a .gmt file" href="static/GenomeWideCRISPR-Screens_GeneSets_Composite_SARS-CoV-2_v1_10-29-20.gmt" download="static/GenomeWideCRISPR-Screens_GeneSets_Composite_SARS-CoV-2_v1_10-29-20.gmt"
-                               class="card-link"><i class="fas fa-download"></i></a>
-                            <a data-toggle="tooltip" title="Open a spreadsheet with metadata" href="https://docs.google.com/spreadsheets/d/1LtyZgvoYBONt1lK6oZiQzBrQWXjCBGfedamb0GV93JI/" class="card-link">
-                                <i class="fas fa-table"></i></a>
-                        </div>
-                    </div>
+                    {#                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">#}
+                    {#                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
+                    {#                        <span class="sr-only">Previous</span>#}
+                    {#                    </a>#}
+                    {#                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">#}
+                    {#                        <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
+                    {#                        <span class="sr-only">Next</span>#}
+                    {#                    </a>#}
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@ from app.models import Geneset, Drugset
 # TODO add dowlnoads for collections
 
 
-def genesets(category=0):
+def genesets(category=0, collection=0):
     sess = Session()
     if category:
         for geneset in sess.query(Geneset).filter(Geneset.reviewed == 1).filter(Geneset.category == category):
@@ -16,7 +16,7 @@ def genesets(category=0):
     sess.close()
 
 
-def drugsets(category=0):
+def drugsets(category=0, collection=0):
     sess = Session()
     if category:
         for drugset in sess.query(Drugset).filter(Drugset.reviewed == 1).filter(Drugset.category == category):
