@@ -9,7 +9,8 @@ RUN set -x \
   && echo "Installing system dependencies from deps.txt..." \
   && apt-get -y update \
   && apt-get -y install $(grep -v '^#' /app/deps.txt) \
-  && rm /app/deps.txt
+  && rm /app/deps.txt \
+  && pip3 install --upgrade pip
 
 ADD requirements.txt /app/requirements.txt
 RUN set -x \
